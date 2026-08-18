@@ -18,7 +18,7 @@ public class Yuno {
         System.out.println(divider);
         String input = scanner.nextLine();
 
-        while (!input.equals("bye")) {
+        while (!isBye(input)) {
             System.out.println(divider);
             System.out.println(input);
             System.out.println(divider);
@@ -28,5 +28,8 @@ public class Yuno {
         System.out.println(divider);
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(divider);
+    }
+    private static boolean isBye(String input) {
+        return input.equals("bye");
     }
 }
