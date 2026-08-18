@@ -1,9 +1,9 @@
 public class TaskList {
-    private String[] taskList;
+    private Task[] taskList;
     private int taskCount;
 
     public TaskList() {
-        this.taskList = new String[100];
+        this.taskList = new Task[100];
         this.taskCount = 0;
     }
 
@@ -11,12 +11,20 @@ public class TaskList {
         return this.taskCount;
     }
 
-    public String getTask(int index) {
-        return this.taskList[index];
+    public Task getTask(int index) {
+        return this.taskList[index - 1];
     }
 
     public void addTask(String task) {
-        this.taskList[this.taskCount] = task;
+        this.taskList[this.taskCount] = new Task(task, false);
         this.taskCount += 1;
+    }
+
+    public void markTask(int index) {
+        this.getTask(index).markDone();
+    }
+
+    public void unmarkTask(int index) {
+        this.getTask(index).unmarkDone();
     }
 }

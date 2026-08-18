@@ -1,6 +1,6 @@
 public class Action {
     public enum Type {
-        BYE, LIST, ADD
+        LIST, ADD, MARK, UNMARK, BYE
     }
 
     private final Type type;
@@ -20,10 +20,9 @@ public class Action {
     }
 
     public boolean execute(TaskList taskList, UI ui) {
+        int index;
+
         switch (this.getType()) {
-            case BYE:
-                ui.printBye();
-                return false;
             case LIST:
                 ui.printList(taskList);
                 return true;
@@ -31,6 +30,19 @@ public class Action {
                 taskList.addTask(this.getTaskDescription());
                 ui.printAddTask(this.getTaskDescription());
                 return true;
+            case MARK:
+                index = Integer.parseInt(this.getTaskDescription());
+                taskList.markTask(index);
+                ui.printMarkTask(taskList.getTask(index));
+                return true;
+            case UNMARK:
+                index = Integer.parseInt(this.getTaskDescription());
+                taskList.unmarkTask(index);
+                ui.printUnmarkTask(taskList.getTask(index));
+                return true;
+            case BYE:
+                ui.printBye();
+                return false;
             default:
                 return false;
         }
