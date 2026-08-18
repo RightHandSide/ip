@@ -12,22 +12,19 @@ public class Parser {
         String command = input.split(" ")[0];
         switch (command) {
             case "list":
-                return new Action(Action.Type.LIST, null);
-
+                return new ListAction(null);
             case "todo":
-                return new Action(Action.Type.TODO, input.substring(input.indexOf(" ") + 1));
+                return new TodoAction(input.substring(input.indexOf(" ") + 1));
             case "deadline":
-                return new Action(Action.Type.DEADLINE, input.substring(input.indexOf(" ") + 1));
+                return new DeadlineAction(input.substring(input.indexOf(" ") + 1));
             case "event":
-                return new Action(Action.Type.EVENT, input.substring(input.indexOf(" ") + 1));
-
+                return new EventAction(input.substring(input.indexOf(" ") + 1));
             case "mark":
-                return new Action(Action.Type.MARK, input.substring(input.indexOf(" ") + 1));
+                return new MarkAction(input.substring(input.indexOf(" ") + 1));
             case "unmark":
-                return new Action(Action.Type.UNMARK, input.substring(input.indexOf(" ") + 1));
-
+                return new UnmarkAction(input.substring(input.indexOf(" ") + 1));
             case "bye":
-                return new Action(Action.Type.BYE, null);
+                return new ByeAction(null);
             default:
                 return null;
         }
