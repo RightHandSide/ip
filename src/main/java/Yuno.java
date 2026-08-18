@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Yuno {
+    private static String[] taskList = new String[100];
+    private static int taskCount = 0;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -20,7 +23,14 @@ public class Yuno {
 
         while (!isBye(input)) {
             System.out.println(divider);
-            System.out.println(input);
+            if (isList(input)) {
+                // If Input is "list", Make List
+                System.out.print(makeList());
+            } else {
+                // if Input is not "list", Add to List
+                addList(input);
+                System.out.println("added: " + input);
+            }
             System.out.println(divider);
             input = scanner.nextLine();
         }
@@ -31,5 +41,23 @@ public class Yuno {
     }
     private static boolean isBye(String input) {
         return input.equals("bye");
+    }
+
+    private static boolean isList(String input) {
+        return input.equals("list");
+    }
+
+    private static void addList(String task) {
+        taskList[taskCount] = task;
+        taskCount += 1;
+    }
+
+    private static String makeList() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < taskCount; i++) {
+            sb.append(i + 1);
+            sb.append(". " + taskList[i] + "\n");
+        }
+        return sb.toString();
     }
 }
