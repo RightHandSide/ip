@@ -1,3 +1,5 @@
+package yuno.task;
+
 /**
  * Stores and manages the tasks entered during one chatbot session.
  */
@@ -33,6 +35,7 @@ public class TaskList {
      * Adds a new incomplete task with the specified description.
      *
      * @param task Description of the task to add.
+     * @return Added to-do task.
      */
     public Task addTask(String task) {
         Todo addedTask = new Todo(task, false);
@@ -41,6 +44,13 @@ public class TaskList {
         return addedTask;
     }
 
+    /**
+     * Adds a new incomplete deadline task with the specified description and deadline.
+     *
+     * @param task Description of the task to add.
+     * @param deadline Deadline of the task as text.
+     * @return Added deadline task.
+     */
     public Task addTask(String task, String deadline) {
         Deadline addedTask = new Deadline(task, false, deadline);
         this.taskList[this.taskCount] = addedTask;
@@ -48,6 +58,14 @@ public class TaskList {
         return addedTask;
     }
 
+    /**
+     * Adds a new incomplete event task with the specified description and times.
+     *
+     * @param task Description of the task to add.
+     * @param start Event start time as text.
+     * @param end Event end time as text.
+     * @return Added event task.
+     */
     public Task addTask(String task, String start, String end) {
         Event addedTask = new Event(task, false, start, end);
         this.taskList[this.taskCount] = addedTask;

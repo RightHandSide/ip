@@ -1,15 +1,17 @@
+package yuno.action;
+
+import yuno.task.TaskList;
+import yuno.ui.Ui;
+
 /**
  * Represents a user command and executes its associated behavior.
  */
 public abstract class Action {
-    /**
-     * Lists the command types supported by the chatbot.
-     */
     /** Stores the task description or task index supplied with this action. */
     private final String taskDescription;
 
     /**
-     * Creates an action with the specified type and command data.
+     * Creates an action with the specified command data.
      *
      * @param taskDescription Task description or task index used by the action.
      */
@@ -28,5 +30,5 @@ public abstract class Action {
      * @param ui User interface used to display results.
      * @return False if this action ends the program; otherwise, true.
      */
-    public abstract boolean execute(TaskList taskList, UI ui);
+    public abstract boolean execute(TaskList taskList, Ui ui);
 }
