@@ -6,7 +6,7 @@ public class Action {
      * Lists the command types supported by the chatbot.
      */
     public enum Type {
-        LIST, ADD, MARK, UNMARK, BYE
+        LIST, TODO, DEADLINE, EVENT, MARK, UNMARK, BYE
     }
 
     /** Stores the type of behavior this action performs. */
@@ -47,10 +47,22 @@ public class Action {
             case LIST:
                 ui.printList(taskList);
                 return true;
-            case ADD:
-                taskList.addTask(this.getTaskDescription());
-                ui.printAddTask(this.getTaskDescription());
+
+            case TODO:
+                Task todo = taskList.addTask(this.getTaskDescription());
+                ui.printAddTask(todo);
                 return true;
+            case DEADLINE:
+                String[] deadlineDesc = this.getTaskDescription().split(" /by ", 2);
+                Task deadline = taskList.addTask(deadlineDesc[0], deadlineDesc[1]);
+                ui.printAddTask(deadline);
+                return true;
+            case EVENT:
+                String[] eventDesc = this.getTaskDescription().split(" /from | /to ", 3);
+                Task event = taskList.addTask(eventDesc[0], eventDesc[1], eventDesc[2]);
+                ui.printAddTask(event);
+                return true;
+
             case MARK:
                 index = Integer.parseInt(this.getTaskDescription());
                 taskList.markTask(index);
@@ -61,6 +73,7 @@ public class Action {
                 taskList.unmarkTask(index);
                 ui.printUnmarkTask(taskList.getTask(index));
                 return true;
+
             case BYE:
                 ui.printBye();
                 return false;

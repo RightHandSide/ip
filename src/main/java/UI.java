@@ -25,7 +25,6 @@ public class UI {
      * Displays the farewell message.
      */
     public void printBye() {
-        System.out.println(divider);
         System.out.println("Finally! Bye, I'm going!");
         System.out.println(divider);
     }
@@ -35,8 +34,8 @@ public class UI {
      *
      * @param task Description of the added task.
      */
-    public void printAddTask(String task) {
-        System.out.println(String.format("Added %s. Just another task you would not finish.", task));
+    public void printAddTask(Task task) {
+        System.out.println(String.format("Added: \n%s\nJust another task you would not finish.", task));
         System.out.println(divider);
     }
 

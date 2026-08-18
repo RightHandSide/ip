@@ -34,9 +34,25 @@ public class TaskList {
      *
      * @param task Description of the task to add.
      */
-    public void addTask(String task) {
-        this.taskList[this.taskCount] = new Task(task, false);
+    public Task addTask(String task) {
+        Todo addedTask = new Todo(task, false);
+        this.taskList[this.taskCount] = addedTask;
         this.taskCount += 1;
+        return addedTask;
+    }
+
+    public Task addTask(String task, String deadline) {
+        Deadline addedTask = new Deadline(task, false, deadline);
+        this.taskList[this.taskCount] = addedTask;
+        this.taskCount += 1;
+        return addedTask;
+    }
+
+    public Task addTask(String task, String start, String end) {
+        Event addedTask = new Event(task, false, start, end);
+        this.taskList[this.taskCount] = addedTask;
+        this.taskCount += 1;
+        return addedTask;
     }
 
     /**
