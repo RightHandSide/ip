@@ -28,6 +28,16 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Console UI testing
+
+After every change to application code under `src/main/java`:
+
+* Review `test/ui-test-plan.md` and update it when the change adds, removes, or modifies commands, accepted inputs, or observable console output. Derive suitable test cases and expected outputs from the intended requirements; do not copy actual output into the plan merely to make a failing test pass.
+* Invoke the project-specific `test-ui` skill and run the complete UI test plan, even when the test plan itself did not need an update.
+* Include normal cases and relevant edge or error cases in proportion to the behavior changed. Preserve unrelated existing test cases.
+* Stop at the first test failure, as required by the skill, and resolve or report the mismatch before treating the code update as complete.
+* Report whether the test plan changed and provide the resulting console test transcript or failure record to the user.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
