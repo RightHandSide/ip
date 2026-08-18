@@ -1,11 +1,25 @@
+/**
+ * Represents a user command and executes its associated behavior.
+ */
 public class Action {
+    /**
+     * Lists the command types supported by the chatbot.
+     */
     public enum Type {
         LIST, ADD, MARK, UNMARK, BYE
     }
 
+    /** Stores the type of behavior this action performs. */
     private final Type type;
+    /** Stores the task description or task index supplied with this action. */
     private final String taskDescription;
 
+    /**
+     * Creates an action with the specified type and command data.
+     *
+     * @param type Type of behavior to perform.
+     * @param taskDescription Task description or task index used by the action.
+     */
     public Action(Type type, String taskDescription) {
         this.type = type;
         this.taskDescription = taskDescription;
@@ -19,6 +33,13 @@ public class Action {
         return this.taskDescription;
     }
 
+    /**
+     * Executes this action using the specified task list and user interface.
+     *
+     * @param taskList Task list to read from or modify.
+     * @param ui User interface used to display results.
+     * @return False if this action ends the program; otherwise, true.
+     */
     public boolean execute(TaskList taskList, UI ui) {
         int index;
 

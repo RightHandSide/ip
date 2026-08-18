@@ -1,6 +1,14 @@
 import java.util.Scanner;
 
+/**
+ * Starts the Yuno chatbot and coordinates user input with command execution.
+ */
 public class Yuno {
+    /**
+     * Runs the chatbot until the user enters a command that ends the session.
+     *
+     * @param args Command-line arguments, which are not used.
+     */
     public static void main(String[] args) {
         UI ui = new UI();
         Parser parser = new Parser();

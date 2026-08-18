@@ -1,4 +1,13 @@
+/**
+ * Converts user input into actions that the chatbot can execute.
+ */
 public class Parser {
+    /**
+     * Parses the specified user input into an action.
+     *
+     * @param input User input to parse.
+     * @return Action that represents the parsed input.
+     */
     public Action parse(String input) {
         String command = input.split(" ")[0];
         switch (command) {
