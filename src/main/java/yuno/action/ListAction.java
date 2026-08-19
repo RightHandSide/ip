@@ -1,5 +1,7 @@
 package yuno.action;
 
+import yuno.exception.InvalidCommandFormatException;
+import yuno.exception.YunoException;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -10,7 +12,7 @@ public class ListAction extends Action {
     /**
      * Creates an action that displays the task list.
      *
-     * @param taskDescription Unused command data.
+     * @param taskDescription Additional command data, which must be blank.
      */
     public ListAction(String taskDescription) {
         super(taskDescription);
@@ -22,9 +24,13 @@ public class ListAction extends Action {
      * @param taskList Task list to display.
      * @param ui User interface used to display the tasks.
      * @return Always true.
+     * @throws YunoException If additional command data is supplied or a task cannot be retrieved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) throws YunoException {
+        if (!getTaskDescription().isBlank()) {
+            throw new InvalidCommandFormatException("Please don't enter irrelevant details.");
+        }
         ui.printList(taskList);
         return true;
     }

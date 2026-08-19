@@ -8,6 +8,7 @@ import yuno.action.ListAction;
 import yuno.action.MarkAction;
 import yuno.action.TodoAction;
 import yuno.action.UnmarkAction;
+import yuno.exception.UnknownCommandException;
 
 /**
  * Converts user input into actions that the chatbot can execute.
@@ -18,26 +19,31 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Action that represents the parsed input.
+     * @throws UnknownCommandException If the command is not recognized.
      */
-    public Action parse(String input) {
-        String command = input.split(" ")[0];
+    public Action parse(String input) throws UnknownCommandException {
+        String strippedInput = input.strip();
+        String command = strippedInput.split(" ")[0].strip();
+        int separatorIndex = strippedInput.indexOf(" ");
+        String description = separatorIndex == -1 ? "" : strippedInput.substring(separatorIndex + 1);
         switch (command) {
             case "list":
-                return new ListAction(null);
-            case "todo":
-                return new TodoAction(input.substring(input.indexOf(" ") + 1));
-            case "deadline":
-                return new DeadlineAction(input.substring(input.indexOf(" ") + 1));
-            case "event":
-                return new EventAction(input.substring(input.indexOf(" ") + 1));
-            case "mark":
-                return new MarkAction(input.substring(input.indexOf(" ") + 1));
-            case "unmark":
-                return new UnmarkAction(input.substring(input.indexOf(" ") + 1));
+                return new ListAction(description);
             case "bye":
-                return new ByeAction(null);
+                return new ByeAction(description);
+            case "todo":
+                return new TodoAction(description);
+            case "deadline":
+                return new DeadlineAction(description);
+            case "event":
+                return new EventAction(description);
+            case "mark":
+                return new MarkAction(description);
+            case "unmark":
+                return new UnmarkAction(description);
             default:
-                return null;
+                throw new UnknownCommandException(
+                        "Did you look at what you are typing? It's just a random string of command.");
         }
     }
 }

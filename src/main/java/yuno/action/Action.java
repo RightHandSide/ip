@@ -1,5 +1,6 @@
 package yuno.action;
 
+import yuno.exception.YunoException;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -20,7 +21,7 @@ public abstract class Action {
     }
 
     public String getTaskDescription() {
-        return this.taskDescription;
+        return taskDescription;
     }
 
     /**
@@ -29,6 +30,7 @@ public abstract class Action {
      * @param taskList Task list to read from or modify.
      * @param ui User interface used to display results.
      * @return False if this action ends the program; otherwise, true.
+     * @throws YunoException If the command cannot be completed due to invalid input.
      */
-    public abstract boolean execute(TaskList taskList, Ui ui);
+    public abstract boolean execute(TaskList taskList, Ui ui) throws YunoException;
 }

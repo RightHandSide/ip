@@ -1,5 +1,6 @@
 package yuno.action;
 
+import yuno.exception.InvalidCommandFormatException;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -10,7 +11,7 @@ public class ByeAction extends Action {
     /**
      * Creates an action that ends the chatbot session.
      *
-     * @param taskDescription Unused command data.
+     * @param taskDescription Additional command data, which must be blank.
      */
     public ByeAction(String taskDescription) {
         super(taskDescription);
@@ -22,9 +23,13 @@ public class ByeAction extends Action {
      * @param taskList Task list that is not modified.
      * @param ui User interface used to display the farewell.
      * @return Always false.
+     * @throws InvalidCommandFormatException If additional command data is supplied.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
+        if (!getTaskDescription().isBlank()) {
+            throw new InvalidCommandFormatException("Please don't enter irrelevant details.");
+        }
         ui.printBye();
         return false;
     }

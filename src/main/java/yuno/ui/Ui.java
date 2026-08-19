@@ -1,5 +1,6 @@
 package yuno.ui;
 
+import yuno.exception.InvalidTaskNumberException;
 import yuno.task.Task;
 import yuno.task.TaskList;
 
@@ -48,15 +49,16 @@ public class Ui {
      * Displays every task in the specified task list.
      *
      * @param taskList Task list to display.
+     * @throws InvalidTaskNumberException If a task cannot be retrieved from the task list.
      */
-    public void printList(TaskList taskList) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Wow! Look at how slow you are at completing these tasks.\n");
+    public void printList(TaskList taskList) throws InvalidTaskNumberException {
+        StringBuilder output = new StringBuilder();
+        output.append("Wow. Look at how slow you are at completing these tasks.\n");
         for (int i = 0; i < taskList.getCount(); i++) {
-            sb.append(i + 1);
-            sb.append(". " + taskList.getTask(i + 1).toString() + "\n");
+            output.append(i + 1);
+            output.append(". ").append(taskList.getTask(i + 1)).append("\n");
         }
-        System.out.print(sb);
+        System.out.print(output);
         System.out.println(DIVIDER);
     }
 
@@ -67,7 +69,7 @@ public class Ui {
      */
     public void printMarkTask(Task task) {
         System.out.println("You actually completed a task? Bet it's the only task you would complete.");
-        System.out.println(task.toString());
+        System.out.println(task);
         System.out.println(DIVIDER);
     }
 
@@ -78,7 +80,17 @@ public class Ui {
      */
     public void printUnmarkTask(Task task) {
         System.out.println("Wow! So you lied about completing it? Typical behavior.");
-        System.out.println(task.toString());
+        System.out.println(task);
+        System.out.println(DIVIDER);
+    }
+
+    /**
+     * Displays the specified exception message.
+     *
+     * @param message Exception message to display.
+     */
+    public void printException(String message) {
+        System.out.println(message);
         System.out.println(DIVIDER);
     }
 }

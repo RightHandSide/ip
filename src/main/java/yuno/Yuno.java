@@ -3,6 +3,7 @@ package yuno;
 import java.util.Scanner;
 
 import yuno.action.Action;
+import yuno.exception.YunoException;
 import yuno.parser.Parser;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -26,9 +27,14 @@ public class Yuno {
 
         ui.printGreeting();
         while (isRunning) {
-            String input = scanner.nextLine();
-            Action action = parser.parse(input);
-            isRunning = action.execute(taskList, ui);
+            try {
+                String input = scanner.nextLine();
+                Action action = parser.parse(input);
+                isRunning = action.execute(taskList, ui);
+            } catch (YunoException exception) {
+                ui.printException(exception.getMessage());
+                isRunning = true;
+            }
         }
     }
 }

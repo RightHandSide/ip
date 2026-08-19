@@ -21,25 +21,25 @@ public class Task {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public char getStatus() {
-        return (this.isDone ? 'X' : ' ');
+        return (isDone ? 'X' : ' ');
     }
 
     /**
      * Marks this task as completed.
      */
     public void markDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     /**
      * Marks this task as incomplete.
      */
     public void unmarkDone() {
-        this.isDone = false;
+        isDone = false;
     }
 
     /**
@@ -49,6 +49,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return String.format("[%c] %s", this.getStatus(), this.getDescription());
+        return String.format("[%c] %s", getStatus(), getDescription());
     }
 }

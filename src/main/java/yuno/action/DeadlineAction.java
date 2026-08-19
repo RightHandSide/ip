@@ -1,5 +1,6 @@
 package yuno.action;
 
+import yuno.exception.InvalidCommandFormatException;
 import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -23,11 +24,18 @@ public class DeadlineAction extends Action {
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
      * @return Always true.
+     * @throws InvalidCommandFormatException If the task description or deadline is missing.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
-        String[] deadlineDesc = this.getTaskDescription().split(" /by ", 2);
-        Task deadline = taskList.addTask(deadlineDesc[0], deadlineDesc[1]);
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
+        String[] deadlineParts = getTaskDescription().split(" /by ", 2);
+        if (deadlineParts[0].isBlank()) {
+            throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
+        } else if (deadlineParts.length < 2 || deadlineParts[1].isBlank()) {
+            throw new InvalidCommandFormatException(
+                    "If you are not constrained by a date, use another task type.");
+        }
+        Task deadline = taskList.addTask(deadlineParts[0], deadlineParts[1]);
         ui.printAddTask(deadline);
         return true;
     }

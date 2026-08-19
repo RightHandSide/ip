@@ -1,5 +1,6 @@
 package yuno.action;
 
+import yuno.exception.InvalidCommandFormatException;
 import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -23,11 +24,22 @@ public class EventAction extends Action {
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
      * @return Always true.
+     * @throws InvalidCommandFormatException If the description or event times are missing or incorrectly ordered.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
-        String[] eventDesc = this.getTaskDescription().split(" /from | /to ", 3);
-        Task event = taskList.addTask(eventDesc[0], eventDesc[1], eventDesc[2]);
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
+        String taskDescription = getTaskDescription();
+        String[] eventParts = taskDescription.split(" /from | /to ", 3);
+        if (eventParts[0].isBlank()) {
+            throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
+        } else if (eventParts.length < 3 || eventParts[1].isBlank() || eventParts[2].isBlank()) {
+            throw new InvalidCommandFormatException(
+                    "If your task does not have a start and end time, use another task type.");
+        } else if (taskDescription.indexOf("/from") > taskDescription.indexOf("/to")) {
+            throw new InvalidCommandFormatException(
+                    "Your order is wrong. Check it before wasting my time.");
+        }
+        Task event = taskList.addTask(eventParts[0], eventParts[1], eventParts[2]);
         ui.printAddTask(event);
         return true;
     }

@@ -1,5 +1,6 @@
 package yuno.action;
 
+import yuno.exception.InvalidTaskNumberException;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -22,12 +23,17 @@ public class UnmarkAction extends Action {
      * @param taskList Task list that contains the task.
      * @param ui User interface used to display the confirmation.
      * @return Always true.
+     * @throws InvalidTaskNumberException If the task number is not an integer or does not identify a task.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
-        int index = Integer.parseInt(this.getTaskDescription());
-        taskList.unmarkTask(index);
-        ui.printUnmarkTask(taskList.getTask(index));
-        return true;
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+        try {
+            int index = Integer.parseInt(getTaskDescription());
+            taskList.unmarkTask(index);
+            ui.printUnmarkTask(taskList.getTask(index));
+            return true;
+        } catch (NumberFormatException exception) {
+            throw new InvalidTaskNumberException("Did you even give me an integer? Please don't waste my time!");
+        }
     }
 }
