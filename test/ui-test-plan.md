@@ -20,11 +20,11 @@ bye
 
 ```text
 __________________________________________________
-__   __
-\ \ / /   _ _ __   ___
- \ V / | | | '_ \ / _ \
-  | |  | |_| | | | | (_) |
-  |_|   \__,_|_| |_|\___/
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
 
 I'm Yuno.
 Can we just get this over quickly?
@@ -59,11 +59,11 @@ bye
 
 ```text
 __________________________________________________
-__   __
-\ \ / /   _ _ __   ___
- \ V / | | | '_ \ / _ \
-  | |  | |_| | | | | (_) |
-  |_|   \__,_|_| |_|\___/
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
 
 I'm Yuno.
 Can we just get this over quickly?
@@ -112,11 +112,11 @@ bye
 
 ```text
 __________________________________________________
-__   __
-\ \ / /   _ _ __   ___
- \ V / | | | '_ \ / _ \
-  | |  | |_| | | | | (_) |
-  |_|   \__,_|_| |_|\___/
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
 
 I'm Yuno.
 Can we just get this over quickly?
@@ -143,6 +143,67 @@ Wow. Look at how slow you are at completing these tasks.
 1. [T][ ] read book
 2. [D][ ] submit report (by: Sunday)
 3. [E][ ] meeting (from: Monday to: Tuesday)
+__________________________________________________
+Finally! Bye, I'm going!
+__________________________________________________
+```
+
+## Test Case: Delete tasks
+
+### Aim
+
+Verify that deleting tasks displays the removed task, updates the list, handles
+the last task, and rejects invalid task numbers.
+
+### Inputs
+
+```text
+todo first task
+todo second task
+delete 1
+list
+delete 1
+list
+delete 1
+delete abc
+bye
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Added:
+[T][ ] first task
+Just another task you would not finish.
+__________________________________________________
+Added:
+[T][ ] second task
+Just another task you would not finish.
+__________________________________________________
+Wow! Did you give up, or did you actually finish it?
+[T][ ] first task
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [T][ ] second task
+__________________________________________________
+Wow! Did you give up, or did you actually finish it?
+[T][ ] second task
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+__________________________________________________
+What do you want me to delete, your brain? The integer you gave is out of bounds.
+__________________________________________________
+Did you even give me an integer? Please don't waste my time!
 __________________________________________________
 Finally! Bye, I'm going!
 __________________________________________________

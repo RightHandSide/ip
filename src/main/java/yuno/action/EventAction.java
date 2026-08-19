@@ -31,11 +31,14 @@ public class EventAction extends Action {
         String taskDescription = getTaskDescription();
         String[] eventParts = taskDescription.split(" /from | /to ", 3);
         if (eventParts[0].isBlank()) {
+            // Reject an event command that does not describe a task.
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (eventParts.length < 3 || eventParts[1].isBlank() || eventParts[2].isBlank()) {
+            // Reject an event command that omits its start or end time.
             throw new InvalidCommandFormatException(
                     "If your task does not have a start and end time, use another task type.");
         } else if (taskDescription.indexOf("/from") > taskDescription.indexOf("/to")) {
+            // Reject an event command whose /to argument appears before /from.
             throw new InvalidCommandFormatException(
                     "Your order is wrong. Check it before wasting my time.");
         }

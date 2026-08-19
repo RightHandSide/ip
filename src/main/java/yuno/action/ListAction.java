@@ -29,6 +29,7 @@ public class ListAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui) throws YunoException {
         if (!getTaskDescription().isBlank()) {
+            // Reject extra arguments because the list command does not accept any.
             throw new InvalidCommandFormatException("Please don't enter irrelevant details.");
         }
         ui.printList(taskList);

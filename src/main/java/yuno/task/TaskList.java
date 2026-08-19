@@ -32,6 +32,7 @@ public class TaskList {
      */
     public Task getTask(int index) throws InvalidTaskNumberException {
         if (index < 1 || index > getCount()) {
+            // Reject task numbers that do not identify an existing task.
             throw new InvalidTaskNumberException(
                     "Are you wasting my time? The integer you gave is out of bounds.");
         }
@@ -95,5 +96,21 @@ public class TaskList {
      */
     public void unmarkTask(int index) throws InvalidTaskNumberException {
         getTask(index).unmarkDone();
+    }
+
+    /**
+     * Deletes and returns the task at the specified one-based position.
+     *
+     * @param index One-based position of the task to delete.
+     * @return Deleted task.
+     * @throws InvalidTaskNumberException If the position is outside the task list.
+     */
+    public Task deleteTask(int index) throws InvalidTaskNumberException {
+        if (index < 1 || index > getCount()) {
+            // Reject deletion when the task number does not identify an existing task.
+            throw new InvalidTaskNumberException(
+                    "What do you want me to delete, your brain? The integer you gave is out of bounds.");
+        }
+        return tasks.remove(index - 1);
     }
 }

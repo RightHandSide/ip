@@ -33,6 +33,7 @@ public class UnmarkAction extends Action {
             ui.printUnmarkTask(taskList.getTask(index));
             return true;
         } catch (NumberFormatException exception) {
+            // Convert a missing or nonnumeric task number into a user-facing error.
             throw new InvalidTaskNumberException("Did you even give me an integer? Please don't waste my time!");
         }
     }

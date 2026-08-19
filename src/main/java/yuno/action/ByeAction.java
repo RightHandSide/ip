@@ -28,6 +28,7 @@ public class ByeAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
         if (!getTaskDescription().isBlank()) {
+            // Reject extra arguments because the bye command does not accept any.
             throw new InvalidCommandFormatException("Please don't enter irrelevant details.");
         }
         ui.printBye();

@@ -3,6 +3,7 @@ package yuno.parser;
 import yuno.action.Action;
 import yuno.action.ByeAction;
 import yuno.action.DeadlineAction;
+import yuno.action.DeleteAction;
 import yuno.action.EventAction;
 import yuno.action.ListAction;
 import yuno.action.MarkAction;
@@ -41,7 +42,10 @@ public class Parser {
                 return new MarkAction(description);
             case "unmark":
                 return new UnmarkAction(description);
+            case "delete":
+                return new DeleteAction(description);
             default:
+                // Reject input whose command word is not supported by Yuno.
                 throw new UnknownCommandException(
                         "Did you look at what you are typing? It's just a random string of command.");
         }

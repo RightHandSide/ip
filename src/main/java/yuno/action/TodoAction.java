@@ -29,6 +29,7 @@ public class TodoAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
         if (getTaskDescription().isBlank()) {
+            // Reject a to-do command that does not describe a task.
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         }
         Task todo = taskList.addTask(getTaskDescription());
