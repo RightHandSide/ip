@@ -1,5 +1,8 @@
 package yuno.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import yuno.exception.InvalidTaskNumberException;
 
 /**
@@ -7,20 +10,17 @@ import yuno.exception.InvalidTaskNumberException;
  */
 public class TaskList {
     /** Stores the tasks in the order they were added. */
-    private Task[] tasks;
-    /** Records the number of tasks currently stored. */
-    private int taskCount;
+    private final List<Task> tasks;
 
     /**
-     * Creates an empty task list with space for up to 100 tasks.
+     * Creates an empty task list.
      */
     public TaskList() {
-        tasks = new Task[100];
-        taskCount = 0;
+        tasks = new ArrayList<>();
     }
 
     public int getCount() {
-        return taskCount;
+        return tasks.size();
     }
 
     /**
@@ -35,7 +35,7 @@ public class TaskList {
             throw new InvalidTaskNumberException(
                     "Are you wasting my time? The integer you gave is out of bounds.");
         }
-        return tasks[index - 1];
+        return tasks.get(index - 1);
     }
 
     /**
@@ -46,8 +46,7 @@ public class TaskList {
      */
     public Task addTask(String description) {
         Todo addedTask = new Todo(description, false);
-        tasks[taskCount] = addedTask;
-        taskCount += 1;
+        tasks.add(addedTask);
         return addedTask;
     }
 
@@ -60,8 +59,7 @@ public class TaskList {
      */
     public Task addTask(String description, String deadline) {
         Deadline addedTask = new Deadline(description, false, deadline);
-        tasks[taskCount] = addedTask;
-        taskCount += 1;
+        tasks.add(addedTask);
         return addedTask;
     }
 
@@ -75,8 +73,7 @@ public class TaskList {
      */
     public Task addTask(String description, String start, String end) {
         Event addedTask = new Event(description, false, start, end);
-        tasks[taskCount] = addedTask;
-        taskCount += 1;
+        tasks.add(addedTask);
         return addedTask;
     }
 
