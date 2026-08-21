@@ -16,6 +16,44 @@ import yuno.exception.UnknownCommandException;
  */
 public class Parser {
     /**
+     * Represents a command recognized by Yuno.
+     */
+    private enum CommandType {
+        LIST("list"),
+        BYE("bye"),
+        TODO("todo"),
+        DEADLINE("deadline"),
+        EVENT("event"),
+        MARK("mark"),
+        UNMARK("unmark"),
+        DELETE("delete");
+
+        /** Command keyword entered by the user. */
+        private final String command;
+
+        CommandType(String command) {
+            this.command = command;
+        }
+
+        /**
+         * Returns the command type matching the specified command keyword.
+         *
+         * @param keyword Command keyword entered by the user.
+         * @return Command type matching the keyword.
+         * @throws UnknownCommandException If the command keyword is not recognized.
+         */
+        public static CommandType from(String keyword) throws UnknownCommandException {
+            for (CommandType commandType : values()) {
+                if (commandType.command.equals(keyword)) {
+                    return commandType;
+                }
+            }
+            throw new UnknownCommandException(
+                    "Did you look at what you are typing? It's just a random string of command.");
+        }
+    }
+
+    /**
      * Parses the specified user input into an action.
      *
      * @param input User input to parse.
@@ -24,30 +62,18 @@ public class Parser {
      */
     public Action parse(String input) throws UnknownCommandException {
         String strippedInput = input.strip();
-        String command = strippedInput.split(" ")[0].strip();
+        CommandType command = CommandType.from(strippedInput.split(" ")[0].strip());
         int separatorIndex = strippedInput.indexOf(" ");
         String description = separatorIndex == -1 ? "" : strippedInput.substring(separatorIndex + 1);
-        switch (command) {
-            case "list":
-                return new ListAction(description);
-            case "bye":
-                return new ByeAction(description);
-            case "todo":
-                return new TodoAction(description);
-            case "deadline":
-                return new DeadlineAction(description);
-            case "event":
-                return new EventAction(description);
-            case "mark":
-                return new MarkAction(description);
-            case "unmark":
-                return new UnmarkAction(description);
-            case "delete":
-                return new DeleteAction(description);
-            default:
-                // Reject input whose command word is not supported by Yuno.
-                throw new UnknownCommandException(
-                        "Did you look at what you are typing? It's just a random string of command.");
-        }
+        return switch (command) {
+            case LIST -> new ListAction(description);
+            case BYE -> new ByeAction(description);
+            case TODO -> new TodoAction(description);
+            case DEADLINE -> new DeadlineAction(description);
+            case EVENT -> new EventAction(description);
+            case MARK -> new MarkAction(description);
+            case UNMARK -> new UnmarkAction(description);
+            case DELETE -> new DeleteAction(description);
+        };
     }
 }
