@@ -3,7 +3,7 @@ package yuno.task;
 /**
  * Represents a task with a description and completion status.
  */
-public class Task {
+public abstract class Task {
     /** Stores the text that describes this task. */
     private String description;
     /** Records whether this task has been completed. */
@@ -28,6 +28,8 @@ public class Task {
         return (isDone ? 'X' : ' ');
     }
 
+    public int getDone() { return (isDone ? 1 : 0); }
+
     /**
      * Marks this task as completed.
      */
@@ -41,6 +43,13 @@ public class Task {
     public void unmarkDone() {
         isDone = false;
     }
+
+    /**
+     * Returns this task in the format used by the task data file.
+     *
+     * @return Storage-ready task data.
+     */
+    public abstract String toStorageString();
 
     /**
      * Returns this task in a display-ready format with its completion status.

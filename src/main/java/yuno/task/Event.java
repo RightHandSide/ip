@@ -23,6 +23,15 @@ public class Event extends Task {
         this.end = end;
     }
 
+    public String getStart() { return start; }
+
+    public String getEnd() { return end; }
+
+    @Override
+    public String toStorageString() {
+        return String.format("E | %c | %s | %s | %s", getDone(), getDescription(), getStart(), getEnd());
+    }
+
     /**
      * Returns this event task in a display-ready format.
      *
@@ -30,6 +39,6 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(), start, end);
+        return String.format("[E]%s (from: %s to: %s)", super.toString(), getStart(), getEnd());
     }
 }

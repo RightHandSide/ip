@@ -1,6 +1,7 @@
 package yuno.action;
 
 import yuno.exception.YunoException;
+import yuno.storage.Storage;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -25,12 +26,13 @@ public abstract class Action {
     }
 
     /**
-     * Executes this action using the specified task list and user interface.
+     * Executes this action using the specified task list, user interface, and storage.
      *
      * @param taskList Task list to read from or modify.
      * @param ui User interface used to display results.
+     * @param storage Storage used to save task list changes.
      * @return False if this action ends the program; otherwise, true.
-     * @throws YunoException If the command cannot be completed due to invalid input.
+     * @throws YunoException If the command cannot be completed due to invalid input or task data.
      */
-    public abstract boolean execute(TaskList taskList, Ui ui) throws YunoException;
+    public abstract boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException;
 }

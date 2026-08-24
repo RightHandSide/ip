@@ -5,6 +5,7 @@ import java.util.Scanner;
 import yuno.action.Action;
 import yuno.exception.YunoException;
 import yuno.parser.Parser;
+import yuno.storage.Storage;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -20,6 +21,7 @@ public class Yuno {
     public static void main(String[] args) {
         Ui ui = new Ui();
         Parser parser = new Parser();
+        Storage storage = new Storage();
         TaskList taskList = new TaskList();
         Scanner scanner = new Scanner(System.in);
 
@@ -30,7 +32,7 @@ public class Yuno {
             try {
                 String input = scanner.nextLine();
                 Action action = parser.parse(input);
-                isRunning = action.execute(taskList, ui);
+                isRunning = action.execute(taskList, ui, storage);
             } catch (YunoException exception) {
                 ui.printException(exception.getMessage());
                 isRunning = true;

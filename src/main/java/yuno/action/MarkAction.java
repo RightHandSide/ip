@@ -1,6 +1,7 @@
 package yuno.action;
 
 import yuno.exception.InvalidTaskNumberException;
+import yuno.storage.Storage;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
@@ -22,14 +23,16 @@ public class MarkAction extends Action {
      *
      * @param taskList Task list that contains the task.
      * @param ui User interface used to display the confirmation.
+     * @param storage Storage used to save the updated task list.
      * @return Always true.
-     * @throws InvalidTaskNumberException If the task number is not an integer or does not identify a task.
+     * @throws InvalidTaskNumberException If the task number is invalid or task data cannot be retrieved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws InvalidTaskNumberException {
         try {
             int index = Integer.parseInt(getTaskDescription());
             taskList.markTask(index);
+            storage.save(taskList);
             ui.printMarkTask(taskList.getTask(index));
             return true;
         } catch (NumberFormatException exception) {

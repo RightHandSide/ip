@@ -1,6 +1,8 @@
 package yuno.action;
 
 import yuno.exception.InvalidCommandFormatException;
+import yuno.exception.YunoException;
+import yuno.storage.Storage;
 import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -23,11 +25,12 @@ public class EventAction extends Action {
      *
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
+     * @param storage Storage used to save the updated task list.
      * @return Always true.
-     * @throws InvalidCommandFormatException If the description or event times are missing or incorrectly ordered.
+     * @throws YunoException If the task details are invalid or task data cannot be accessed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
+    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String taskDescription = getTaskDescription();
         String[] eventParts = taskDescription.split(" /from | /to ", 3);
         if (eventParts[0].isBlank()) {
@@ -43,6 +46,7 @@ public class EventAction extends Action {
                     "Your order is wrong. Check it before wasting my time.");
         }
         Task event = taskList.addTask(eventParts[0], eventParts[1], eventParts[2]);
+        storage.save(taskList);
         ui.printAddTask(event);
         return true;
     }

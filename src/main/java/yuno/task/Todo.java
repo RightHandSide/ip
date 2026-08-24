@@ -14,6 +14,11 @@ public class Todo extends Task {
         super(description, isDone);
     }
 
+    @Override
+    public String toStorageString() {
+        return String.format("T | %c | %s", getDone(), getDescription());
+    }
+
     /**
      * Returns this to-do task in a display-ready format.
      *
