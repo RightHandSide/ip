@@ -1,5 +1,6 @@
 package yuno.task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,5 +121,28 @@ public class TaskList {
                     "What do you want me to delete, your brain? The integer you gave is out of bounds.");
         }
         return tasks.remove(index - 1);
+    }
+
+    /**
+     * Removes every task from this task list.
+     */
+    public void clearTasks() {
+        tasks.clear();
+    }
+
+    /**
+     * Returns the tasks that are relevant for the specified date.
+     *
+     * @param date Date for which tasks are requested.
+     * @return Tasks relevant for the date, in their original list order.
+     */
+    public List<Task> findTasksFor(LocalDate date) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.isRelevantFor(date)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 }

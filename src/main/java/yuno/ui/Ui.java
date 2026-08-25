@@ -1,5 +1,7 @@
 package yuno.ui;
 
+import java.util.List;
+
 import yuno.exception.InvalidTaskNumberException;
 import yuno.task.Task;
 import yuno.task.TaskList;
@@ -69,6 +71,25 @@ public class Ui {
     }
 
     /**
+     * Displays tasks that are relevant for a requested date.
+     *
+     * @param matchingTasks Tasks relevant for the requested date.
+     */
+    public void printTasksForDate(List<Task> matchingTasks) {
+        StringBuilder output = new StringBuilder();
+        if (matchingTasks.isEmpty()) {
+            output.append("You have nothing. What I see is just someone being lazy on this particular date.\n");
+        } else {
+            output.append("You are not even capable to finish all these in one go.\n");
+            for (Task task : matchingTasks) {
+                output.append("- ").append(task).append("\n");
+            }
+        }
+        System.out.print(output);
+        System.out.println(DIVIDER);
+    }
+
+    /**
      * Displays confirmation that the specified task was marked as completed.
      *
      * @param task Task that was marked as completed.
@@ -99,6 +120,14 @@ public class Ui {
     public void printDeleteTask(Task task) {
         System.out.println("Wow! Did you give up, or did you actually finish it?");
         System.out.println(task);
+        System.out.println(DIVIDER);
+    }
+
+    /**
+     * Displays confirmation that every task was removed.
+     */
+    public void printTasksCleared() {
+        System.out.println("Finally. Now that everything is gone, can I go now?");
         System.out.println(DIVIDER);
     }
 

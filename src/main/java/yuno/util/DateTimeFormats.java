@@ -5,12 +5,17 @@ import java.time.format.ResolverStyle;
 import java.util.Locale;
 
 /**
- * Provides the date-time formats used for user input, display, and storage.
+ * Provides the date and date-time formats used for user input, display, and storage.
  */
 public final class DateTimeFormats {
     /** Parses date-time values entered by users. */
-    public static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter
+    public static final DateTimeFormatter DATE_TIME_INPUT_FORMATTER = DateTimeFormatter
             .ofPattern("uuuu-MM-dd HHmm", Locale.ENGLISH)
+            .withResolverStyle(ResolverStyle.STRICT);
+
+    /** Parses date-only values entered by users. */
+    public static final DateTimeFormatter DATE_INPUT_FORMATTER = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd", Locale.ENGLISH)
             .withResolverStyle(ResolverStyle.STRICT);
 
     /** Formats date-time values displayed to users. */

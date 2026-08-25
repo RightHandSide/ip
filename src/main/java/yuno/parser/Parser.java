@@ -2,9 +2,11 @@ package yuno.parser;
 
 import yuno.action.Action;
 import yuno.action.ByeAction;
+import yuno.action.ClearAction;
 import yuno.action.DeadlineAction;
 import yuno.action.DeleteAction;
 import yuno.action.EventAction;
+import yuno.action.FindByDateAction;
 import yuno.action.ListAction;
 import yuno.action.MarkAction;
 import yuno.action.TodoAction;
@@ -19,11 +21,15 @@ public class Parser {
      * Represents a command recognized by Yuno.
      */
     private enum CommandType {
+        CLEAR("clear"),
         LIST("list"),
+        FIND_BY_DATE("date"),
         BYE("bye"),
+
         TODO("todo"),
         DEADLINE("deadline"),
         EVENT("event"),
+
         MARK("mark"),
         UNMARK("unmark"),
         DELETE("delete");
@@ -66,7 +72,9 @@ public class Parser {
         int separatorIndex = strippedInput.indexOf(" ");
         String commandArguments = separatorIndex == -1 ? "" : strippedInput.substring(separatorIndex + 1);
         return switch (commandType) {
+            case CLEAR -> new ClearAction(commandArguments);
             case LIST -> new ListAction(commandArguments);
+            case FIND_BY_DATE -> new FindByDateAction(commandArguments);
             case BYE -> new ByeAction(commandArguments);
             case TODO -> new TodoAction(commandArguments);
             case DEADLINE -> new DeadlineAction(commandArguments);

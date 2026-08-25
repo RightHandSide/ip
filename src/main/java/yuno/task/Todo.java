@@ -1,5 +1,7 @@
 package yuno.task;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task without a date or time.
  */
@@ -12,6 +14,11 @@ public class Todo extends Task {
      */
     public Todo(String description, boolean isDone) {
         super(description, isDone);
+    }
+
+    @Override
+    public boolean isRelevantFor(LocalDate date) {
+        return true;
     }
 
     @Override

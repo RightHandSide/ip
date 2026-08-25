@@ -294,3 +294,115 @@ __________________________________________________
 Why did you change the task file? I can't load your tasks now.
 __________________________________________________
 ```
+
+## Test Case: Find tasks by date
+
+### Aim
+
+Verify that date searches include todos, deadlines due on or before the date,
+and events spanning the date, while rejecting malformed dates.
+
+### Inputs
+
+```text
+date 2026-08-30
+date 2026-08-29
+date 2026-08-31
+date 2026-09-01
+date 2026-02-30
+date
+bye
+```
+
+### Initial Data
+
+```text
+T |   | read book
+D |   | submit report | Aug 30 2026, 06:00 PM
+E |   | conference | Aug 29 2026, 09:00 AM | Aug 31 2026, 05:00 PM
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+You are not even capable to finish all these in one go.
+- [T][ ] read book
+- [D][ ] submit report (by: Aug 30 2026, 06:00 PM)
+- [E][ ] conference (from: Aug 29 2026, 09:00 AM to: Aug 31 2026, 05:00 PM)
+__________________________________________________
+You are not even capable to finish all these in one go.
+- [T][ ] read book
+- [E][ ] conference (from: Aug 29 2026, 09:00 AM to: Aug 31 2026, 05:00 PM)
+__________________________________________________
+You are not even capable to finish all these in one go.
+- [T][ ] read book
+- [D][ ] submit report (by: Aug 30 2026, 06:00 PM)
+- [E][ ] conference (from: Aug 29 2026, 09:00 AM to: Aug 31 2026, 05:00 PM)
+__________________________________________________
+You are not even capable to finish all these in one go.
+- [T][ ] read book
+- [D][ ] submit report (by: Aug 30 2026, 06:00 PM)
+__________________________________________________
+Memorize the date format before you even type. It's supposed to be yyyy-MM-dd.
+__________________________________________________
+Memorize the date format before you even type. It's supposed to be yyyy-MM-dd.
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
+## Test Case: Clear all tasks
+
+### Aim
+
+Verify that clear removes every task, displays a confirmation, saves the empty
+list, and rejects additional command arguments.
+
+### Inputs
+
+```text
+clear
+list
+clear extra
+bye
+```
+
+### Initial Data
+
+```text
+T |   | read book
+D |   | submit report | Aug 30 2026, 06:00 PM
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Finally. Now that everything is gone, can I go now?
+__________________________________________________
+Wow, not even a single task? You are so lazy.
+__________________________________________________
+Why are you entering irrelevant details?
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```

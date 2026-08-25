@@ -1,5 +1,6 @@
 package yuno.action;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
@@ -31,6 +32,22 @@ public abstract class Action {
     }
 
     /**
+     * Returns the date represented by the specified user input.
+     *
+     * @param dateText Date text entered by the user.
+     * @return Parsed date.
+     * @throws InvalidCommandFormatException If the text does not follow the required input format.
+     */
+    protected LocalDate parseInputDate(String dateText) throws InvalidCommandFormatException {
+        try {
+            return LocalDate.parse(dateText, DateTimeFormats.DATE_INPUT_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidCommandFormatException(
+                    "Memorize the date format before you even type. It's supposed to be yyyy-MM-dd.");
+        }
+    }
+
+    /**
      * Returns the date-time represented by the specified user input.
      *
      * @param dateTimeText Date-time text entered by the user.
@@ -39,7 +56,7 @@ public abstract class Action {
      */
     protected LocalDateTime parseInputDateTime(String dateTimeText) throws InvalidCommandFormatException {
         try {
-            return LocalDateTime.parse(dateTimeText, DateTimeFormats.INPUT_FORMATTER);
+            return LocalDateTime.parse(dateTimeText, DateTimeFormats.DATE_TIME_INPUT_FORMATTER);
         } catch (DateTimeParseException exception) {
             throw new InvalidCommandFormatException(
                     "Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm.");

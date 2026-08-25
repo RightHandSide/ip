@@ -1,5 +1,6 @@
 package yuno.task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import yuno.util.DateTimeFormats;
@@ -25,6 +26,11 @@ public class Deadline extends Task {
 
     public LocalDateTime getDeadlineDateTime() {
         return deadlineDateTime;
+    }
+
+    @Override
+    public boolean isRelevantFor(LocalDate date) {
+        return !getDeadlineDateTime().toLocalDate().isAfter(date);
     }
 
     @Override

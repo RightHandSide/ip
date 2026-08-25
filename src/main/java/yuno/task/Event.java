@@ -1,5 +1,6 @@
 package yuno.task;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import yuno.util.DateTimeFormats;
@@ -33,6 +34,11 @@ public class Event extends Task {
 
     public LocalDateTime getEndDateTime() {
         return endDateTime;
+    }
+
+    @Override
+    public boolean isRelevantFor(LocalDate date) {
+        return !date.isBefore(getStartDateTime().toLocalDate()) && !date.isAfter(getEndDateTime().toLocalDate());
     }
 
     @Override
