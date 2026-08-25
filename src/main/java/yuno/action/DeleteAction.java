@@ -14,10 +14,10 @@ public class DeleteAction extends Action {
     /**
      * Creates an action with the index of a task to delete.
      *
-     * @param taskDescription One-based task index from the user.
+     * @param taskNumber One-based task number entered by the user.
      */
-    public DeleteAction(String taskDescription) {
-        super(taskDescription);
+    public DeleteAction(String taskNumber) {
+        super(taskNumber);
     }
 
     /**
@@ -32,7 +32,7 @@ public class DeleteAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
-            int index = Integer.parseInt(getTaskDescription());
+            int index = Integer.parseInt(getCommandArguments());
             Task deletedTask = taskList.deleteTask(index);
             storage.save(taskList);
             ui.printDeleteTask(deletedTask);

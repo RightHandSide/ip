@@ -7,33 +7,35 @@ import yuno.task.TaskList;
 import yuno.ui.Ui;
 
 /**
- * Represents a command that displays all stored tasks.
+ * Represents a command that removes every task from the task list.
  */
-public class ListAction extends Action {
+public class ClearAction extends Action {
     /**
-     * Creates an action that displays the task list.
+     * Creates an action that clears the task list.
      *
      * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ListAction(String commandArguments) {
+    public ClearAction(String commandArguments) {
         super(commandArguments);
     }
 
     /**
-     * Displays all tasks in the task list.
+     * Clears the task list, saves the empty list, and displays a confirmation.
      *
-     * @param taskList Task list to display.
-     * @param ui User interface used to display the tasks.
-     * @param storage Storage that is not modified.
+     * @param taskList Task list to clear.
+     * @param ui User interface used to display the confirmation.
+     * @param storage Storage used to save the empty task list.
      * @return Always true.
-     * @throws YunoException If additional command data is supplied or a task cannot be retrieved.
+     * @throws YunoException If additional command data is supplied or the empty task list cannot be saved.
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
-        ui.printList(taskList);
+        taskList.clearTasks();
+        storage.save(taskList);
+        ui.printTasksCleared();
         return true;
     }
 }

@@ -14,10 +14,10 @@ public class TodoAction extends Action {
     /**
      * Creates an action with the description of a to-do task to add.
      *
-     * @param taskDescription Description of the task to add.
+     * @param description Description of the task to add.
      */
-    public TodoAction(String taskDescription) {
-        super(taskDescription);
+    public TodoAction(String description) {
+        super(description);
     }
 
     /**
@@ -31,10 +31,10 @@ public class TodoAction extends Action {
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        if (getTaskDescription().isBlank()) {
+        if (getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         }
-        Task todo = taskList.addTask(getTaskDescription());
+        Task todo = taskList.addTask(getCommandArguments());
         storage.save(taskList);
         ui.printAddTask(todo);
         return true;

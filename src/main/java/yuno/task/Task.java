@@ -1,11 +1,13 @@
 package yuno.task;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task with a description and completion status.
  */
 public abstract class Task {
     /** Stores the text that describes this task. */
-    private String description;
+    private final String description;
     /** Records whether this task has been completed. */
     private boolean isDone;
 
@@ -41,6 +43,14 @@ public abstract class Task {
     public void unmarkDone() {
         isDone = false;
     }
+
+    /**
+     * Returns whether this task is relevant for the specified date.
+     *
+     * @param date Date to check.
+     * @return True if this task is relevant for the date; otherwise, false.
+     */
+    public abstract boolean isRelevantFor(LocalDate date);
 
     /**
      * Returns this task in the format used by the task data file.

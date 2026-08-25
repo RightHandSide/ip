@@ -1,5 +1,7 @@
 package yuno.task;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,6 @@ public class TaskList {
      */
     public Task getTask(int index) throws InvalidTaskNumberException {
         if (index < 1 || index > getCount()) {
-            // Reject task numbers that do not identify an existing task.
             throw new InvalidTaskNumberException(
                     "Are you wasting my time? The integer you gave is out of bounds.");
         }
@@ -55,11 +56,11 @@ public class TaskList {
      * Adds a new incomplete deadline task with the specified description and deadline.
      *
      * @param description Description of the task to add.
-     * @param deadline Deadline of the task as text.
+     * @param deadlineDateTime Date and time by which the task must be completed.
      * @return Added deadline task.
      */
-    public Task addTask(String description, String deadline) {
-        Deadline addedTask = new Deadline(description, false, deadline);
+    public Task addTask(String description, LocalDateTime deadlineDateTime) {
+        Deadline addedTask = new Deadline(description, false, deadlineDateTime);
         tasks.add(addedTask);
         return addedTask;
     }
@@ -68,12 +69,12 @@ public class TaskList {
      * Adds a new incomplete event task with the specified description and times.
      *
      * @param description Description of the task to add.
-     * @param start Event start time as text.
-     * @param end Event end time as text.
+     * @param startDateTime Date and time at which the event starts.
+     * @param endDateTime Date and time at which the event ends.
      * @return Added event task.
      */
-    public Task addTask(String description, String start, String end) {
-        Event addedTask = new Event(description, false, start, end);
+    public Task addTask(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Event addedTask = new Event(description, false, startDateTime, endDateTime);
         tasks.add(addedTask);
         return addedTask;
     }
@@ -116,10 +117,32 @@ public class TaskList {
      */
     public Task deleteTask(int index) throws InvalidTaskNumberException {
         if (index < 1 || index > getCount()) {
-            // Reject deletion when the task number does not identify an existing task.
             throw new InvalidTaskNumberException(
                     "What do you want me to delete, your brain? The integer you gave is out of bounds.");
         }
         return tasks.remove(index - 1);
+    }
+
+    /**
+     * Removes every task from this task list.
+     */
+    public void clearTasks() {
+        tasks.clear();
+    }
+
+    /**
+     * Returns the tasks that are relevant for the specified date.
+     *
+     * @param date Date for which tasks are requested.
+     * @return Tasks relevant for the date, in their original list order.
+     */
+    public List<Task> findTasksFor(LocalDate date) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.isRelevantFor(date)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 }

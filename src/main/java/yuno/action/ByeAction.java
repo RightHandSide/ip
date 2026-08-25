@@ -12,10 +12,10 @@ public class ByeAction extends Action {
     /**
      * Creates an action that ends the chatbot session.
      *
-     * @param taskDescription Additional command data, which must be blank.
+     * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ByeAction(String taskDescription) {
-        super(taskDescription);
+    public ByeAction(String commandArguments) {
+        super(commandArguments);
     }
 
     /**
@@ -29,7 +29,7 @@ public class ByeAction extends Action {
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws InvalidCommandFormatException {
-        if (!getTaskDescription().isBlank()) {
+        if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
         ui.printBye();

@@ -14,10 +14,10 @@ public class DeadlineAction extends Action {
     /**
      * Creates an action with the description and deadline of a task to add.
      *
-     * @param taskDescription Description and deadline text from the user.
+     * @param deadlineDetails Description and deadline text entered by the user.
      */
-    public DeadlineAction(String taskDescription) {
-        super(taskDescription);
+    public DeadlineAction(String deadlineDetails) {
+        super(deadlineDetails);
     }
 
     /**
@@ -31,16 +31,27 @@ public class DeadlineAction extends Action {
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        String[] deadlineParts = getTaskDescription().split(" /by ", 2);
+        String[] deadlineParts = getCommandArguments().split(" /by ", 2);
+        validateDeadlineDetails(deadlineParts);
+        Task deadlineTask = taskList.addTask(
+                deadlineParts[0], parseInputDateTime(deadlineParts[1]));
+        storage.save(taskList);
+        ui.printAddTask(deadlineTask);
+        return true;
+    }
+
+    /**
+     * Validates that the deadline fields contain a task description and deadline.
+     *
+     * @param deadlineParts Deadline fields to validate.
+     * @throws InvalidCommandFormatException If the task description or deadline is missing.
+     */
+    private void validateDeadlineDetails(String[] deadlineParts) throws InvalidCommandFormatException {
         if (deadlineParts[0].isBlank()) {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (deadlineParts.length < 2 || deadlineParts[1].isBlank()) {
             throw new InvalidCommandFormatException(
                     "If you are not constrained by a date, use another task type.");
         }
-        Task deadline = taskList.addTask(deadlineParts[0], deadlineParts[1]);
-        storage.save(taskList);
-        ui.printAddTask(deadline);
-        return true;
     }
 }

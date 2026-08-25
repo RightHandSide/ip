@@ -13,10 +13,10 @@ public class UnmarkAction extends Action {
     /**
      * Creates an action with the index of a task to unmark.
      *
-     * @param taskDescription One-based task index from the user.
+     * @param taskNumber One-based task number entered by the user.
      */
-    public UnmarkAction(String taskDescription) {
-        super(taskDescription);
+    public UnmarkAction(String taskNumber) {
+        super(taskNumber);
     }
 
     /**
@@ -31,7 +31,7 @@ public class UnmarkAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
-            int index = Integer.parseInt(getTaskDescription());
+            int index = Integer.parseInt(getCommandArguments());
             taskList.unmarkTask(index);
             storage.save(taskList);
             ui.printUnmarkTask(taskList.getTask(index));
