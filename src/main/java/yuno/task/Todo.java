@@ -16,7 +16,7 @@ public class Todo extends Task {
 
     @Override
     public String toStorageString() {
-        return String.format("T | %c | %s", getDone(), getDescription());
+        return String.format("T | %c | %s", getStatus(), getDescription());
     }
 
     /**

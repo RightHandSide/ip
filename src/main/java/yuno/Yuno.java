@@ -3,6 +3,7 @@ package yuno;
 import java.util.Scanner;
 
 import yuno.action.Action;
+import yuno.exception.FileStorageException;
 import yuno.exception.YunoException;
 import yuno.parser.Parser;
 import yuno.storage.Storage;
@@ -19,15 +20,23 @@ public class Yuno {
      * @param args Command-line arguments, which are not used.
      */
     public static void main(String[] args) {
+        Storage storage;
         Ui ui = new Ui();
         Parser parser = new Parser();
-        Storage storage = new Storage();
         TaskList taskList = new TaskList();
         Scanner scanner = new Scanner(System.in);
 
+        ui.printGreeting();
+        try {
+            storage = new Storage();
+            storage.load(taskList);
+        } catch (FileStorageException exception) {
+            ui.printException(exception.getMessage());
+            return;
+        }
+
         boolean isRunning = true;
 
-        ui.printGreeting();
         while (isRunning) {
             try {
                 String input = scanner.nextLine();

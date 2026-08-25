@@ -29,7 +29,7 @@ public class Event extends Task {
 
     @Override
     public String toStorageString() {
-        return String.format("E | %c | %s | %s | %s", getDone(), getDescription(), getStart(), getEnd());
+        return String.format("E | %c | %s | %s | %s", getStatus(), getDescription(), getStart(), getEnd());
     }
 
     /**

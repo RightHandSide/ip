@@ -33,10 +33,8 @@ public class DeadlineAction extends Action {
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String[] deadlineParts = getTaskDescription().split(" /by ", 2);
         if (deadlineParts[0].isBlank()) {
-            // Reject a deadline command that does not describe a task.
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (deadlineParts.length < 2 || deadlineParts[1].isBlank()) {
-            // Reject a deadline command that does not provide a deadline after /by.
             throw new InvalidCommandFormatException(
                     "If you are not constrained by a date, use another task type.");
         }

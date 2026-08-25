@@ -1,50 +1,196 @@
 package yuno.storage;
 
-import yuno.exception.InvalidTaskNumberException;
-import yuno.task.Task;
-import yuno.task.TaskList;
-
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+
+import yuno.exception.FileStorageException;
+import yuno.exception.YunoException;
+import yuno.task.Deadline;
+import yuno.task.Event;
+import yuno.task.Task;
+import yuno.task.TaskList;
+import yuno.task.Todo;
 
 /**
- * Manages the file used to store Yuno tasks.
+ * Loads and saves Yuno tasks in a local text file.
  */
 public class Storage {
     /** Path of the file used to store task data. */
     private static final Path FILE_PATH = Path.of("./data/yuno.txt");
 
     /**
-     * Initializes storage and attempts to create the task data file if it does not exist.
+     * Initializes storage and creates the task data file if it does not exist.
+     *
+     * @throws FileStorageException If the task data file cannot be initialized.
      */
-    public Storage() {
+    public Storage() throws FileStorageException {
         try {
             Files.createDirectories(FILE_PATH.getParent());
-
             if (Files.notExists(FILE_PATH)) {
                 Files.createFile(FILE_PATH);
             }
-        } catch (IOException e) {
-
+        } catch (IOException exception) {
+            throw new FileStorageException(
+                    "I can't initialize your task file. Check the data folder before bothering me again.",
+                    exception);
         }
     }
 
     /**
-     * Attempts to rewrite the task data file with all tasks in the specified task list.
+     * Loads tasks from the task data file into the specified task list.
+     *
+     * @param taskList Task list into which saved tasks are loaded.
+     * @throws FileStorageException If the task data file cannot be read or contains malformed task data.
+     */
+    public void load(TaskList taskList) throws FileStorageException {
+        try {
+            List<String> lines = Files.readAllLines(FILE_PATH);
+            for (String line : lines) {
+                taskList.addTask(parseTask(line));
+            }
+        } catch (IOException exception) {
+            throw new FileStorageException(
+                    "I can't read your task file. Did you move it while I wasn't looking?",
+                    exception);
+        }
+    }
+
+    /**
+     * Rewrites the task data file with all tasks in the specified task list.
      *
      * @param taskList Task list to save.
-     * @throws InvalidTaskNumberException If a task cannot be retrieved from the task list.
+     * @throws YunoException If a task cannot be retrieved or the task data file cannot be written.
      */
-    public void save(TaskList taskList) throws InvalidTaskNumberException {
-        try (FileWriter fw = new FileWriter(FILE_PATH.toFile())) {
+    public void save(TaskList taskList) throws YunoException {
+        try (BufferedWriter writer = Files.newBufferedWriter(FILE_PATH)) {
             for (int i = 0; i < taskList.getCount(); i++) {
-                fw.write(taskList.getTask(i + 1).toStorageString());
-                fw.write(System.lineSeparator());
+                writer.write(taskList.getTask(i + 1).toStorageString());
+                writer.newLine();
             }
-        } catch (IOException e) {
-
+        } catch (IOException exception) {
+            throw new FileStorageException(
+                    "I can't save your tasks. Check the task file before bothering me again.",
+                    exception);
         }
+    }
+
+    /**
+     * Returns the task represented by one line of storage data.
+     * Descriptions may contain the storage delimiter, but deadline and event time fields may not.
+     *
+     * @param line Storage line to parse.
+     * @return Task represented by the storage line.
+     * @throws FileStorageException If the line does not follow a supported storage format.
+     */
+    private Task parseTask(String line) throws FileStorageException {
+        String[] parts = line.split(" \\| ", -1);
+        boolean isDone = parseIsDone(parts[1]);
+        return switch (parts[0]) {
+            case "T" -> parseTodo(parts, isDone);
+            case "D" -> parseDeadline(parts, isDone);
+            case "E" -> parseEvent(parts, isDone);
+            default -> throw createInvalidDataException();
+        };
+    }
+
+    /**
+     * Returns a to-do task represented by the specified storage fields.
+     *
+     * @param parts Storage fields to parse.
+     * @param isDone Whether the stored task is completed.
+     * @return To-do task represented by the fields.
+     * @throws FileStorageException If the fields do not contain a description.
+     */
+    private Task parseTodo(String[] parts, boolean isDone) throws FileStorageException {
+        if (parts.length < 3) {
+            throw createInvalidDataException();
+        }
+        String description = combineParts(parts, 2, parts.length);
+        if (description.isBlank()) {
+            throw createInvalidDataException();
+        }
+        return new Todo(description, isDone);
+    }
+
+    /**
+     * Returns a deadline task represented by the specified storage fields.
+     *
+     * @param parts Storage fields to parse.
+     * @param isDone Whether the stored task is completed.
+     * @return Deadline task represented by the fields.
+     * @throws FileStorageException If the fields do not contain a description and deadline.
+     */
+    private Task parseDeadline(String[] parts, boolean isDone) throws FileStorageException {
+        if (parts.length < 4) {
+            throw createInvalidDataException();
+        }
+        String description = combineParts(parts, 2, parts.length - 1);
+        String deadline = parts[parts.length - 1];
+        if (description.isBlank() || deadline.isBlank()) {
+            throw createInvalidDataException();
+        }
+        return new Deadline(description, isDone, deadline);
+    }
+
+    /**
+     * Returns an event task represented by the specified storage fields.
+     *
+     * @param parts Storage fields to parse.
+     * @param isDone Whether the stored task is completed.
+     * @return Event task represented by the fields.
+     * @throws FileStorageException If the fields do not contain a description, start time, and end time.
+     */
+    private Task parseEvent(String[] parts, boolean isDone) throws FileStorageException {
+        if (parts.length < 5) {
+            throw createInvalidDataException();
+        }
+        String description = combineParts(parts, 2, parts.length - 2);
+        String start = parts[parts.length - 2];
+        String end = parts[parts.length - 1];
+        if (description.isBlank() || start.isBlank() || end.isBlank()) {
+            throw createInvalidDataException();
+        }
+        return new Event(description, isDone, start, end);
+    }
+
+    /**
+     * Returns whether the specified storage status represents a completed task.
+     *
+     * @param status Storage status to interpret.
+     * @return True if the status is {@code X}; false if it is a single space.
+     * @throws FileStorageException If the status is not recognized.
+     */
+    private boolean parseIsDone(String status) throws FileStorageException {
+        if (status.equals("X")) {
+            return true;
+        } else if (status.equals(" ")) {
+            return false;
+        }
+        throw createInvalidDataException();
+    }
+
+    /**
+     * Returns the storage fields in the specified range joined as one value.
+     *
+     * @param parts Storage fields to combine.
+     * @param start Inclusive index of the first field to combine.
+     * @param end Exclusive index after the last field to combine.
+     * @return Combined field value.
+     */
+    private String combineParts(String[] parts, int start, int end) {
+        return String.join(" | ", Arrays.copyOfRange(parts, start, end));
+    }
+
+    /**
+     * Returns an exception that reports malformed task data in the storage file.
+     *
+     * @return Exception containing Yuno's user-facing error message.
+     */
+    private FileStorageException createInvalidDataException() {
+        return new FileStorageException("Why did you change the task file? I can't load your tasks now.");
     }
 }

@@ -1,7 +1,6 @@
 package yuno.action;
 
 import yuno.exception.InvalidCommandFormatException;
-import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.Task;
@@ -33,7 +32,6 @@ public class TodoAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (getTaskDescription().isBlank()) {
-            // Reject a to-do command that does not describe a task.
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         }
         Task todo = taskList.addTask(getTaskDescription());

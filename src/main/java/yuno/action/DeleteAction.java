@@ -1,6 +1,7 @@
 package yuno.action;
 
 import yuno.exception.InvalidTaskNumberException;
+import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.Task;
 import yuno.task.TaskList;
@@ -26,10 +27,10 @@ public class DeleteAction extends Action {
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the updated task list.
      * @return Always true.
-     * @throws InvalidTaskNumberException If the task number is invalid or task data cannot be retrieved.
+     * @throws YunoException If the task number is invalid or the updated task list cannot be saved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws InvalidTaskNumberException {
+    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
             int index = Integer.parseInt(getTaskDescription());
             Task deletedTask = taskList.deleteTask(index);
@@ -37,9 +38,7 @@ public class DeleteAction extends Action {
             ui.printDeleteTask(deletedTask);
             return true;
         } catch (NumberFormatException exception) {
-            // Convert a missing or nonnumeric task number into a user-facing error.
-            throw new InvalidTaskNumberException(
-                    "Did you even give me an integer? Please don't waste my time!");
+            throw new InvalidTaskNumberException("Did you even give me an integer? Please don't waste my time!");
         }
     }
 }

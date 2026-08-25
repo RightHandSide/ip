@@ -28,8 +28,6 @@ public abstract class Task {
         return (isDone ? 'X' : ' ');
     }
 
-    public int getDone() { return (isDone ? 1 : 0); }
-
     /**
      * Marks this task as completed.
      */
