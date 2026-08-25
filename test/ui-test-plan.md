@@ -29,7 +29,7 @@ __   __ _   _ _   _  ___
 I'm Yuno.
 Can we just get this over quickly?
 __________________________________________________
-Finally! Bye, I'm going!
+Finally! Bye. I'm leaving!
 __________________________________________________
 ```
 
@@ -68,13 +68,13 @@ __   __ _   _ _   _  ___
 I'm Yuno.
 Can we just get this over quickly?
 __________________________________________________
-Did you look at what you are typing? It's just a random string of command.
+Did you look at what you typed? That's just a random command.
 __________________________________________________
 If you have no task, please don't bother me.
 __________________________________________________
 If you are not constrained by a date, use another task type.
 __________________________________________________
-If your task does not have a start and end time, use another task type.
+If your task does not have a start and end time, save me some time and use another task type.
 __________________________________________________
 Your order is wrong. Check it before wasting my time.
 __________________________________________________
@@ -82,11 +82,11 @@ Did you even give me an integer? Please don't waste my time!
 __________________________________________________
 Are you wasting my time? The integer you gave is out of bounds.
 __________________________________________________
-Please don't enter irrelevant details.
+Why are you entering irrelevant details?
 __________________________________________________
-Please don't enter irrelevant details.
+Why are you entering irrelevant details?
 __________________________________________________
-Finally! Bye, I'm going!
+Finally! Bye. I'm leaving!
 __________________________________________________
 ```
 
@@ -123,17 +123,17 @@ Can we just get this over quickly?
 __________________________________________________
 Added:
 [T][ ] read book
-Just another task you would not finish.
+Just another task you won't finish.
 __________________________________________________
 Added:
 [D][ ] submit report (by: Sunday)
-Just another task you would not finish.
+Just another task you won't finish.
 __________________________________________________
 Added:
 [E][ ] meeting (from: Monday to: Tuesday)
-Just another task you would not finish.
+Just another task you won't finish.
 __________________________________________________
-You actually completed a task? Bet it's the only task you would complete.
+You actually completed a task? Bet it's the only task you'll ever complete.
 [T][X] read book
 __________________________________________________
 Wow! So you lied about completing it? Typical behavior.
@@ -144,7 +144,7 @@ Wow. Look at how slow you are at completing these tasks.
 2. [D][ ] submit report (by: Sunday)
 3. [E][ ] meeting (from: Monday to: Tuesday)
 __________________________________________________
-Finally! Bye, I'm going!
+Finally! Bye. I'm leaving!
 __________________________________________________
 ```
 
@@ -184,11 +184,11 @@ Can we just get this over quickly?
 __________________________________________________
 Added:
 [T][ ] first task
-Just another task you would not finish.
+Just another task you won't finish.
 __________________________________________________
 Added:
 [T][ ] second task
-Just another task you would not finish.
+Just another task you won't finish.
 __________________________________________________
 Wow! Did you give up, or did you actually finish it?
 [T][ ] first task
@@ -199,12 +199,92 @@ __________________________________________________
 Wow! Did you give up, or did you actually finish it?
 [T][ ] second task
 __________________________________________________
-Wow. Look at how slow you are at completing these tasks.
+Wow, not even a single task? You are so lazy.
 __________________________________________________
 What do you want me to delete, your brain? The integer you gave is out of bounds.
 __________________________________________________
 Did you even give me an integer? Please don't waste my time!
 __________________________________________________
-Finally! Bye, I'm going!
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
+## Test Case: Load stored tasks containing delimiters
+
+### Aim
+
+Verify that Yuno loads every task type with its status intact and reconstructs
+descriptions that contain the storage delimiter.
+
+### Inputs
+
+```text
+list
+bye
+```
+
+### Initial Data
+
+```text
+T | X | read | difficult book
+D |   | submit | final report | Sunday
+E |   | project | meeting | Monday | Tuesday
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [T][X] read | difficult book
+2. [D][ ] submit | final report (by: Sunday)
+3. [E][ ] project | meeting (from: Monday to: Tuesday)
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
+## Test Case: Reject malformed stored tasks
+
+### Aim
+
+Verify that Yuno reports a controlled storage error and exits when saved task
+data contains an invalid completion status.
+
+### Inputs
+
+```text
+bye
+```
+
+### Initial Data
+
+```text
+T | ? | corrupted task
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Why did you change the task file? I can't load your tasks now.
 __________________________________________________
 ```

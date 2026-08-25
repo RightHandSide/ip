@@ -10,6 +10,7 @@ import yuno.action.MarkAction;
 import yuno.action.TodoAction;
 import yuno.action.UnmarkAction;
 import yuno.exception.UnknownCommandException;
+import yuno.exception.YunoException;
 
 /**
  * Converts user input into actions that the chatbot can execute.
@@ -49,7 +50,7 @@ public class Parser {
                 }
             }
             throw new UnknownCommandException(
-                    "Did you look at what you are typing? It's just a random string of command.");
+                    "Did you look at what you typed? That's just a random command.");
         }
     }
 
@@ -58,9 +59,9 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Action that represents the parsed input.
-     * @throws UnknownCommandException If the command is not recognized.
+     * @throws YunoException If the command is not recognized or cannot be parsed.
      */
-    public Action parse(String input) throws UnknownCommandException {
+    public Action parse(String input) throws YunoException {
         String strippedInput = input.strip();
         CommandType command = CommandType.from(strippedInput.split(" ")[0].strip());
         int separatorIndex = strippedInput.indexOf(" ");

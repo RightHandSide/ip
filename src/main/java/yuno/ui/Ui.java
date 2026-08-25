@@ -31,7 +31,7 @@ public class Ui {
      * Displays the farewell message.
      */
     public void printBye() {
-        System.out.println("Finally! Bye, I'm going!"); // Display the farewell message.
+        System.out.println("Finally! Bye. I'm leaving!"); // Display the farewell message.
         System.out.println(DIVIDER); // Close the farewell section.
     }
 
@@ -42,7 +42,7 @@ public class Ui {
      */
     public void printAddTask(Task task) {
         System.out.println(String.format(
-                "Added: \n%s\nJust another task you would not finish.", task)); // Confirm the added task.
+                "Added:\n%s\nJust another task you won't finish.", task)); // Confirm the added task.
         System.out.println(DIVIDER); // Close the task-addition section.
     }
 
@@ -54,10 +54,14 @@ public class Ui {
      */
     public void printList(TaskList taskList) throws InvalidTaskNumberException {
         StringBuilder output = new StringBuilder();
-        output.append("Wow. Look at how slow you are at completing these tasks.\n");
-        for (int i = 0; i < taskList.getCount(); i++) {
-            output.append(i + 1);
-            output.append(". ").append(taskList.getTask(i + 1)).append("\n");
+        if (taskList.getCount() == 0) {
+            output.append("Wow, not even a single task? You are so lazy.\n");
+        } else {
+            output.append("Wow. Look at how slow you are at completing these tasks.\n");
+            for (int i = 0; i < taskList.getCount(); i++) {
+                output.append(i + 1);
+                output.append(". ").append(taskList.getTask(i + 1)).append("\n");
+            }
         }
         System.out.print(output); // Display the numbered task list.
         System.out.println(DIVIDER); // Close the task-list section.
@@ -70,7 +74,7 @@ public class Ui {
      */
     public void printMarkTask(Task task) {
         System.out.println(
-                "You actually completed a task? Bet it's the only task you would complete."); // Confirm marking.
+                "You actually completed a task? Bet it's the only task you'll ever complete."); // Confirm marking.
         System.out.println(task); // Display the updated task.
         System.out.println(DIVIDER); // Close the mark-confirmation section.
     }

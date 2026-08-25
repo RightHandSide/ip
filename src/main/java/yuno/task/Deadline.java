@@ -19,6 +19,13 @@ public class Deadline extends Task {
         this.deadline = deadline;
     }
 
+    public String getDeadline() { return deadline; }
+
+    @Override
+    public String toStorageString() {
+        return String.format("D | %c | %s | %s", getStatus(), getDescription(), getDeadline());
+    }
+
     /**
      * Returns this deadline task in a display-ready format.
      *
@@ -26,6 +33,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return String.format("[D]%s (by: %s)", super.toString(), deadline);
+        return String.format("[D]%s (by: %s)", super.toString(), getDeadline());
     }
 }

@@ -20,6 +20,7 @@ class TestCase:
     aim: str
     inputs: str
     expected_output: str
+    initial_data: str | None
 
 
 def parse_args() -> argparse.Namespace:
@@ -59,6 +60,16 @@ def extract_section(body: str, heading: str) -> str:
     return match.group(1).strip()
 
 
+def extract_optional_section(body: str, heading: str) -> str | None:
+    """Returns an optional Markdown level-three section."""
+    match = re.search(
+        rf"^### {re.escape(heading)}\s*$\n(.*?)(?=^### |\Z)",
+        body,
+        flags=re.MULTILINE | re.DOTALL | re.IGNORECASE,
+    )
+    return match.group(1).strip() if match else None
+
+
 def extract_text_block(section: str, heading: str) -> str:
     """Returns the contents of the first fenced text block in a section."""
     match = re.search(r"```(?:text)?[ \t]*\n(.*?)\n```", section, re.DOTALL)
@@ -90,9 +101,15 @@ def load_test_cases(plan_path: Path) -> list[TestCase]:
             expected = extract_text_block(
                 extract_section(body, "Expected Output"), "Expected Output"
             )
+            initial_data_section = extract_optional_section(body, "Initial Data")
+            initial_data = (
+                extract_text_block(initial_data_section, "Initial Data")
+                if initial_data_section is not None
+                else None
+            )
         except ValueError as error:
             raise ValueError(f"test case '{name}': {error}") from error
-        test_cases.append(TestCase(name, aim, inputs, expected))
+        test_cases.append(TestCase(name, aim, inputs, expected, initial_data))
     return test_cases
 
 
@@ -149,9 +166,19 @@ def print_transcript(test_case: TestCase, actual_output: str) -> None:
 
 
 def run_test_case(
-    test_case: TestCase, class_directory: Path, timeout: float
+    test_case: TestCase,
+    class_directory: Path,
+    working_directory: Path,
+    timeout: float,
 ) -> tuple[bool, str, str]:
     """Runs one test case and returns its result, output, and error text."""
+    if test_case.initial_data is not None:
+        data_directory = working_directory / "data"
+        data_directory.mkdir()
+        (data_directory / "yuno.txt").write_text(
+            f"{test_case.initial_data}\n", encoding="utf-8"
+        )
+
     console_input = f"{test_case.inputs}\n"
     try:
         result = subprocess.run(
@@ -161,6 +188,7 @@ def run_test_case(
             capture_output=True,
             text=True,
             timeout=timeout,
+            cwd=working_directory,
         )
     except subprocess.TimeoutExpired as error:
         actual = error.stdout or ""
@@ -190,12 +218,19 @@ def main() -> int:
         test_cases = load_test_cases(plan_path)
         require_java_25()
         with tempfile.TemporaryDirectory(prefix="yuno-ui-test-") as temp_dir:
-            class_directory = Path(temp_dir)
+            temporary_root = Path(temp_dir)
+            class_directory = temporary_root / "classes"
+            class_directory.mkdir()
             compile_program(repo, class_directory)
 
             for number, test_case in enumerate(test_cases, start=1):
+                working_directory = temporary_root / f"case-{number}"
+                working_directory.mkdir()
                 passed, actual_output, error_text = run_test_case(
-                    test_case, class_directory, args.timeout
+                    test_case,
+                    class_directory,
+                    working_directory,
+                    args.timeout,
                 )
                 print_transcript(test_case, actual_output)
                 if not passed:
@@ -219,4 +254,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

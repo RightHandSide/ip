@@ -1,6 +1,8 @@
 package yuno.action;
 
 import yuno.exception.InvalidCommandFormatException;
+import yuno.exception.YunoException;
+import yuno.storage.Storage;
 import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -23,26 +25,25 @@ public class EventAction extends Action {
      *
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
+     * @param storage Storage used to save the updated task list.
      * @return Always true.
-     * @throws InvalidCommandFormatException If the description or event times are missing or incorrectly ordered.
+     * @throws YunoException If the task details are invalid or task data cannot be accessed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui) throws InvalidCommandFormatException {
+    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String taskDescription = getTaskDescription();
         String[] eventParts = taskDescription.split(" /from | /to ", 3);
         if (eventParts[0].isBlank()) {
-            // Reject an event command that does not describe a task.
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (eventParts.length < 3 || eventParts[1].isBlank() || eventParts[2].isBlank()) {
-            // Reject an event command that omits its start or end time.
             throw new InvalidCommandFormatException(
-                    "If your task does not have a start and end time, use another task type.");
+                    "If your task does not have a start and end time, save me some time and use another task type.");
         } else if (taskDescription.indexOf("/from") > taskDescription.indexOf("/to")) {
-            // Reject an event command whose /to argument appears before /from.
             throw new InvalidCommandFormatException(
                     "Your order is wrong. Check it before wasting my time.");
         }
         Task event = taskList.addTask(eventParts[0], eventParts[1], eventParts[2]);
+        storage.save(taskList);
         ui.printAddTask(event);
         return true;
     }

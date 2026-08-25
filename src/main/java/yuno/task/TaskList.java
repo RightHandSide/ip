@@ -6,7 +6,7 @@ import java.util.List;
 import yuno.exception.InvalidTaskNumberException;
 
 /**
- * Stores and manages the tasks entered during one chatbot session.
+ * Stores and manages the tasks currently available to the chatbot.
  */
 public class TaskList {
     /** Stores the tasks in the order they were added. */
@@ -76,6 +76,15 @@ public class TaskList {
         Event addedTask = new Event(description, false, start, end);
         tasks.add(addedTask);
         return addedTask;
+    }
+
+    /**
+     * Adds the specified existing task to this task list.
+     *
+     * @param task Task to add.
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 
     /**

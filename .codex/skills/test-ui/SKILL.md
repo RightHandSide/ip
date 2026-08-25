@@ -34,6 +34,12 @@ second command
 bye
 ```
 
+### Initial Data
+
+```text
+Optional contents to place in data/yuno.txt before Yuno starts
+```
+
 ### Expected Output
 
 ```text
@@ -44,6 +50,7 @@ Complete program output for the session
 Put one console command on each line in `Inputs`. Include every line printed by
 the program in `Expected Output`, but do not include the input commands there.
 End each ordinary session with `bye` so the program terminates normally.
+Omit `Initial Data` unless the case needs a preloaded `data/yuno.txt` file.
 
 ## Run the tests
 
@@ -57,7 +64,8 @@ The runner:
 
 - requires a Java 25 compiler and runtime;
 - compiles all files under `src/main/java` into a temporary directory;
-- starts a fresh chatbot process for each test case;
+- starts each test case in a fresh temporary working directory so saved task
+  data cannot leak between cases or affect the repository;
 - sends that case's commands to standard input in their listed order;
 - compares standard output with the case's expected output;
 - prints the aim, console input, and console output for every attempted case;
