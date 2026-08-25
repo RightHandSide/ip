@@ -48,6 +48,8 @@ todo
 deadline submit report
 event meeting /from Monday
 event meeting /to Tuesday /from Monday
+deadline submit report /by 2026-02-30 1200
+event meeting /from 2026-08-31 1100 /to 2026-08-31 1000
 mark abc
 mark 0
 list extra
@@ -76,7 +78,11 @@ If you are not constrained by a date, use another task type.
 __________________________________________________
 If your task does not have a start and end time, save me some time and use another task type.
 __________________________________________________
-Your order is wrong. Check it before wasting my time.
+Any normal human would remember it as '/from' then '/to'. Check it before wasting my time.
+__________________________________________________
+Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm.
+__________________________________________________
+I don't think you have the ability to go back in time. Check the dates first before even submitting.
 __________________________________________________
 Did you even give me an integer? Please don't waste my time!
 __________________________________________________
@@ -100,8 +106,8 @@ Verify that valid task commands still work after exception handling is added.
 
 ```text
 todo read book
-deadline submit report /by Sunday
-event meeting /from Monday /to Tuesday
+deadline submit report /by 2026-08-30 1800
+event meeting /from 2026-08-31 0900 /to 2026-08-31 1030
 mark 1
 unmark 1
 list
@@ -126,23 +132,23 @@ Added:
 Just another task you won't finish.
 __________________________________________________
 Added:
-[D][ ] submit report (by: Sunday)
+[D][ ] submit report (by: Aug 30 2026, 06:00 PM)
 Just another task you won't finish.
 __________________________________________________
 Added:
-[E][ ] meeting (from: Monday to: Tuesday)
+[E][ ] meeting (from: Aug 31 2026, 09:00 AM to: Aug 31 2026, 10:30 AM)
 Just another task you won't finish.
 __________________________________________________
 You actually completed a task? Bet it's the only task you'll ever complete.
 [T][X] read book
 __________________________________________________
-Wow! So you lied about completing it? Typical behavior.
+Wow! So you lied about completing it? Typical behavior from you.
 [T][ ] read book
 __________________________________________________
 Wow. Look at how slow you are at completing these tasks.
 1. [T][ ] read book
-2. [D][ ] submit report (by: Sunday)
-3. [E][ ] meeting (from: Monday to: Tuesday)
+2. [D][ ] submit report (by: Aug 30 2026, 06:00 PM)
+3. [E][ ] meeting (from: Aug 31 2026, 09:00 AM to: Aug 31 2026, 10:30 AM)
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________
@@ -227,8 +233,8 @@ bye
 
 ```text
 T | X | read | difficult book
-D |   | submit | final report | Sunday
-E |   | project | meeting | Monday | Tuesday
+D |   | submit | final report | Aug 30 2026, 06:00 PM
+E |   | project | meeting | Aug 31 2026, 09:00 AM | Aug 31 2026, 10:30 AM
 ```
 
 ### Expected Output
@@ -246,8 +252,8 @@ Can we just get this over quickly?
 __________________________________________________
 Wow. Look at how slow you are at completing these tasks.
 1. [T][X] read | difficult book
-2. [D][ ] submit | final report (by: Sunday)
-3. [E][ ] project | meeting (from: Monday to: Tuesday)
+2. [D][ ] submit | final report (by: Aug 30 2026, 06:00 PM)
+3. [E][ ] project | meeting (from: Aug 31 2026, 09:00 AM to: Aug 31 2026, 10:30 AM)
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________

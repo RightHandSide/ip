@@ -13,10 +13,10 @@ public class MarkAction extends Action {
     /**
      * Creates an action with the index of a task to mark.
      *
-     * @param taskDescription One-based task index from the user.
+     * @param taskNumber One-based task number entered by the user.
      */
-    public MarkAction(String taskDescription) {
-        super(taskDescription);
+    public MarkAction(String taskNumber) {
+        super(taskNumber);
     }
 
     /**
@@ -31,7 +31,7 @@ public class MarkAction extends Action {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
-            int index = Integer.parseInt(getTaskDescription());
+            int index = Integer.parseInt(getCommandArguments());
             taskList.markTask(index);
             storage.save(taskList);
             ui.printMarkTask(taskList.getTask(index));

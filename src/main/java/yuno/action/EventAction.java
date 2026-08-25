@@ -14,10 +14,10 @@ public class EventAction extends Action {
     /**
      * Creates an action with the description, start time, and end time of an event.
      *
-     * @param taskDescription Description and time text from the user.
+     * @param eventDetails Description and date-time text entered by the user.
      */
-    public EventAction(String taskDescription) {
-        super(taskDescription);
+    public EventAction(String eventDetails) {
+        super(eventDetails);
     }
 
     /**
@@ -31,20 +31,39 @@ public class EventAction extends Action {
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        String taskDescription = getTaskDescription();
-        String[] eventParts = taskDescription.split(" /from | /to ", 3);
+        String eventDetails = getCommandArguments();
+        String[] eventParts = eventDetails.split(" /from | /to ", 3);
+        validateEventDetails(eventDetails, eventParts);
+        Task eventTask = taskList.addTask(
+                eventParts[0],
+                parseInputDateTime(eventParts[1]),
+                parseInputDateTime(eventParts[2]));
+        storage.save(taskList);
+        ui.printAddTask(eventTask);
+        return true;
+    }
+
+    /**
+     * Validates that the event fields contain a description and chronologically ordered dates.
+     *
+     * @param eventDetails Complete event details entered by the user.
+     * @param eventParts Event fields to validate.
+     * @throws InvalidCommandFormatException If any event details are missing, malformed, or out of order.
+     */
+    private void validateEventDetails(String eventDetails, String[] eventParts)
+            throws InvalidCommandFormatException {
         if (eventParts[0].isBlank()) {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (eventParts.length < 3 || eventParts[1].isBlank() || eventParts[2].isBlank()) {
             throw new InvalidCommandFormatException(
                     "If your task does not have a start and end time, save me some time and use another task type.");
-        } else if (taskDescription.indexOf("/from") > taskDescription.indexOf("/to")) {
+        } else if (eventDetails.indexOf("/from") > eventDetails.indexOf("/to")) {
             throw new InvalidCommandFormatException(
-                    "Your order is wrong. Check it before wasting my time.");
+                    "Any normal human would remember it as '/from' then '/to'. Check it before wasting my time.");
+        } else if (parseInputDateTime(eventParts[1]).isAfter(parseInputDateTime(eventParts[2]))) {
+            throw new InvalidCommandFormatException(
+                    "I don't think you have the ability to go back in time. "
+                            + "Check the dates first before even submitting.");
         }
-        Task event = taskList.addTask(eventParts[0], eventParts[1], eventParts[2]);
-        storage.save(taskList);
-        ui.printAddTask(event);
-        return true;
     }
 }

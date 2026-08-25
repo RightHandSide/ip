@@ -1,28 +1,49 @@
 package yuno.action;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
+import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
+import yuno.util.DateTimeFormats;
 
 /**
  * Represents a user command and executes its associated behavior.
  */
 public abstract class Action {
-    /** Stores the task description or task index supplied with this action. */
-    private final String taskDescription;
+    /** Stores the arguments supplied after the command keyword. */
+    private final String commandArguments;
 
     /**
      * Creates an action with the specified command data.
      *
-     * @param taskDescription Task description or task index used by the action.
+     * @param commandArguments Arguments supplied after the command keyword.
      */
-    public Action(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public Action(String commandArguments) {
+        this.commandArguments = commandArguments;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    protected String getCommandArguments() {
+        return commandArguments;
+    }
+
+    /**
+     * Returns the date-time represented by the specified user input.
+     *
+     * @param dateTimeText Date-time text entered by the user.
+     * @return Parsed date-time.
+     * @throws InvalidCommandFormatException If the text does not follow the required input format.
+     */
+    protected LocalDateTime parseInputDateTime(String dateTimeText) throws InvalidCommandFormatException {
+        try {
+            return LocalDateTime.parse(dateTimeText, DateTimeFormats.INPUT_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidCommandFormatException(
+                    "Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm.");
+        }
     }
 
     /**

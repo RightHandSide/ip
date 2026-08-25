@@ -5,7 +5,7 @@ package yuno.task;
  */
 public abstract class Task {
     /** Stores the text that describes this task. */
-    private String description;
+    private final String description;
     /** Records whether this task has been completed. */
     private boolean isDone;
 

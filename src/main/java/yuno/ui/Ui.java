@@ -15,24 +15,26 @@ public class Ui {
      * Displays the chatbot banner and greeting.
      */
     public void printGreeting() {
-        String banner = "__   __ _   _ _   _  ___\n"
-                + "\\ \\ / /| | | | \\ | |/ _ \\\n"
-                + " \\ V / | | | |  \\| | | | |\n"
-                + "  | |  | |_| | |\\  | |_| |\n"
-                + "  |_|   \\___/|_| \\_|\\___/\n";
-        System.out.println(DIVIDER); // Open the greeting section.
-        System.out.println(banner); // Display the chatbot banner.
-        System.out.println("I'm Yuno."); // Introduce the chatbot.
-        System.out.println("Can we just get this over quickly?"); // Prompt the user for a command.
-        System.out.println(DIVIDER); // Close the greeting section.
+        String banner = """
+                __   __ _   _ _   _  ___
+                \\ \\ / /| | | | \\ | |/ _ \\
+                 \\ V / | | | |  \\| | | | |
+                  | |  | |_| | |\\  | |_| |
+                  |_|   \\___/|_| \\_|\\___/
+                """;
+        System.out.println(DIVIDER);
+        System.out.println(banner);
+        System.out.println("I'm Yuno.");
+        System.out.println("Can we just get this over quickly?");
+        System.out.println(DIVIDER);
     }
 
     /**
      * Displays the farewell message.
      */
     public void printBye() {
-        System.out.println("Finally! Bye. I'm leaving!"); // Display the farewell message.
-        System.out.println(DIVIDER); // Close the farewell section.
+        System.out.println("Finally! Bye. I'm leaving!");
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -41,9 +43,8 @@ public class Ui {
      * @param task Added task to display.
      */
     public void printAddTask(Task task) {
-        System.out.println(String.format(
-                "Added:\n%s\nJust another task you won't finish.", task)); // Confirm the added task.
-        System.out.println(DIVIDER); // Close the task-addition section.
+        System.out.printf("Added:\n%s\nJust another task you won't finish.%n", task);
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -63,8 +64,8 @@ public class Ui {
                 output.append(". ").append(taskList.getTask(i + 1)).append("\n");
             }
         }
-        System.out.print(output); // Display the numbered task list.
-        System.out.println(DIVIDER); // Close the task-list section.
+        System.out.print(output);
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -74,9 +75,9 @@ public class Ui {
      */
     public void printMarkTask(Task task) {
         System.out.println(
-                "You actually completed a task? Bet it's the only task you'll ever complete."); // Confirm marking.
-        System.out.println(task); // Display the updated task.
-        System.out.println(DIVIDER); // Close the mark-confirmation section.
+                "You actually completed a task? Bet it's the only task you'll ever complete.");
+        System.out.println(task);
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -85,9 +86,9 @@ public class Ui {
      * @param task Task that was marked as incomplete.
      */
     public void printUnmarkTask(Task task) {
-        System.out.println("Wow! So you lied about completing it? Typical behavior."); // Confirm unmarking.
-        System.out.println(task); // Display the updated task.
-        System.out.println(DIVIDER); // Close the unmark-confirmation section.
+        System.out.println("Wow! So you lied about completing it? Typical behavior from you.");
+        System.out.println(task);
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -96,9 +97,9 @@ public class Ui {
      * @param task Deleted task to display.
      */
     public void printDeleteTask(Task task) {
-        System.out.println("Wow! Did you give up, or did you actually finish it?"); // Confirm deletion.
-        System.out.println(task); // Display the deleted task.
-        System.out.println(DIVIDER); // Close the delete-confirmation section.
+        System.out.println("Wow! Did you give up, or did you actually finish it?");
+        System.out.println(task);
+        System.out.println(DIVIDER);
     }
 
     /**
@@ -107,7 +108,7 @@ public class Ui {
      * @param message Exception message to display.
      */
     public void printException(String message) {
-        System.out.println(message); // Display the user-facing exception message.
-        System.out.println(DIVIDER); // Close the exception section.
+        System.out.println(message);
+        System.out.println(DIVIDER);
     }
 }

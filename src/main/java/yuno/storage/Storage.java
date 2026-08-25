@@ -4,16 +4,19 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
 import yuno.exception.FileStorageException;
-import yuno.exception.YunoException;
+import yuno.exception.InvalidTaskNumberException;
 import yuno.task.Deadline;
 import yuno.task.Event;
 import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.task.Todo;
+import yuno.util.DateTimeFormats;
 
 /**
  * Loads and saves Yuno tasks in a local text file.
@@ -63,9 +66,10 @@ public class Storage {
      * Rewrites the task data file with all tasks in the specified task list.
      *
      * @param taskList Task list to save.
-     * @throws YunoException If a task cannot be retrieved or the task data file cannot be written.
+     * @throws FileStorageException If the task data file cannot be written.
+     * @throws InvalidTaskNumberException If a task cannot be retrieved from the task list.
      */
-    public void save(TaskList taskList) throws YunoException {
+    public void save(TaskList taskList) throws FileStorageException, InvalidTaskNumberException {
         try (BufferedWriter writer = Files.newBufferedWriter(FILE_PATH)) {
             for (int i = 0; i < taskList.getCount(); i++) {
                 writer.write(taskList.getTask(i + 1).toStorageString());
@@ -129,11 +133,11 @@ public class Storage {
             throw createInvalidDataException();
         }
         String description = combineParts(parts, 2, parts.length - 1);
-        String deadline = parts[parts.length - 1];
-        if (description.isBlank() || deadline.isBlank()) {
+        LocalDateTime deadlineDateTime = parseStoredDateTime(parts[parts.length - 1]);
+        if (description.isBlank()) {
             throw createInvalidDataException();
         }
-        return new Deadline(description, isDone, deadline);
+        return new Deadline(description, isDone, deadlineDateTime);
     }
 
     /**
@@ -149,12 +153,12 @@ public class Storage {
             throw createInvalidDataException();
         }
         String description = combineParts(parts, 2, parts.length - 2);
-        String start = parts[parts.length - 2];
-        String end = parts[parts.length - 1];
-        if (description.isBlank() || start.isBlank() || end.isBlank()) {
+        LocalDateTime startDateTime = parseStoredDateTime(parts[parts.length - 2]);
+        LocalDateTime endDateTime = parseStoredDateTime(parts[parts.length - 1]);
+        if (description.isBlank() || startDateTime.isAfter(endDateTime)) {
             throw createInvalidDataException();
         }
-        return new Event(description, isDone, start, end);
+        return new Event(description, isDone, startDateTime, endDateTime);
     }
 
     /**
@@ -171,6 +175,21 @@ public class Storage {
             return false;
         }
         throw createInvalidDataException();
+    }
+
+    /**
+     * Returns the date-time represented by the specified storage value.
+     *
+     * @param dateTimeText Stored date-time text to parse.
+     * @return Parsed date-time.
+     * @throws FileStorageException If the value does not follow the storage format.
+     */
+    private LocalDateTime parseStoredDateTime(String dateTimeText) throws FileStorageException {
+        try {
+            return LocalDateTime.parse(dateTimeText, DateTimeFormats.STORAGE_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            throw createInvalidDataException();
+        }
     }
 
     /**

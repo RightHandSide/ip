@@ -44,7 +44,6 @@ public class Yuno {
                 isRunning = action.execute(taskList, ui, storage);
             } catch (YunoException exception) {
                 ui.printException(exception.getMessage());
-                isRunning = true;
             }
         }
     }

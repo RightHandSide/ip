@@ -13,10 +13,10 @@ public class ListAction extends Action {
     /**
      * Creates an action that displays the task list.
      *
-     * @param taskDescription Additional command data, which must be blank.
+     * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ListAction(String taskDescription) {
-        super(taskDescription);
+    public ListAction(String commandArguments) {
+        super(commandArguments);
     }
 
     /**
@@ -30,7 +30,7 @@ public class ListAction extends Action {
      */
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        if (!getTaskDescription().isBlank()) {
+        if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
         ui.printList(taskList);
