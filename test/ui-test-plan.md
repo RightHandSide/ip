@@ -80,7 +80,7 @@ If your task does not have a start and end time, save me some time and use anoth
 __________________________________________________
 Any normal human would remember it as '/from' then '/to'. Check it before wasting my time.
 __________________________________________________
-Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm.
+Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm or yyyy-MM-dd.
 __________________________________________________
 I don't think you have the ability to go back in time. Check the dates first before even submitting.
 __________________________________________________
@@ -100,7 +100,8 @@ __________________________________________________
 
 ### Aim
 
-Verify that valid task commands still work after exception handling is added.
+Verify that valid task commands accept full date-times and date-only values,
+with date-only values interpreted as midnight.
 
 ### Inputs
 
@@ -108,6 +109,8 @@ Verify that valid task commands still work after exception handling is added.
 todo read book
 deadline submit report /by 2026-08-30 1800
 event meeting /from 2026-08-31 0900 /to 2026-08-31 1030
+deadline midnight submission /by 2026-09-01
+event overnight event /from 2026-09-02 /to 2026-09-03
 mark 1
 unmark 1
 list
@@ -139,6 +142,14 @@ Added:
 [E][ ] meeting (from: Aug 31 2026, 09:00 AM to: Aug 31 2026, 10:30 AM)
 Just another task you won't finish.
 __________________________________________________
+Added:
+[D][ ] midnight submission (by: Sep 01 2026, 12:00 AM)
+Just another task you won't finish.
+__________________________________________________
+Added:
+[E][ ] overnight event (from: Sep 02 2026, 12:00 AM to: Sep 03 2026, 12:00 AM)
+Just another task you won't finish.
+__________________________________________________
 You actually completed a task? Bet it's the only task you'll ever complete.
 [T][X] read book
 __________________________________________________
@@ -149,6 +160,8 @@ Wow. Look at how slow you are at completing these tasks.
 1. [T][ ] read book
 2. [D][ ] submit report (by: Aug 30 2026, 06:00 PM)
 3. [E][ ] meeting (from: Aug 31 2026, 09:00 AM to: Aug 31 2026, 10:30 AM)
+4. [D][ ] midnight submission (by: Sep 01 2026, 12:00 AM)
+5. [E][ ] overnight event (from: Sep 02 2026, 12:00 AM to: Sep 03 2026, 12:00 AM)
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________

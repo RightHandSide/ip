@@ -49,17 +49,22 @@ public abstract class Action {
 
     /**
      * Returns the date-time represented by the specified user input.
+     * Date-only input is interpreted as midnight at the start of that date.
      *
-     * @param dateTimeText Date-time text entered by the user.
+     * @param dateOrDateTimeText Date or date-time text entered by the user.
      * @return Parsed date-time.
      * @throws InvalidCommandFormatException If the text does not follow the required input format.
      */
-    protected LocalDateTime parseInputDateTime(String dateTimeText) throws InvalidCommandFormatException {
+    protected LocalDateTime parseInputDateTime(String dateOrDateTimeText) throws InvalidCommandFormatException {
         try {
-            return LocalDateTime.parse(dateTimeText, DateTimeFormats.DATE_TIME_INPUT_FORMATTER);
-        } catch (DateTimeParseException exception) {
-            throw new InvalidCommandFormatException(
-                    "Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm.");
+            return LocalDateTime.parse(dateOrDateTimeText, DateTimeFormats.DATE_TIME_INPUT_FORMATTER);
+        } catch (DateTimeParseException dateTimeException) {
+            try {
+                return LocalDate.parse(dateOrDateTimeText, DateTimeFormats.DATE_INPUT_FORMATTER).atStartOfDay();
+            } catch (DateTimeParseException dateException) {
+                throw new InvalidCommandFormatException(
+                        "Memorize the date format before you even type. It's either yyyy-MM-dd HHmm or yyyy-MM-dd.");
+            }
         }
     }
 
