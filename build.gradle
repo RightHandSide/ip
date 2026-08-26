@@ -22,6 +22,10 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
 }
 
+application {
+    mainClass = 'yuno.Yuno'
+}
+
 test {
     useJUnitPlatform()
 
@@ -36,19 +40,13 @@ test {
     }
 }
 
-application {
-    mainClass = 'seedu.duke.Duke'
-}
-
 jar {
-    // A lean JAR file (i.e., without the dependencies packaged inside) is not needed.
     enabled = false
-    // Rename its output anyway; Gradle forbids it clashing with the shadowJar output file, even for a disabled task.
     archiveClassifier = 'without-dependencies'
 }
 
 shadowJar {
-    archiveFileName = 'duke.jar'
+    archiveFileName = 'yuno.jar'
 }
 
 run {
