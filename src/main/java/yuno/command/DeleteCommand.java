@@ -1,26 +1,27 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
+import yuno.task.Task;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
 
 /**
- * Represents a command that marks a task as completed.
+ * Represents a command that deletes a task.
  */
-public class MarkAction extends Action {
+public class DeleteCommand extends Command {
     /**
-     * Creates an action with the index of a task to mark.
+     * Creates a command with the index of a task to delete.
      *
      * @param taskNumber One-based task number entered by the user.
      */
-    public MarkAction(String taskNumber) {
+    public DeleteCommand(String taskNumber) {
         super(taskNumber);
     }
 
     /**
-     * Marks the specified task as completed and displays its confirmation.
+     * Deletes the specified task and displays its confirmation.
      *
      * @param taskList Task list that contains the task.
      * @param ui User interface used to display the confirmation.
@@ -32,9 +33,9 @@ public class MarkAction extends Action {
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
             int index = Integer.parseInt(getCommandArguments());
-            taskList.markTask(index);
+            Task deletedTask = taskList.deleteTask(index);
             storage.save(taskList);
-            ui.printMarkTask(taskList.getTask(index));
+            ui.printDeleteTask(deletedTask);
             return true;
         } catch (NumberFormatException exception) {
             throw new InvalidTaskNumberException("Did you even give me an integer? Please don't waste my time!");

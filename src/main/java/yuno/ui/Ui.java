@@ -1,17 +1,20 @@
 package yuno.ui;
 
 import java.util.List;
+import java.util.Scanner;
 
 import yuno.exception.InvalidTaskNumberException;
 import yuno.task.Task;
 import yuno.task.TaskList;
 
 /**
- * Displays chatbot messages and task information to the user.
+ * Reads commands from the user and displays chatbot messages and task information.
  */
 public class Ui {
     /** Separates sections of chatbot output. */
     private static final String DIVIDER = "_".repeat(50);
+    /** Reads commands entered through standard input. */
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Displays the chatbot banner and greeting.
@@ -139,5 +142,14 @@ public class Ui {
     public void printException(String message) {
         System.out.println(message);
         System.out.println(DIVIDER);
+    }
+
+    /**
+     * Returns the next command entered by the user.
+     *
+     * @return Command entered by the user.
+     */
+    public String nextCommand() {
+        return scanner.nextLine();
     }
 }

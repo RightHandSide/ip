@@ -80,7 +80,7 @@ If your task does not have a start and end time, save me some time and use anoth
 __________________________________________________
 Any normal human would remember it as '/from' then '/to'. Check it before wasting my time.
 __________________________________________________
-Memorize the date format before you even type. It's supposed to be yyyy-MM-dd HHmm or yyyy-MM-dd.
+Memorize the date format before you even type. It's either yyyy-MM-dd HHmm or yyyy-MM-dd.
 __________________________________________________
 I don't think you have the ability to go back in time. Check the dates first before even submitting.
 __________________________________________________

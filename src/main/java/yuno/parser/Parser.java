@@ -1,20 +1,20 @@
 package yuno.parser;
 
-import yuno.action.Action;
-import yuno.action.ByeAction;
-import yuno.action.ClearAction;
-import yuno.action.DeadlineAction;
-import yuno.action.DeleteAction;
-import yuno.action.EventAction;
-import yuno.action.FindByDateAction;
-import yuno.action.ListAction;
-import yuno.action.MarkAction;
-import yuno.action.TodoAction;
-import yuno.action.UnmarkAction;
+import yuno.command.ByeCommand;
+import yuno.command.ClearCommand;
+import yuno.command.Command;
+import yuno.command.DeadlineCommand;
+import yuno.command.DeleteCommand;
+import yuno.command.EventCommand;
+import yuno.command.FindByDateCommand;
+import yuno.command.ListCommand;
+import yuno.command.MarkCommand;
+import yuno.command.TodoCommand;
+import yuno.command.UnmarkCommand;
 import yuno.exception.UnknownCommandException;
 
 /**
- * Converts user input into actions that the chatbot can execute.
+ * Converts user input into commands that the chatbot can execute.
  */
 public class Parser {
     /**
@@ -60,28 +60,28 @@ public class Parser {
     }
 
     /**
-     * Parses the specified user input into an action.
+     * Parses the specified user input into a command.
      *
      * @param input User input to parse.
-     * @return Action that represents the parsed input.
+     * @return Command that represents the parsed input.
      * @throws UnknownCommandException If the command is not recognized or cannot be parsed.
      */
-    public Action parse(String input) throws UnknownCommandException {
+    public Command parse(String input) throws UnknownCommandException {
         String strippedInput = input.strip();
         CommandType commandType = CommandType.from(strippedInput.split(" ")[0].strip());
         int separatorIndex = strippedInput.indexOf(" ");
         String commandArguments = separatorIndex == -1 ? "" : strippedInput.substring(separatorIndex + 1);
         return switch (commandType) {
-            case CLEAR -> new ClearAction(commandArguments);
-            case LIST -> new ListAction(commandArguments);
-            case FIND_BY_DATE -> new FindByDateAction(commandArguments);
-            case BYE -> new ByeAction(commandArguments);
-            case TODO -> new TodoAction(commandArguments);
-            case DEADLINE -> new DeadlineAction(commandArguments);
-            case EVENT -> new EventAction(commandArguments);
-            case MARK -> new MarkAction(commandArguments);
-            case UNMARK -> new UnmarkAction(commandArguments);
-            case DELETE -> new DeleteAction(commandArguments);
+            case CLEAR -> new ClearCommand(commandArguments);
+            case LIST -> new ListCommand(commandArguments);
+            case FIND_BY_DATE -> new FindByDateCommand(commandArguments);
+            case BYE -> new ByeCommand(commandArguments);
+            case TODO -> new TodoCommand(commandArguments);
+            case DEADLINE -> new DeadlineCommand(commandArguments);
+            case EVENT -> new EventCommand(commandArguments);
+            case MARK -> new MarkCommand(commandArguments);
+            case UNMARK -> new UnmarkCommand(commandArguments);
+            case DELETE -> new DeleteCommand(commandArguments);
         };
     }
 }

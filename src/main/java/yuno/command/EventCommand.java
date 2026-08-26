@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
@@ -10,13 +10,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that adds an event task.
  */
-public class EventAction extends Action {
+public class EventCommand extends Command {
     /**
-     * Creates an action with the description, start time, and end time of an event.
+     * Creates a command with the description, start time, and end time of an event.
      *
      * @param eventDetails Description and date-time text entered by the user.
      */
-    public EventAction(String eventDetails) {
+    public EventCommand(String eventDetails) {
         super(eventDetails);
     }
 

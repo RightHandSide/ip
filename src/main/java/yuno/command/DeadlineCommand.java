@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
@@ -10,13 +10,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that adds a deadline task.
  */
-public class DeadlineAction extends Action {
+public class DeadlineCommand extends Command {
     /**
-     * Creates an action with the description and deadline of a task to add.
+     * Creates a command with the description and deadline of a task to add.
      *
      * @param deadlineDetails Description and deadline text entered by the user.
      */
-    public DeadlineAction(String deadlineDetails) {
+    public DeadlineCommand(String deadlineDetails) {
         super(deadlineDetails);
     }
 

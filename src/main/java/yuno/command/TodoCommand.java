@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
@@ -10,13 +10,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that adds a to-do task.
  */
-public class TodoAction extends Action {
+public class TodoCommand extends Command {
     /**
-     * Creates an action with the description of a to-do task to add.
+     * Creates a command with the description of a to-do task to add.
      *
      * @param description Description of the task to add.
      */
-    public TodoAction(String description) {
+    public TodoCommand(String description) {
         super(description);
     }
 

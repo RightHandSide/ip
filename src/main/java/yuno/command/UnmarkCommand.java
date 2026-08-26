@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
@@ -9,13 +9,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that marks a task as incomplete.
  */
-public class UnmarkAction extends Action {
+public class UnmarkCommand extends Command {
     /**
-     * Creates an action with the index of a task to unmark.
+     * Creates a command with the index of a task to unmark.
      *
      * @param taskNumber One-based task number entered by the user.
      */
-    public UnmarkAction(String taskNumber) {
+    public UnmarkCommand(String taskNumber) {
         super(taskNumber);
     }
 

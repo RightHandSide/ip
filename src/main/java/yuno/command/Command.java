@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,19 +14,24 @@ import yuno.util.DateTimeFormats;
 /**
  * Represents a user command and executes its associated behavior.
  */
-public abstract class Action {
+public abstract class Command {
     /** Stores the arguments supplied after the command keyword. */
     private final String commandArguments;
 
     /**
-     * Creates an action with the specified command data.
+     * Creates a command with the specified arguments.
      *
      * @param commandArguments Arguments supplied after the command keyword.
      */
-    public Action(String commandArguments) {
+    public Command(String commandArguments) {
         this.commandArguments = commandArguments;
     }
 
+    /**
+     * Returns the arguments supplied after the command keyword.
+     *
+     * @return Arguments supplied for this command.
+     */
     protected String getCommandArguments() {
         return commandArguments;
     }
@@ -69,12 +74,12 @@ public abstract class Action {
     }
 
     /**
-     * Executes this action using the specified task list, user interface, and storage.
+     * Executes this command using the specified task list, user interface, and storage.
      *
      * @param taskList Task list to read from or modify.
      * @param ui User interface used to display results.
      * @param storage Storage used to save task list changes.
-     * @return False if this action ends the program; otherwise, true.
+     * @return False if this command ends the program; otherwise, true.
      * @throws YunoException If the command cannot be completed due to invalid input or task data.
      */
     public abstract boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException;

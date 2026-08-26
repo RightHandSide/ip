@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.storage.Storage;
@@ -8,13 +8,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that displays a farewell and ends the chatbot session.
  */
-public class ByeAction extends Action {
+public class ByeCommand extends Command {
     /**
-     * Creates an action that ends the chatbot session.
+     * Creates a command that ends the chatbot session.
      *
      * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ByeAction(String commandArguments) {
+    public ByeCommand(String commandArguments) {
         super(commandArguments);
     }
 

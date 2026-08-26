@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that displays tasks relevant for a specified date.
  */
-public class FindByDateAction extends Action {
+public class FindByDateCommand extends Command {
     /**
-     * Creates an action with the date for which tasks should be found.
+     * Creates a command with the date for which tasks should be found.
      *
      * @param dateText Date text entered by the user.
      */
-    public FindByDateAction(String dateText) {
+    public FindByDateCommand(String dateText) {
         super(dateText);
     }
 
