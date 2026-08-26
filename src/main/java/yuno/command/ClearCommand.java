@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
@@ -9,13 +9,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that removes every task from the task list.
  */
-public class ClearAction extends Action {
+public class ClearCommand extends Command {
     /**
-     * Creates an action that clears the task list.
+     * Creates a command that clears the task list.
      *
      * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ClearAction(String commandArguments) {
+    public ClearCommand(String commandArguments) {
         super(commandArguments);
     }
 

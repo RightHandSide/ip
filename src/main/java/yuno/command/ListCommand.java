@@ -1,4 +1,4 @@
-package yuno.action;
+package yuno.command;
 
 import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
@@ -9,13 +9,13 @@ import yuno.ui.Ui;
 /**
  * Represents a command that displays all stored tasks.
  */
-public class ListAction extends Action {
+public class ListCommand extends Command {
     /**
-     * Creates an action that displays the task list.
+     * Creates a command that displays the task list.
      *
      * @param commandArguments Additional command arguments, which must be blank.
      */
-    public ListAction(String commandArguments) {
+    public ListCommand(String commandArguments) {
         super(commandArguments);
     }
 
