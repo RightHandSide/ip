@@ -308,6 +308,42 @@ Why did you change the task file? I can't load your tasks now.
 __________________________________________________
 ```
 
+## Test Case: Reject truncated stored task
+
+### Aim
+
+Verify that Yuno reports a controlled storage error instead of crashing when a
+saved task line is missing its status and description.
+
+### Inputs
+
+```text
+bye
+```
+
+### Initial Data
+
+```text
+T
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Why did you change the task file? I can't load your tasks now.
+__________________________________________________
+```
+
 ## Test Case: Find tasks by date
 
 ### Aim

@@ -38,6 +38,16 @@ After every change to application code under `src/main/java`:
 * Stop at the first test failure, as required by the skill, and resolve or report the mismatch before treating the code update as complete.
 * Report whether the test plan changed and provide the resulting console test transcript or failure record to the user.
 
+## JUnit testing
+
+After every change to application code under `src/main/java`:
+
+* Maintain JUnit tests for approximately the top 50% highest-value methods. Prioritize complex, core, and critical business logic over trivial getters, constructors, and simple wrappers.
+* Add or update test classes under `src/test/java` using the same package structure as the production classes they test.
+* Cover normal behavior, important boundary cases, and relevant invalid inputs in proportion to the changed behavior.
+* Run the complete Gradle JUnit test suite and resolve or report failures before treating the code update as complete.
+* Derive expected results from the intended requirements; do not weaken assertions merely to make a failing test pass.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

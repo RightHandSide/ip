@@ -22,10 +22,20 @@ public abstract class Task {
         this.isDone = isDone;
     }
 
+    /**
+     * Returns the text that describes this task.
+     *
+     * @return Task description.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Returns the symbol representing this task's completion status.
+     *
+     * @return {@code X} if completed; otherwise, a space.
+     */
     public char getStatus() {
         return (isDone ? 'X' : ' ');
     }

@@ -24,6 +24,11 @@ public class Deadline extends Task {
         this.deadlineDateTime = deadlineDateTime;
     }
 
+    /**
+     * Returns the date and time by which this task must be completed.
+     *
+     * @return Deadline date and time.
+     */
     public LocalDateTime getDeadlineDateTime() {
         return deadlineDateTime;
     }
