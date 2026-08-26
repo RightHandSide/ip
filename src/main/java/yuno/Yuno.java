@@ -28,17 +28,30 @@ public class Yuno {
      * @throws FileStorageException If storage cannot be initialized or saved tasks cannot be loaded.
      */
     private Yuno(Ui ui) throws FileStorageException {
-        this.ui = ui;
-        this.parser = new Parser();
-        this.storage = new Storage();
-        this.taskList = new TaskList();
+        this(ui, new Parser(), new Storage(), new TaskList());
         storage.load(taskList);
+    }
+
+    /**
+     * Creates a chatbot with the specified collaborators.
+     * This constructor supports isolated testing without changing normal startup behavior.
+     *
+     * @param ui User interface used for the chatbot session.
+     * @param parser Parser used to interpret commands.
+     * @param storage Storage used to load and save tasks.
+     * @param taskList Task list managed during the session.
+     */
+    Yuno(Ui ui, Parser parser, Storage storage, TaskList taskList) {
+        this.ui = ui;
+        this.parser = parser;
+        this.storage = storage;
+        this.taskList = taskList;
     }
 
     /**
      * Runs the command-processing loop until a command ends the session.
      */
-    private void run() {
+    void run() {
         boolean isRunning = true;
         while (isRunning) {
             try {
@@ -52,7 +65,7 @@ public class Yuno {
     }
 
     /**
-     * Runs the chatbot until the user enters a command that ends the session.
+     * Starts the chatbot and runs it until a command ends the session or storage initialization fails.
      *
      * @param args Command-line arguments, which are not used.
      */

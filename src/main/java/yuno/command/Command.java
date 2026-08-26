@@ -79,7 +79,7 @@ public abstract class Command {
      * @param taskList Task list to read from or modify.
      * @param ui User interface used to display results.
      * @param storage Storage used to save task list changes.
-     * @return False if this command ends the program; otherwise, true.
+     * @return True if the chatbot should continue accepting commands; false if it should stop.
      * @throws YunoException If the command cannot be completed due to invalid input or task data.
      */
     public abstract boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException;

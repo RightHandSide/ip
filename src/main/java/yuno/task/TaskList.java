@@ -21,6 +21,11 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Returns the number of tasks in this task list.
+     *
+     * @return Number of stored tasks.
+     */
     public int getCount() {
         return tasks.size();
     }
@@ -44,9 +49,9 @@ public class TaskList {
      * Adds a new incomplete task with the specified description.
      *
      * @param description Description of the task to add.
-     * @return Added to-do task.
+     * @return Added incomplete to-do task.
      */
-    public Task addTask(String description) {
+    public Todo addTask(String description) {
         Todo addedTask = new Todo(description, false);
         tasks.add(addedTask);
         return addedTask;
@@ -57,9 +62,9 @@ public class TaskList {
      *
      * @param description Description of the task to add.
      * @param deadlineDateTime Date and time by which the task must be completed.
-     * @return Added deadline task.
+     * @return Added incomplete deadline task.
      */
-    public Task addTask(String description, LocalDateTime deadlineDateTime) {
+    public Deadline addTask(String description, LocalDateTime deadlineDateTime) {
         Deadline addedTask = new Deadline(description, false, deadlineDateTime);
         tasks.add(addedTask);
         return addedTask;
@@ -71,16 +76,16 @@ public class TaskList {
      * @param description Description of the task to add.
      * @param startDateTime Date and time at which the event starts.
      * @param endDateTime Date and time at which the event ends.
-     * @return Added event task.
+     * @return Added incomplete event task.
      */
-    public Task addTask(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public Event addTask(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         Event addedTask = new Event(description, false, startDateTime, endDateTime);
         tasks.add(addedTask);
         return addedTask;
     }
 
     /**
-     * Adds the specified existing task to this task list.
+     * Adds the specified existing task while preserving its task type and completion status.
      *
      * @param task Task to add.
      */

@@ -22,8 +22,10 @@ import yuno.util.DateTimeFormats;
  * Loads and saves Yuno tasks in a local text file.
  */
 public class Storage {
-    /** Path of the file used to store task data. */
-    private static final Path FILE_PATH = Path.of("./data/yuno.txt");
+    /** Default path of the file used to store task data. */
+    private static final Path DEFAULT_FILE_PATH = Path.of("./data/yuno.txt");
+    /** Path of the file used by this storage instance. */
+    private final Path filePath;
 
     /**
      * Initializes storage and creates the task data file if it does not exist.
@@ -31,10 +33,24 @@ public class Storage {
      * @throws FileStorageException If the task data file cannot be initialized.
      */
     public Storage() throws FileStorageException {
+        this(DEFAULT_FILE_PATH);
+    }
+
+    /**
+     * Initializes storage at the specified path and creates its data file if necessary.
+     *
+     * @param filePath Path of the task data file.
+     * @throws FileStorageException If the task data file cannot be initialized.
+     */
+    public Storage(Path filePath) throws FileStorageException {
+        this.filePath = filePath;
         try {
-            Files.createDirectories(FILE_PATH.getParent());
-            if (Files.notExists(FILE_PATH)) {
-                Files.createFile(FILE_PATH);
+            Path parent = filePath.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+            if (Files.notExists(filePath)) {
+                Files.createFile(filePath);
             }
         } catch (IOException exception) {
             throw new FileStorageException(
@@ -51,7 +67,7 @@ public class Storage {
      */
     public void load(TaskList taskList) throws FileStorageException {
         try {
-            List<String> lines = Files.readAllLines(FILE_PATH);
+            List<String> lines = Files.readAllLines(filePath);
             for (String line : lines) {
                 taskList.addTask(parseTask(line));
             }
@@ -70,7 +86,7 @@ public class Storage {
      * @throws InvalidTaskNumberException If a task cannot be retrieved from the task list.
      */
     public void save(TaskList taskList) throws FileStorageException, InvalidTaskNumberException {
-        try (BufferedWriter writer = Files.newBufferedWriter(FILE_PATH)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             for (int i = 0; i < taskList.getCount(); i++) {
                 writer.write(taskList.getTask(i + 1).toStorageString());
                 writer.newLine();
@@ -92,6 +108,9 @@ public class Storage {
      */
     private Task parseTask(String line) throws FileStorageException {
         String[] parts = line.split(" \\| ", -1);
+        if (parts.length < 2) {
+            throw createInvalidDataException();
+        }
         boolean isDone = parseIsDone(parts[1]);
         return switch (parts[0]) {
             case "T" -> parseTodo(parts, isDone);

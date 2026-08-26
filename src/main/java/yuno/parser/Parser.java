@@ -18,12 +18,17 @@ import yuno.exception.UnknownCommandException;
  */
 public class Parser {
     /**
+     * Creates a parser for converting user input into commands.
+     */
+    public Parser() {
+    }
+
+    /**
      * Represents a command recognized by Yuno.
      */
     private enum CommandType {
         CLEAR("clear"),
         LIST("list"),
-        FIND_BY_DATE("date"),
         BYE("bye"),
 
         TODO("todo"),
@@ -32,7 +37,9 @@ public class Parser {
 
         MARK("mark"),
         UNMARK("unmark"),
-        DELETE("delete");
+        DELETE("delete"),
+
+        FIND_BY_DATE("date");
 
         /** Command keyword entered by the user. */
         private final String keyword;
@@ -64,7 +71,7 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Command that represents the parsed input.
-     * @throws UnknownCommandException If the command is not recognized or cannot be parsed.
+     * @throws UnknownCommandException If the command keyword is not recognized.
      */
     public Command parse(String input) throws UnknownCommandException {
         String strippedInput = input.strip();
@@ -74,7 +81,6 @@ public class Parser {
         return switch (commandType) {
             case CLEAR -> new ClearCommand(commandArguments);
             case LIST -> new ListCommand(commandArguments);
-            case FIND_BY_DATE -> new FindByDateCommand(commandArguments);
             case BYE -> new ByeCommand(commandArguments);
             case TODO -> new TodoCommand(commandArguments);
             case DEADLINE -> new DeadlineCommand(commandArguments);
@@ -82,6 +88,7 @@ public class Parser {
             case MARK -> new MarkCommand(commandArguments);
             case UNMARK -> new UnmarkCommand(commandArguments);
             case DELETE -> new DeleteCommand(commandArguments);
+            case FIND_BY_DATE -> new FindByDateCommand(commandArguments);
         };
     }
 }
