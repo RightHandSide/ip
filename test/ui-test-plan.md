@@ -410,6 +410,52 @@ Finally! Bye. I'm leaving!
 __________________________________________________
 ```
 
+## Test Case: Find tasks by name
+
+### Aim
+
+Verify that name searches return tasks whose descriptions contain the requested
+substring in their original order and display a message when no tasks match.
+
+### Inputs
+
+```text
+find project
+find missing
+bye
+```
+
+### Initial Data
+
+```text
+T |   | read project requirements
+D |   | submit project report | Aug 30 2026, 06:00 PM
+E |   | team meeting | Aug 31 2026, 09:00 AM | Aug 31 2026, 10:30 AM
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+So many task sharing a word. Could you be repeating task to feel accomplished?
+- [T][ ] read project requirements
+- [D][ ] submit project report (by: Aug 30 2026, 06:00 PM)
+__________________________________________________
+You have nothing. You must be really happy since you are so lazy.
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
 ## Test Case: Clear all tasks
 
 ### Aim

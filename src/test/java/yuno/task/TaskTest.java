@@ -1,6 +1,8 @@
 package yuno.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,5 +30,19 @@ class TaskTest {
         Task task = new Todo("read book", true);
 
         assertEquals("[T][X] read book", task.toString());
+    }
+
+    @Test
+    void containsWord_descriptionContainsLowercaseSearchText_returnsTrue() {
+        Task task = new Todo("Submit PROJECT report", false);
+
+        assertTrue(task.containsWord("project"));
+    }
+
+    @Test
+    void containsWord_descriptionDoesNotContainSearchText_returnsFalse() {
+        Task task = new Todo("read book", false);
+
+        assertFalse(task.containsWord("project"));
     }
 }

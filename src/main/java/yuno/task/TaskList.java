@@ -150,4 +150,20 @@ public class TaskList {
         }
         return matchingTasks;
     }
+
+    /**
+     * Returns the tasks whose descriptions contain the specified word.
+     *
+     * @param word Text to find within each task description.
+     * @return Tasks with matching descriptions, in their original list order.
+     */
+    public List<Task> findTasksFor(String word) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.containsWord(word)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
 }

@@ -198,4 +198,32 @@ class TaskListTest {
 
         assertTrue(matchingTasks.isEmpty());
     }
+
+    @Test
+    void findTasksFor_wordInMixedTasks_returnsSubstringMatchesInOriginalOrder() {
+        TaskList tasks = new TaskList();
+        Todo firstMatch = tasks.addTask("read project requirements");
+        tasks.addTask("buy groceries");
+        Deadline secondMatch = tasks.addTask(
+                "submit project report", LocalDateTime.of(2026, 8, 30, 18, 0));
+        Event thirdMatch = tasks.addTask(
+                "project meeting",
+                LocalDateTime.of(2026, 8, 31, 9, 0),
+                LocalDateTime.of(2026, 8, 31, 10, 0));
+
+        List<Task> matchingTasks = tasks.findTasksFor("project");
+
+        assertEquals(List.of(firstMatch, secondMatch, thirdMatch), matchingTasks);
+    }
+
+    @Test
+    void findTasksFor_wordNotInAnyDescription_returnsEmptyList() {
+        TaskList tasks = new TaskList();
+        tasks.addTask("read book");
+        tasks.addTask("buy groceries");
+
+        List<Task> matchingTasks = tasks.findTasksFor("project");
+
+        assertTrue(matchingTasks.isEmpty());
+    }
 }
