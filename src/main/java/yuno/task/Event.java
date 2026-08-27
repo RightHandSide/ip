@@ -48,7 +48,8 @@ public class Event extends Task {
 
     @Override
     public boolean isRelevantFor(LocalDate date) {
-        return !date.isBefore(getStartDateTime().toLocalDate()) && !date.isAfter(getEndDateTime().toLocalDate());
+        return !date.isBefore(getStartDateTime().toLocalDate())
+                && !date.isAfter(getEndDateTime().toLocalDate());
     }
 
     @Override

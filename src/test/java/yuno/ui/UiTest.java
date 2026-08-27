@@ -141,11 +141,11 @@ class UiTest {
     }
 
     @Test
-    void nextCommand_availableInput_returnsNextLine() {
+    void readCommand_availableInput_returnsNextLine() {
         System.setIn(new ByteArrayInputStream("todo read book\n".getBytes(StandardCharsets.UTF_8)));
         Ui inputUi = new Ui();
 
-        assertEquals("todo read book", inputUi.nextCommand());
+        assertEquals("todo read book", inputUi.readCommand());
     }
 
     private String normalizedOutput() {

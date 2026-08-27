@@ -48,8 +48,19 @@ After every change to application code under `src/main/java`:
 * Run the complete Gradle JUnit test suite and resolve or report failures before treating the code update as complete.
 * Derive expected results from the intended requirements; do not weaken assertions merely to make a failing test pass.
 
+## Java coding standard
+
+For every Java code change or review:
+
+* Invoke the project-specific `seedu-java-coding-standard` skill.
+* Follow the SE-EDU basic and intermediate Java coding standard for all Java code in this project.
+* Use the Google Java Style Guide only for topics not covered by the SE-EDU standard.
+* Resolve relevant violations in changed code before treating the work as complete.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+Invoke the project-specific `seedu-git-standard` skill whenever proposing, creating, amending, or reviewing a commit or merge message.
+Follow the skill's subject and body requirements for all future commits and merges.
 Do not commit or push unless explicitly asked.

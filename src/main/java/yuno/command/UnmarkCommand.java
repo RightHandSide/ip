@@ -37,7 +37,8 @@ public class UnmarkCommand extends Command {
             ui.printUnmarkTask(taskList.getTask(index));
             return true;
         } catch (NumberFormatException exception) {
-            throw new InvalidTaskNumberException("Did you even give me an integer? Please don't waste my time!");
+            throw new InvalidTaskNumberException(
+                    "Did you even give me an integer? Please don't waste my time!");
         }
     }
 }
