@@ -61,4 +61,6 @@ For every Java code change or review:
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+Invoke the project-specific `seedu-git-standard` skill whenever proposing, creating, amending, or reviewing a commit or merge message.
+Follow the skill's subject and body requirements for all future commits and merges.
 Do not commit or push unless explicitly asked.
