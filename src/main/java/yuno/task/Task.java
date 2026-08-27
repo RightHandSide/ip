@@ -63,6 +63,16 @@ public abstract class Task {
     public abstract boolean isRelevantFor(LocalDate date);
 
     /**
+     * Returns whether this task's description contains the specified lowercase text.
+     *
+     * @param word Lowercase text to find within the task description.
+     * @return True if the task description contains the text; otherwise, false.
+     */
+    public boolean containsWord(String word) {
+        return getDescription().toLowerCase().contains(word);
+    }
+
+    /**
      * Returns this task in the format used by the task data file.
      *
      * @return Storage-ready task data.

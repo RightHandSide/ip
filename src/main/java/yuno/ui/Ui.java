@@ -91,12 +91,41 @@ public class Ui {
                     "You have nothing. What I see is just someone being lazy on this particular date.\n");
         } else {
             output.append("You are not even capable to finish all these in one go.\n");
-            for (Task task : matchingTasks) {
-                output.append("- ").append(task).append("\n");
-            }
+            output.append(printTask(matchingTasks));
         }
         System.out.print(output);
         System.out.println(DIVIDER);
+    }
+
+    /**
+     * Displays tasks whose descriptions contain requested text.
+     *
+     * @param matchingTasks Tasks with descriptions containing the requested text.
+     */
+    public void printTasksForName(List<Task> matchingTasks) {
+        StringBuilder output = new StringBuilder();
+        if (matchingTasks.isEmpty()) {
+            output.append("You have nothing. You must be really happy since you are so lazy.\n");
+        } else {
+            output.append("So many task sharing a word. Could you be repeating task to feel accomplished?\n");
+            output.append(printTask(matchingTasks));
+        }
+        System.out.print(output);
+        System.out.println(DIVIDER);
+    }
+
+    /**
+     * Formats the specified tasks as a bulleted list.
+     *
+     * @param tasks Tasks to format.
+     * @return Display-ready bulleted task list.
+     */
+    private String printTask(List<Task> tasks) {
+        StringBuilder output = new StringBuilder();
+        for (Task task : tasks) {
+            output.append("- ").append(task).append("\n");
+        }
+        return output.toString();
     }
 
     /**

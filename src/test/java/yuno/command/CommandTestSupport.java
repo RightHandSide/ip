@@ -31,6 +31,7 @@ abstract class CommandTestSupport {
         Task addedTask;
         TaskList displayedTaskList;
         List<Task> displayedDateTasks;
+        List<Task> displayedNameTasks;
         Task markedTask;
         Task unmarkedTask;
         Task deletedTask;
@@ -55,6 +56,11 @@ abstract class CommandTestSupport {
         @Override
         public void printTasksForDate(List<Task> matchingTasks) {
             displayedDateTasks = matchingTasks;
+        }
+
+        @Override
+        public void printTasksForName(List<Task> matchingTasks) {
+            displayedNameTasks = matchingTasks;
         }
 
         @Override

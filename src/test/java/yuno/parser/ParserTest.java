@@ -12,6 +12,7 @@ import yuno.command.DeadlineCommand;
 import yuno.command.DeleteCommand;
 import yuno.command.EventCommand;
 import yuno.command.FindByDateCommand;
+import yuno.command.FindByNameCommand;
 import yuno.command.ListCommand;
 import yuno.command.MarkCommand;
 import yuno.command.TodoCommand;
@@ -90,5 +91,10 @@ class ParserTest {
     @Test
     void parse_findByDateCommand_returnsFindByDateCommand() throws UnknownCommandException {
         assertInstanceOf(FindByDateCommand.class, parser.parse("date addedDate"));
+    }
+
+    @Test
+    void parse_findByNameCommand_returnsFindByNameCommand() throws UnknownCommandException {
+        assertInstanceOf(FindByNameCommand.class, parser.parse("find addedName"));
     }
 }
