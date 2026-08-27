@@ -55,7 +55,7 @@ public class Yuno {
         boolean isRunning = true;
         while (isRunning) {
             try {
-                String input = ui.nextCommand();
+                String input = ui.readCommand();
                 Command command = parser.parse(input);
                 isRunning = command.execute(taskList, ui, storage);
             } catch (YunoException exception) {

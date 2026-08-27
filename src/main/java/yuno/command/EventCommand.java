@@ -56,10 +56,12 @@ public class EventCommand extends Command {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         } else if (eventParts.length < 3 || eventParts[1].isBlank() || eventParts[2].isBlank()) {
             throw new InvalidCommandFormatException(
-                    "If your task does not have a start and end time, save me some time and use another task type.");
+                    "If your task does not have a start and end time, "
+                            + "save me some time and use another task type.");
         } else if (eventDetails.indexOf("/from") > eventDetails.indexOf("/to")) {
             throw new InvalidCommandFormatException(
-                    "Any normal human would remember it as '/from' then '/to'. Check it before wasting my time.");
+                    "Any normal human would remember it as '/from' then '/to'. "
+                            + "Check it before wasting my time.");
         } else if (parseInputDateTime(eventParts[1]).isAfter(parseInputDateTime(eventParts[2]))) {
             throw new InvalidCommandFormatException(
                     "I don't think you have the ability to go back in time. "

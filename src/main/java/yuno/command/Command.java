@@ -60,15 +60,18 @@ public abstract class Command {
      * @return Parsed date-time.
      * @throws InvalidCommandFormatException If the text does not follow the required input format.
      */
-    protected LocalDateTime parseInputDateTime(String dateOrDateTimeText) throws InvalidCommandFormatException {
+    protected LocalDateTime parseInputDateTime(String dateOrDateTimeText)
+            throws InvalidCommandFormatException {
         try {
             return LocalDateTime.parse(dateOrDateTimeText, DateTimeFormats.DATE_TIME_INPUT_FORMATTER);
         } catch (DateTimeParseException dateTimeException) {
             try {
-                return LocalDate.parse(dateOrDateTimeText, DateTimeFormats.DATE_INPUT_FORMATTER).atStartOfDay();
+                return LocalDate.parse(
+                        dateOrDateTimeText, DateTimeFormats.DATE_INPUT_FORMATTER).atStartOfDay();
             } catch (DateTimeParseException dateException) {
                 throw new InvalidCommandFormatException(
-                        "Memorize the date format before you even type. It's either yyyy-MM-dd HHmm or yyyy-MM-dd.");
+                        "Memorize the date format before you even type. "
+                                + "It's either yyyy-MM-dd HHmm or yyyy-MM-dd.");
             }
         }
     }

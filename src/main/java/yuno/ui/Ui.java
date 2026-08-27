@@ -87,7 +87,8 @@ public class Ui {
     public void printTasksForDate(List<Task> matchingTasks) {
         StringBuilder output = new StringBuilder();
         if (matchingTasks.isEmpty()) {
-            output.append("You have nothing. What I see is just someone being lazy on this particular date.\n");
+            output.append(
+                    "You have nothing. What I see is just someone being lazy on this particular date.\n");
         } else {
             output.append("You are not even capable to finish all these in one go.\n");
             for (Task task : matchingTasks) {
@@ -155,7 +156,7 @@ public class Ui {
      *
      * @return Command entered by the user.
      */
-    public String nextCommand() {
+    public String readCommand() {
         return scanner.nextLine();
     }
 }
