@@ -23,21 +23,21 @@ class UnmarkCommandTest extends CommandTestSupport {
 
         assertTrue(shouldContinue);
         assertEquals(' ', taskList.getTask(1).getStatus());
-        assertSame(taskList.getTask(1), ui.unmarkedTask);
+        assertSame(taskList.getTask(1), ui.getUnmarkedTask());
         assertEquals("T |   | read book", Files.readString(tempDir.resolve("tasks.txt")).stripTrailing());
     }
 
     @Test
     void execute_nonNumericTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new UnmarkCommand("one").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new UnmarkCommand("one").execute(taskList, ui, storage));
     }
 
     @Test
     void execute_outOfBoundsTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new UnmarkCommand("1").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new UnmarkCommand("1").execute(taskList, ui, storage));
     }
 }

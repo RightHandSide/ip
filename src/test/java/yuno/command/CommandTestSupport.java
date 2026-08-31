@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
 import yuno.exception.FileStorageException;
-import yuno.exception.InvalidTaskNumberException;
 import yuno.storage.Storage;
 import yuno.task.Task;
 import yuno.task.TaskList;
@@ -28,15 +27,51 @@ abstract class CommandTestSupport {
     }
 
     static class RecordingUi extends Ui {
-        Task addedTask;
-        TaskList displayedTaskList;
-        List<Task> displayedDateTasks;
-        List<Task> displayedNameTasks;
-        Task markedTask;
-        Task unmarkedTask;
-        Task deletedTask;
-        boolean isByePrinted;
-        boolean areTasksClearedPrinted;
+        private Task addedTask;
+        private TaskList displayedTaskList;
+        private List<Task> displayedDateTasks;
+        private List<Task> displayedNameTasks;
+        private Task markedTask;
+        private Task unmarkedTask;
+        private Task deletedTask;
+        private boolean isByePrinted;
+        private boolean areTasksClearedPrinted;
+
+        Task getAddedTask() {
+            return addedTask;
+        }
+
+        TaskList getDisplayedTaskList() {
+            return displayedTaskList;
+        }
+
+        List<Task> getDisplayedDateTasks() {
+            return displayedDateTasks;
+        }
+
+        List<Task> getDisplayedNameTasks() {
+            return displayedNameTasks;
+        }
+
+        Task getMarkedTask() {
+            return markedTask;
+        }
+
+        Task getUnmarkedTask() {
+            return unmarkedTask;
+        }
+
+        Task getDeletedTask() {
+            return deletedTask;
+        }
+
+        boolean isByePrinted() {
+            return isByePrinted;
+        }
+
+        boolean areTasksClearedPrinted() {
+            return areTasksClearedPrinted;
+        }
 
         @Override
         public void printBye() {
@@ -49,7 +84,7 @@ abstract class CommandTestSupport {
         }
 
         @Override
-        public void printList(TaskList taskList) throws InvalidTaskNumberException {
+        public void printList(TaskList taskList) {
             displayedTaskList = taskList;
         }
 

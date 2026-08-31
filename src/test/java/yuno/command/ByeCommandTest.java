@@ -14,14 +14,14 @@ class ByeCommandTest extends CommandTestSupport {
         boolean shouldContinue = new ByeCommand("").execute(taskList, ui, storage);
 
         assertFalse(shouldContinue);
-        assertTrue(ui.isByePrinted);
+        assertTrue(ui.isByePrinted());
     }
 
     @Test
     void execute_additionalArguments_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new ByeCommand("now").execute(taskList, ui, storage));
-        assertFalse(ui.isByePrinted);
+                InvalidCommandFormatException.class, () ->
+                        new ByeCommand("now").execute(taskList, ui, storage));
+        assertFalse(ui.isByePrinted());
     }
 }

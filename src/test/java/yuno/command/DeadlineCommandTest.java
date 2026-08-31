@@ -23,7 +23,7 @@ class DeadlineCommandTest extends CommandTestSupport {
         assertTrue(shouldContinue);
         assertEquals("submit report", deadline.getDescription());
         assertEquals(LocalDateTime.of(2026, 8, 30, 18, 0), deadline.getDeadlineDateTime());
-        assertEquals(deadline, ui.addedTask);
+        assertEquals(deadline, ui.getAddedTask());
     }
 
     @Test
@@ -37,22 +37,22 @@ class DeadlineCommandTest extends CommandTestSupport {
     @Test
     void execute_missingDescription_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new DeadlineCommand(" /by 2026-08-30").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand(" /by 2026-08-30").execute(taskList, ui, storage));
     }
 
     @Test
     void execute_missingDeadline_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new DeadlineCommand("submit report").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand("submit report").execute(taskList, ui, storage));
     }
 
     @Test
     void execute_invalidDeadline_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new DeadlineCommand("submit report /by 2026-02-30")
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand("submit report /by 2026-02-30")
                         .execute(taskList, ui, storage));
     }
 }

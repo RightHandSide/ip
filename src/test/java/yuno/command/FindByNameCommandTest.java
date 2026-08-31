@@ -21,7 +21,7 @@ class FindByNameCommandTest extends CommandTestSupport {
                 .execute(taskList, ui, storage);
 
         assertTrue(shouldContinue);
-        assertEquals(List.of(firstMatch, secondMatch), ui.displayedNameTasks);
+        assertEquals(List.of(firstMatch, secondMatch), ui.getDisplayedNameTasks());
     }
 
     @Test
@@ -32,6 +32,6 @@ class FindByNameCommandTest extends CommandTestSupport {
                 .execute(taskList, ui, storage);
 
         assertTrue(shouldContinue);
-        assertTrue(ui.displayedNameTasks.isEmpty());
+        assertTrue(ui.getDisplayedNameTasks().isEmpty());
     }
 }

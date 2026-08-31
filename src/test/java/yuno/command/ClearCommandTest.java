@@ -22,7 +22,7 @@ class ClearCommandTest extends CommandTestSupport {
         assertTrue(shouldContinue);
         assertEquals(0, taskList.getCount());
         assertTrue(Files.readString(tempDir.resolve("tasks.txt")).isEmpty());
-        assertTrue(ui.areTasksClearedPrinted);
+        assertTrue(ui.areTasksClearedPrinted());
     }
 
     @Test
@@ -30,8 +30,8 @@ class ClearCommandTest extends CommandTestSupport {
         taskList.addTask("read book");
 
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new ClearCommand("all").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new ClearCommand("all").execute(taskList, ui, storage));
         assertEquals(1, taskList.getCount());
     }
 }

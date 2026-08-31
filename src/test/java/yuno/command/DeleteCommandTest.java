@@ -24,21 +24,21 @@ class DeleteCommandTest extends CommandTestSupport {
 
         assertTrue(shouldContinue);
         assertEquals(1, taskList.getCount());
-        assertSame(deletedTask, ui.deletedTask);
+        assertSame(deletedTask, ui.getDeletedTask());
         assertEquals("T |   | second task", Files.readString(tempDir.resolve("tasks.txt")).stripTrailing());
     }
 
     @Test
     void execute_nonNumericTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new DeleteCommand("one").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new DeleteCommand("one").execute(taskList, ui, storage));
     }
 
     @Test
     void execute_outOfBoundsTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new DeleteCommand("1").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new DeleteCommand("1").execute(taskList, ui, storage));
     }
 }
