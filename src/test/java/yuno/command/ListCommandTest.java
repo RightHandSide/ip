@@ -17,13 +17,13 @@ class ListCommandTest extends CommandTestSupport {
         boolean shouldContinue = new ListCommand("").execute(taskList, ui, storage);
 
         assertTrue(shouldContinue);
-        assertSame(taskList, ui.displayedTaskList);
+        assertSame(taskList, ui.getDisplayedTaskList());
     }
 
     @Test
     void execute_additionalArguments_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new ListCommand("all").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new ListCommand("all").execute(taskList, ui, storage));
     }
 }

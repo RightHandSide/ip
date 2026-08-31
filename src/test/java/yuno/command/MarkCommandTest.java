@@ -22,21 +22,21 @@ class MarkCommandTest extends CommandTestSupport {
 
         assertTrue(shouldContinue);
         assertEquals('X', taskList.getTask(1).getStatus());
-        assertSame(taskList.getTask(1), ui.markedTask);
+        assertSame(taskList.getTask(1), ui.getMarkedTask());
         assertEquals("T | X | read book", Files.readString(tempDir.resolve("tasks.txt")).strip());
     }
 
     @Test
     void execute_nonNumericTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new MarkCommand("one").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new MarkCommand("one").execute(taskList, ui, storage));
     }
 
     @Test
     void execute_outOfBoundsTaskNumber_throwsInvalidTaskNumberException() {
         assertThrows(
-                InvalidTaskNumberException.class,
-                () -> new MarkCommand("1").execute(taskList, ui, storage));
+                InvalidTaskNumberException.class, () ->
+                        new MarkCommand("1").execute(taskList, ui, storage));
     }
 }

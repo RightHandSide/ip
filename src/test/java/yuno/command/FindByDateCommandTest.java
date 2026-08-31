@@ -25,13 +25,13 @@ class FindByDateCommandTest extends CommandTestSupport {
                 .execute(taskList, ui, storage);
 
         assertTrue(shouldContinue);
-        assertEquals(List.of(todo, deadline), ui.displayedDateTasks);
+        assertEquals(List.of(todo, deadline), ui.getDisplayedDateTasks());
     }
 
     @Test
     void execute_invalidDate_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new FindByDateCommand("2026-02-30").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new FindByDateCommand("2026-02-30").execute(taskList, ui, storage));
     }
 }

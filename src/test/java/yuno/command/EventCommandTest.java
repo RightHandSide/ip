@@ -24,38 +24,38 @@ class EventCommandTest extends CommandTestSupport {
         assertTrue(shouldContinue);
         assertEquals(LocalDateTime.of(2026, 8, 30, 9, 0), event.getStartDateTime());
         assertEquals(LocalDateTime.of(2026, 8, 30, 10, 30), event.getEndDateTime());
-        assertEquals(event, ui.addedTask);
+        assertEquals(event, ui.getAddedTask());
     }
 
     @Test
     void execute_missingDescription_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new EventCommand(" /from 2026-08-30 /to 2026-08-31")
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand(" /from 2026-08-30 /to 2026-08-31")
                         .execute(taskList, ui, storage));
     }
 
     @Test
     void execute_missingEnd_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new EventCommand("meeting /from 2026-08-30")
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /from 2026-08-30")
                         .execute(taskList, ui, storage));
     }
 
     @Test
     void execute_toBeforeFrom_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new EventCommand("meeting /to 2026-08-31 /from 2026-08-30")
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /to 2026-08-31 /from 2026-08-30")
                         .execute(taskList, ui, storage));
     }
 
     @Test
     void execute_endBeforeStart_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new EventCommand("meeting /from 2026-08-31 /to 2026-08-30")
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /from 2026-08-31 /to 2026-08-30")
                         .execute(taskList, ui, storage));
     }
 }

@@ -20,15 +20,15 @@ class TodoCommandTest extends CommandTestSupport {
 
         assertTrue(shouldContinue);
         assertEquals(1, taskList.getCount());
-        assertSame(taskList.getTask(1), ui.addedTask);
+        assertSame(taskList.getTask(1), ui.getAddedTask());
         assertEquals("T |   | read | book", Files.readString(tempDir.resolve("tasks.txt")).strip());
     }
 
     @Test
     void execute_blankDescription_throwsInvalidCommandFormatException() {
         assertThrows(
-                InvalidCommandFormatException.class,
-                () -> new TodoCommand("   ").execute(taskList, ui, storage));
+                InvalidCommandFormatException.class, () ->
+                        new TodoCommand("   ").execute(taskList, ui, storage));
         assertEquals(0, taskList.getCount());
     }
 }
