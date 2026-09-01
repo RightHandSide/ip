@@ -36,18 +36,14 @@ public class Ui {
                   |_|   \\___/|_| \\_|\\___/
                 """;
         System.out.println(DIVIDER);
-        latestResponse = banner + "\nI'm Yuno.\nCan we just get this over quickly?";
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(banner, "I'm Yuno.", "Can we just get this over quickly?");
     }
 
     /**
      * Displays the farewell message.
      */
     public void printBye() {
-        latestResponse = "Finally! Bye. I'm leaving!";
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines("Finally! Bye. I'm leaving!");
     }
 
     /**
@@ -56,9 +52,7 @@ public class Ui {
      * @param task Added task to display.
      */
     public void printAddTask(Task task) {
-        latestResponse = String.format("Added:\n%s\nJust another task you won't finish.", task);
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines("Added:", task.toString(), "Just another task you won't finish.");
     }
 
     /**
@@ -78,9 +72,7 @@ public class Ui {
                 output.append(". ").append(taskList.getTask(i + 1)).append("\n");
             }
         }
-        latestResponse = output.toString();
-        System.out.print(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(output.toString());
     }
 
     /**
@@ -97,9 +89,7 @@ public class Ui {
             output.append("You are not even capable to finish all these in one go.\n");
             output.append(formatTasks(matchingTasks));
         }
-        latestResponse = output.toString();
-        System.out.print(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(output.toString());
     }
 
     /**
@@ -115,9 +105,7 @@ public class Ui {
             output.append("So many task sharing a word. Could you be repeating task to feel accomplished?\n");
             output.append(formatTasks(matchingTasks));
         }
-        latestResponse = output.toString();
-        System.out.print(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(output.toString());
     }
 
     /**
@@ -140,10 +128,9 @@ public class Ui {
      * @param task Task that was marked as completed.
      */
     public void printMarkTask(Task task) {
-        latestResponse = "You actually completed a task? Bet it's the only task you'll ever complete.\n"
-                + task;
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(
+                "You actually completed a task? Bet it's the only task you'll ever complete.",
+                task.toString());
     }
 
     /**
@@ -152,10 +139,7 @@ public class Ui {
      * @param task Task that was marked as incomplete.
      */
     public void printUnmarkTask(Task task) {
-        latestResponse = "Wow! So you lied about completing it? Typical behavior from you.\n"
-                + task;
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines("Wow! So you lied about completing it? Typical behavior from you.", task.toString());
     }
 
     /**
@@ -164,18 +148,14 @@ public class Ui {
      * @param task Deleted task to display.
      */
     public void printDeleteTask(Task task) {
-        latestResponse = "Wow! Did you give up, or did you actually finish it?\n" + task;
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines("Wow! Did you give up, or did you actually finish it?", task.toString());
     }
 
     /**
      * Displays confirmation that every task was removed.
      */
     public void printTasksCleared() {
-        latestResponse = "Finally. Now that everything is gone, can I go now?";
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines("Finally. Now that everything is gone, can I go now?");
     }
 
     /**
@@ -184,9 +164,7 @@ public class Ui {
      * @param message Exception message to display.
      */
     public void printException(String message) {
-        latestResponse = message;
-        System.out.println(latestResponse);
-        System.out.println(DIVIDER);
+        printLines(message);
     }
 
     /**
@@ -196,6 +174,22 @@ public class Ui {
      */
     public String readCommand() {
         return scanner.nextLine();
+    }
+
+    /**
+     * Displays the supplied lines and stores them as the latest response.
+     *
+     * @param lines Lines to display in the response.
+     */
+    private void printLines(String... lines) {
+        latestResponse = String.join("\n", lines);
+        System.out.print(latestResponse);
+
+        if (!latestResponse.endsWith("\n")) {
+            System.out.println();
+        }
+
+        System.out.println(DIVIDER);
     }
 
     /**
