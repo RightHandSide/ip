@@ -26,7 +26,9 @@ public class Main extends Application {
         Scene scene = new Scene(mainLayout);
         stage.setScene(scene);
         stage.setTitle("Yuno");
-        stage.setResizable(false);
+        stage.setResizable(true);
+        stage.setMinHeight(220);
+        stage.setMinWidth(417);
         stage.show();
 
         MainWindow mainWindow = fxmlLoader.getController();
