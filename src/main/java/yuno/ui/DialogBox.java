@@ -8,11 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  * Displays a chatbot message together with the sender's profile image.
@@ -40,17 +42,30 @@ public class DialogBox extends HBox {
         }
 
         text.setText(message);
-        displayPicture.setImage(image);
+        setDisplayPicture(image);
     }
 
     /**
-     * Reverses the child order and left-aligns this dialog box.
+     * Displays a top-centered square crop of the profile image in a circular frame.
+     *
+     * @param image Profile image to display.
+     */
+    private void setDisplayPicture(Image image) {
+        double cropSize = Math.min(image.getWidth(), image.getHeight());
+        double cropX = (image.getWidth() - cropSize) / 2;
+        displayPicture.setImage(image);
+        displayPicture.setViewport(new Rectangle2D(cropX, 0, cropSize, cropSize));
+        displayPicture.setClip(new Circle(21, 21, 21));
+    }
+
+    /**
+     * Reverses the child order and bottom-left-aligns this dialog box.
      */
     private void flip() {
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
         Collections.reverse(children);
         getChildren().setAll(children);
-        setAlignment(Pos.TOP_LEFT);
+        setAlignment(Pos.BOTTOM_LEFT);
     }
 
     /**
@@ -61,7 +76,9 @@ public class DialogBox extends HBox {
      * @return Dialog box containing the user message.
      */
     public static DialogBox getUserDialog(String message, Image image) {
-        return new DialogBox(message, image);
+        DialogBox dialogBox = new DialogBox(message, image);
+        dialogBox.getStyleClass().add("user-dialog");
+        return dialogBox;
     }
 
     /**
@@ -73,6 +90,7 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getYunoDialog(String message, Image image) {
         DialogBox dialogBox = new DialogBox(message, image);
+        dialogBox.getStyleClass().add("yuno-dialog");
         dialogBox.flip();
         return dialogBox;
     }

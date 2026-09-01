@@ -27,8 +27,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setTitle("Yuno");
         stage.setResizable(true);
-        stage.setMinHeight(220);
-        stage.setMinWidth(417);
+        stage.setMinHeight(480);
+        stage.setMinWidth(380);
         stage.show();
 
         MainWindow mainWindow = fxmlLoader.getController();

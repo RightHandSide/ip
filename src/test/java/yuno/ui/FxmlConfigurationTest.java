@@ -27,8 +27,9 @@ class FxmlConfigurationTest {
 
         assertEquals("AnchorPane", root.getTagName());
         assertEquals("yuno.ui.MainWindow", root.getAttributeNS(FXML_NAMESPACE, "controller"));
+        assertEquals("@../css/main.css", root.getAttribute("stylesheets"));
         assertEquals(
-                Set.of("scrollPane", "dialogContainer", "userInput", "sendButton"),
+                Set.of("scrollPane", "dialogContainer", "userInput", "sendButton", "headerImage"),
                 getFxmlIds(document));
         assertTrue(hasElementWithAction(document, "TextField", "#handleUserInput"));
         assertTrue(hasElementWithAction(document, "Button", "#handleUserInput"));
@@ -42,6 +43,8 @@ class FxmlConfigurationTest {
 
         assertEquals("fx:root", root.getTagName());
         assertEquals("javafx.scene.layout.HBox", root.getAttribute("type"));
+        assertEquals("BOTTOM_RIGHT", root.getAttribute("alignment"));
+        assertEquals("@../css/dialog-box.css", root.getAttribute("stylesheets"));
         assertEquals(Set.of("text", "displayPicture"), getFxmlIds(document));
     }
 

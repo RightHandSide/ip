@@ -4,12 +4,15 @@ import java.util.Objects;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import yuno.Yuno;
@@ -41,6 +44,8 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private ImageView headerImage;
 
     /**
      * Creates the controller instantiated when the main-window FXML is loaded.
@@ -51,6 +56,18 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void initialize() {
         dialogContainer.heightProperty().addListener(observable -> scrollPane.setVvalue(1.0));
+        configureHeaderImage();
+    }
+
+    /**
+     * Displays a top-centered square crop of Yuno's profile image in the header.
+     */
+    private void configureHeaderImage() {
+        double cropSize = Math.min(yunoImage.getWidth(), yunoImage.getHeight());
+        double cropX = (yunoImage.getWidth() - cropSize) / 2;
+        headerImage.setImage(yunoImage);
+        headerImage.setViewport(new Rectangle2D(cropX, 0, cropSize, cropSize));
+        headerImage.setClip(new Circle(22, 22, 22));
     }
 
     /**
