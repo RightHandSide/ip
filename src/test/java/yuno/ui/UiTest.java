@@ -148,6 +148,14 @@ class UiTest {
         assertEquals("todo read book", inputUi.readCommand());
     }
 
+    @Test
+    void getResponse_multipleMessages_returnsMostRecentResponse() {
+        ui.printException("Something went wrong.");
+        ui.printBye();
+
+        assertEquals("Finally! Bye. I'm leaving!", ui.getResponse());
+    }
+
     private String normalizedOutput() {
         return output.toString(StandardCharsets.UTF_8).replace("\r\n", "\n");
     }

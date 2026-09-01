@@ -33,16 +33,16 @@ public class TaskList {
     /**
      * Returns the task at the specified one-based position.
      *
-     * @param index One-based position of the task.
+     * @param taskNumber One-based position of the task.
      * @return Task at the specified position.
      * @throws InvalidTaskNumberException If the position is outside the task list.
      */
-    public Task getTask(int index) throws InvalidTaskNumberException {
-        if (index < 1 || index > getCount()) {
+    public Task getTask(int taskNumber) throws InvalidTaskNumberException {
+        if (taskNumber < 1 || taskNumber > getCount()) {
             throw new InvalidTaskNumberException(
                     "Are you wasting my time? The integer you gave is out of bounds.");
         }
-        return tasks.get(index - 1);
+        return tasks.get(taskNumber - 1);
     }
 
     /**
@@ -96,36 +96,36 @@ public class TaskList {
     /**
      * Marks the task at the specified one-based position as completed.
      *
-     * @param index One-based position of the task to mark.
+     * @param taskNumber One-based position of the task to mark.
      * @throws InvalidTaskNumberException If the position is outside the task list.
      */
-    public void markTask(int index) throws InvalidTaskNumberException {
-        getTask(index).markDone();
+    public void markTask(int taskNumber) throws InvalidTaskNumberException {
+        getTask(taskNumber).markDone();
     }
 
     /**
      * Marks the task at the specified one-based position as incomplete.
      *
-     * @param index One-based position of the task to unmark.
+     * @param taskNumber One-based position of the task to unmark.
      * @throws InvalidTaskNumberException If the position is outside the task list.
      */
-    public void unmarkTask(int index) throws InvalidTaskNumberException {
-        getTask(index).unmarkDone();
+    public void unmarkTask(int taskNumber) throws InvalidTaskNumberException {
+        getTask(taskNumber).unmarkDone();
     }
 
     /**
      * Deletes and returns the task at the specified one-based position.
      *
-     * @param index One-based position of the task to delete.
+     * @param taskNumber One-based position of the task to delete.
      * @return Deleted task.
      * @throws InvalidTaskNumberException If the position is outside the task list.
      */
-    public Task deleteTask(int index) throws InvalidTaskNumberException {
-        if (index < 1 || index > getCount()) {
+    public Task deleteTask(int taskNumber) throws InvalidTaskNumberException {
+        if (taskNumber < 1 || taskNumber > getCount()) {
             throw new InvalidTaskNumberException(
                     "What do you want me to delete, your brain? The integer you gave is out of bounds.");
         }
-        return tasks.remove(index - 1);
+        return tasks.remove(taskNumber - 1);
     }
 
     /**
@@ -154,13 +154,13 @@ public class TaskList {
     /**
      * Returns the tasks whose descriptions contain the specified word.
      *
-     * @param word Text to find within each task description.
+     * @param searchText Text to find within each task description.
      * @return Tasks with matching descriptions, in their original list order.
      */
-    public List<Task> findTasksFor(String word) {
+    public List<Task> findTasksFor(String searchText) {
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.containsWord(word)) {
+            if (task.containsText(searchText)) {
                 matchingTasks.add(task);
             }
         }

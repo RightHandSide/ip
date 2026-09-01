@@ -15,6 +15,8 @@ public class Ui {
     private static final String DIVIDER = "_".repeat(50);
     /** Reads commands entered through standard input. */
     private final Scanner scanner = new Scanner(System.in);
+    /** Most recent response produced by Yuno. */
+    private String latestResponse = "";
 
     /**
      * Creates a user interface that reads commands from standard input.
@@ -34,9 +36,8 @@ public class Ui {
                   |_|   \\___/|_| \\_|\\___/
                 """;
         System.out.println(DIVIDER);
-        System.out.println(banner);
-        System.out.println("I'm Yuno.");
-        System.out.println("Can we just get this over quickly?");
+        latestResponse = banner + "\nI'm Yuno.\nCan we just get this over quickly?";
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -44,7 +45,8 @@ public class Ui {
      * Displays the farewell message.
      */
     public void printBye() {
-        System.out.println("Finally! Bye. I'm leaving!");
+        latestResponse = "Finally! Bye. I'm leaving!";
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -54,7 +56,8 @@ public class Ui {
      * @param task Added task to display.
      */
     public void printAddTask(Task task) {
-        System.out.printf("Added:\n%s\nJust another task you won't finish.%n", task);
+        latestResponse = String.format("Added:\n%s\nJust another task you won't finish.", task);
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -75,7 +78,8 @@ public class Ui {
                 output.append(". ").append(taskList.getTask(i + 1)).append("\n");
             }
         }
-        System.out.print(output);
+        latestResponse = output.toString();
+        System.out.print(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -91,9 +95,10 @@ public class Ui {
                     "You have nothing. What I see is just someone being lazy on this particular date.\n");
         } else {
             output.append("You are not even capable to finish all these in one go.\n");
-            output.append(printTask(matchingTasks));
+            output.append(formatTasks(matchingTasks));
         }
-        System.out.print(output);
+        latestResponse = output.toString();
+        System.out.print(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -108,9 +113,10 @@ public class Ui {
             output.append("You have nothing. You must be really happy since you are so lazy.\n");
         } else {
             output.append("So many task sharing a word. Could you be repeating task to feel accomplished?\n");
-            output.append(printTask(matchingTasks));
+            output.append(formatTasks(matchingTasks));
         }
-        System.out.print(output);
+        latestResponse = output.toString();
+        System.out.print(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -120,7 +126,7 @@ public class Ui {
      * @param tasks Tasks to format.
      * @return Display-ready bulleted task list.
      */
-    private String printTask(List<Task> tasks) {
+    private String formatTasks(List<Task> tasks) {
         StringBuilder output = new StringBuilder();
         for (Task task : tasks) {
             output.append("- ").append(task).append("\n");
@@ -134,9 +140,9 @@ public class Ui {
      * @param task Task that was marked as completed.
      */
     public void printMarkTask(Task task) {
-        System.out.println(
-                "You actually completed a task? Bet it's the only task you'll ever complete.");
-        System.out.println(task);
+        latestResponse = "You actually completed a task? Bet it's the only task you'll ever complete.\n"
+                + task;
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -146,8 +152,9 @@ public class Ui {
      * @param task Task that was marked as incomplete.
      */
     public void printUnmarkTask(Task task) {
-        System.out.println("Wow! So you lied about completing it? Typical behavior from you.");
-        System.out.println(task);
+        latestResponse = "Wow! So you lied about completing it? Typical behavior from you.\n"
+                + task;
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -157,8 +164,8 @@ public class Ui {
      * @param task Deleted task to display.
      */
     public void printDeleteTask(Task task) {
-        System.out.println("Wow! Did you give up, or did you actually finish it?");
-        System.out.println(task);
+        latestResponse = "Wow! Did you give up, or did you actually finish it?\n" + task;
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -166,7 +173,8 @@ public class Ui {
      * Displays confirmation that every task was removed.
      */
     public void printTasksCleared() {
-        System.out.println("Finally. Now that everything is gone, can I go now?");
+        latestResponse = "Finally. Now that everything is gone, can I go now?";
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -176,7 +184,8 @@ public class Ui {
      * @param message Exception message to display.
      */
     public void printException(String message) {
-        System.out.println(message);
+        latestResponse = message;
+        System.out.println(latestResponse);
         System.out.println(DIVIDER);
     }
 
@@ -187,5 +196,14 @@ public class Ui {
      */
     public String readCommand() {
         return scanner.nextLine();
+    }
+
+    /**
+     * Returns the most recent response produced by Yuno.
+     *
+     * @return Most recent Yuno response.
+     */
+    public String getResponse() {
+        return latestResponse;
     }
 }

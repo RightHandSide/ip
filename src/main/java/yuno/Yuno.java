@@ -27,7 +27,7 @@ public class Yuno {
      * @param ui User interface used for the chatbot session.
      * @throws FileStorageException If storage cannot be initialized or saved tasks cannot be loaded.
      */
-    private Yuno(Ui ui) throws FileStorageException {
+    public Yuno(Ui ui) throws FileStorageException {
         this(ui, new Parser(), new Storage(), new TaskList());
         storage.load(taskList);
     }
@@ -49,15 +49,32 @@ public class Yuno {
     }
 
     /**
+     * Processes one command and reports whether the chatbot should continue running.
+     *
+     * @param commandText Command entered by the user.
+     * @return True if the chatbot should continue accepting commands; otherwise, false.
+     */
+    public boolean handleCommand(String commandText) {
+        boolean shouldContinue = true;
+        try {
+            Command command = parser.parse(commandText);
+            shouldContinue = command.execute(taskList, ui, storage);
+        } catch (YunoException exception) {
+            ui.printException(exception.getMessage());
+        }
+        return shouldContinue;
+    }
+
+    /**
      * Runs the command-processing loop until a command ends the session.
      */
-    void run() {
-        boolean isRunning = true;
-        while (isRunning) {
+    public void run() {
+        boolean shouldContinue = true;
+        while (shouldContinue) {
             try {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
-                isRunning = command.execute(taskList, ui, storage);
+                shouldContinue = command.execute(taskList, ui, storage);
             } catch (YunoException exception) {
                 ui.printException(exception.getMessage());
             }
@@ -69,7 +86,7 @@ public class Yuno {
      *
      * @param args Command-line arguments, which are not used.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Ui ui = new Ui();
         ui.printGreeting();
         try {

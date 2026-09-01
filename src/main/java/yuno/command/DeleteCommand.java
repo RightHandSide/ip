@@ -32,8 +32,8 @@ public class DeleteCommand extends Command {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
-            int index = Integer.parseInt(getCommandArguments());
-            Task deletedTask = taskList.deleteTask(index);
+            int taskNumber = Integer.parseInt(getCommandArguments());
+            Task deletedTask = taskList.deleteTask(taskNumber);
             storage.save(taskList);
             ui.printDeleteTask(deletedTask);
             return true;
