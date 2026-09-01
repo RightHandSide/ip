@@ -15,10 +15,10 @@ public class FindByNameCommand extends Command {
     /**
      * Creates a command with the text to find in task descriptions.
      *
-     * @param nameText Text to find in task descriptions.
+     * @param searchText Text to find in task descriptions.
      */
-    public FindByNameCommand(String nameText) {
-        super(nameText);
+    public FindByNameCommand(String searchText) {
+        super(searchText);
     }
 
     /**

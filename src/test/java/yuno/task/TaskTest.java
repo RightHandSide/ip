@@ -33,16 +33,16 @@ class TaskTest {
     }
 
     @Test
-    void containsWord_descriptionContainsLowercaseSearchText_returnsTrue() {
+    void containsText_descriptionContainsLowercaseSearchText_returnsTrue() {
         Task task = new Todo("Submit PROJECT report", false);
 
-        assertTrue(task.containsWord("project"));
+        assertTrue(task.containsText("project"));
     }
 
     @Test
-    void containsWord_descriptionDoesNotContainSearchText_returnsFalse() {
+    void containsText_descriptionDoesNotContainSearchText_returnsFalse() {
         Task task = new Todo("read book", false);
 
-        assertFalse(task.containsWord("project"));
+        assertFalse(task.containsText("project"));
     }
 }

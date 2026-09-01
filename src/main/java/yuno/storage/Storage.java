@@ -215,12 +215,12 @@ public class Storage {
      * Returns the storage fields in the specified range joined as one value.
      *
      * @param parts Storage fields to combine.
-     * @param start Inclusive index of the first field to combine.
-     * @param end Exclusive index after the last field to combine.
+     * @param startIndex Inclusive index of the first field to combine.
+     * @param endIndex Exclusive index after the last field to combine.
      * @return Combined field value.
      */
-    private String combineParts(String[] parts, int start, int end) {
-        return String.join(" | ", Arrays.copyOfRange(parts, start, end));
+    private String combineParts(String[] parts, int startIndex, int endIndex) {
+        return String.join(" | ", Arrays.copyOfRange(parts, startIndex, endIndex));
     }
 
     /**

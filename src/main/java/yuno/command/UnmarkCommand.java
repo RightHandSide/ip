@@ -31,10 +31,10 @@ public class UnmarkCommand extends Command {
     @Override
     public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
-            int index = Integer.parseInt(getCommandArguments());
-            taskList.unmarkTask(index);
+            int taskNumber = Integer.parseInt(getCommandArguments());
+            taskList.unmarkTask(taskNumber);
             storage.save(taskList);
-            ui.printUnmarkTask(taskList.getTask(index));
+            ui.printUnmarkTask(taskList.getTask(taskNumber));
             return true;
         } catch (NumberFormatException exception) {
             throw new InvalidTaskNumberException(
