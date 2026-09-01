@@ -1,7 +1,12 @@
 package yuno.ui;
 
+import java.io.IOException;
+import java.util.Collections;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -13,6 +18,10 @@ import javafx.scene.layout.HBox;
  * Displays a chatbot message together with the sender's profile image.
  */
 public class DialogBox extends HBox {
+    @FXML
+    private Label text;
+    @FXML
+    private ImageView displayPicture;
 
     /**
      * Creates a right-aligned dialog box with the specified message and profile image.
@@ -20,25 +29,28 @@ public class DialogBox extends HBox {
      * @param message Message to display.
      * @param image Profile image of the message sender.
      */
-    public DialogBox(String message, Image image) {
-        Label text = new Label(message);
-        ImageView displayPicture = new ImageView(image);
-        getChildren().addAll(text, displayPicture);
+    private DialogBox(String message, Image image) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(DialogBox.class.getResource("/view/DialogBox.fxml"));
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to load DialogBox.fxml", exception);
+        }
 
-        text.setWrapText(true);
-        displayPicture.setFitWidth(100.0);
-        displayPicture.setFitHeight(100.0);
-        setAlignment(Pos.TOP_RIGHT);
+        text.setText(message);
+        displayPicture.setImage(image);
     }
 
     /**
      * Reverses the child order and left-aligns this dialog box.
      */
     private void flip() {
-        setAlignment(Pos.TOP_LEFT);
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
-        FXCollections.reverse(children);
+        Collections.reverse(children);
         getChildren().setAll(children);
+        setAlignment(Pos.TOP_LEFT);
     }
 
     /**
