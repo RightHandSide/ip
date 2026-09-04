@@ -3,6 +3,7 @@
 }
 
 .message-bubble {
+    -fx-font-family: monospace;
     -fx-font-size: 14px;
     -fx-line-spacing: 2px;
     -fx-padding: 10px 14px;
