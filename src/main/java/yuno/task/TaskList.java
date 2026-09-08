@@ -142,13 +142,9 @@ public class TaskList {
      * @return Tasks relevant for the date, in their original list order.
      */
     public List<Task> findTasksFor(LocalDate date) {
-        List<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.isRelevantFor(date)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+        return tasks.stream()
+                .filter(task -> task.isRelevantFor(date))
+                .toList();
     }
 
     /**
@@ -158,12 +154,8 @@ public class TaskList {
      * @return Tasks with matching descriptions, in their original list order.
      */
     public List<Task> findTasksFor(String searchText) {
-        List<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.containsText(searchText)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+        return tasks.stream()
+                .filter(task -> task.containsText(searchText))
+                .toList();
     }
 }
