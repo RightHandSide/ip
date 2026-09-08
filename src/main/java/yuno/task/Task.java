@@ -18,6 +18,8 @@ public abstract class Task {
      * @param isDone Whether the task is completed.
      */
     public Task(String description, boolean isDone) {
+        assert description != null : "Task description must not be null";
+        assert !description.isBlank() : "Task description must not be blank";
         this.description = description;
         this.isDone = isDone;
     }

@@ -34,6 +34,7 @@ public class EventCommand extends Command {
         String eventDetails = getCommandArguments();
         String[] eventParts = eventDetails.split(" /from | /to ", 3);
         validateEventDetails(eventDetails, eventParts);
+        assert eventParts.length == 3 : "Validated event must have three parts";
         Task eventTask = taskList.addTask(
                 eventParts[0],
                 parseInputDateTime(eventParts[1]),
