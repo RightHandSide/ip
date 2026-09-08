@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 import yuno.exception.InvalidCommandFormatException;
+import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.TaskList;
@@ -73,6 +74,21 @@ public abstract class Command {
                         "Memorize the date format before you even type. "
                                 + "It's either yyyy-MM-dd HHmm or yyyy-MM-dd.");
             }
+        }
+    }
+
+    /**
+     * Returns the task number represented by this command's arguments.
+     *
+     * @return Task number entered by the user.
+     * @throws InvalidTaskNumberException If the command arguments are not an integer.
+     */
+    protected int parseTaskNumber() throws InvalidTaskNumberException {
+        try {
+            return Integer.parseInt(getCommandArguments());
+        } catch (NumberFormatException exception) {
+            throw new InvalidTaskNumberException(
+                    "Did you even give me an integer? Please don't waste my time!");
         }
     }
 
