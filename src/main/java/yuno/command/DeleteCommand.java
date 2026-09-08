@@ -1,6 +1,5 @@
 package yuno.command;
 
-import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.Task;
@@ -31,15 +30,10 @@ public class DeleteCommand extends Command {
      */
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        try {
-            int taskNumber = Integer.parseInt(getCommandArguments());
-            Task deletedTask = taskList.deleteTask(taskNumber);
-            storage.save(taskList);
-            ui.printDeleteTask(deletedTask);
-            return CommandResult.CONTINUE;
-        } catch (NumberFormatException exception) {
-            throw new InvalidTaskNumberException(
-                    "Did you even give me an integer? Please don't waste my time!");
-        }
+        int taskNumber = parseTaskNumber();
+        Task deletedTask = taskList.deleteTask(taskNumber);
+        storage.save(taskList);
+        ui.printDeleteTask(deletedTask);
+        return CommandResult.CONTINUE;
     }
 }
