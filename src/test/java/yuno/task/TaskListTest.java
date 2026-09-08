@@ -16,6 +16,13 @@ import yuno.exception.InvalidTaskNumberException;
 
 class TaskListTest {
     @Test
+    void addTask_nullTask_throwsAssertionError() {
+        TaskList tasks = new TaskList();
+
+        assertThrows(AssertionError.class, () -> tasks.addTask((Task) null));
+    }
+
+    @Test
     void addTask_validTodoDescription_addsTodoTask() throws InvalidTaskNumberException {
         TaskList tasks = new TaskList();
         Todo addedTask = tasks.addTask("addedTask");
