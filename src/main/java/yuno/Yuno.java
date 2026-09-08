@@ -72,13 +72,8 @@ public class Yuno {
     public void run() {
         CommandResult commandResult = CommandResult.CONTINUE;
         while (commandResult == CommandResult.CONTINUE) {
-            try {
-                String input = ui.readCommand();
-                Command command = parser.parse(input);
-                commandResult = command.execute(taskList, ui, storage);
-            } catch (YunoException exception) {
-                ui.printException(exception.getMessage());
-            }
+            String commandText = ui.readCommand();
+            commandResult = handleCommand(commandText);
         }
     }
 
