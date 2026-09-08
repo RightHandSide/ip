@@ -26,17 +26,17 @@ public class DeleteCommand extends Command {
      * @param taskList Task list that contains the task.
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the updated task list.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If the task number is invalid or the updated task list cannot be saved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         try {
             int taskNumber = Integer.parseInt(getCommandArguments());
             Task deletedTask = taskList.deleteTask(taskNumber);
             storage.save(taskList);
             ui.printDeleteTask(deletedTask);
-            return true;
+            return CommandResult.CONTINUE;
         } catch (NumberFormatException exception) {
             throw new InvalidTaskNumberException(
                     "Did you even give me an integer? Please don't waste my time!");

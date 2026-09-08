@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import yuno.command.CommandResult;
 import yuno.Yuno;
 import yuno.exception.FileStorageException;
 
@@ -97,14 +99,14 @@ public class MainWindow extends AnchorPane {
             return;
         }
 
-        boolean shouldContinue = yuno.handleCommand(userText);
+        CommandResult commandResult = yuno.handleCommand(userText);
         String yunoText = ui.getResponse();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(userText, userImage),
                 DialogBox.getYunoDialog(yunoText, yunoImage));
         userInput.clear();
 
-        if (!shouldContinue) {
+        if (commandResult == CommandResult.EXIT) {
             scheduleWindowClose();
         }
     }

@@ -3,7 +3,6 @@ package yuno.command;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,9 +19,9 @@ class DeleteCommandTest extends CommandTestSupport {
         Task deletedTask = taskList.addTask("first task");
         taskList.addTask("second task");
 
-        boolean shouldContinue = new DeleteCommand("1").execute(taskList, ui, storage);
+        CommandResult commandResult = new DeleteCommand("1").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(1, taskList.getCount());
         assertSame(deletedTask, ui.getDeletedTask());
         assertEquals("T |   | second task", Files.readString(tempDir.resolve("tasks.txt")).stripTrailing());

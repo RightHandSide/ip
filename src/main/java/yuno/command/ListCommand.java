@@ -25,15 +25,15 @@ public class ListCommand extends Command {
      * @param taskList Task list to display.
      * @param ui User interface used to display the tasks.
      * @param storage Storage that is not modified.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If additional command data is supplied or a task cannot be retrieved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
         ui.printList(taskList);
-        return true;
+        return CommandResult.CONTINUE;
     }
 }

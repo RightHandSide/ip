@@ -3,7 +3,6 @@ package yuno.command;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,9 +17,9 @@ class MarkCommandTest extends CommandTestSupport {
     void execute_validTaskNumber_marksAndSavesTask() throws YunoException, IOException {
         taskList.addTask("read book");
 
-        boolean shouldContinue = new MarkCommand("1").execute(taskList, ui, storage);
+        CommandResult commandResult = new MarkCommand("1").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals('X', taskList.getTask(1).getStatus());
         assertSame(taskList.getTask(1), ui.getMarkedTask());
         assertEquals("T | X | read book", Files.readString(tempDir.resolve("tasks.txt")).strip());

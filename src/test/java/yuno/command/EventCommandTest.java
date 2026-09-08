@@ -3,7 +3,6 @@ package yuno.command;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 
@@ -16,12 +15,12 @@ import yuno.task.Event;
 class EventCommandTest extends CommandTestSupport {
     @Test
     void execute_validEvent_addsEvent() throws YunoException {
-        boolean shouldContinue = new EventCommand(
+        CommandResult commandResult = new EventCommand(
                 "meeting /from 2026-08-30 0900 /to 2026-08-30 1030")
                 .execute(taskList, ui, storage);
 
         Event event = assertInstanceOf(Event.class, taskList.getTask(1));
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(LocalDateTime.of(2026, 8, 30, 9, 0), event.getStartDateTime());
         assertEquals(LocalDateTime.of(2026, 8, 30, 10, 30), event.getEndDateTime());
         assertEquals(event, ui.getAddedTask());

@@ -24,15 +24,15 @@ public class ByeCommand extends Command {
      * @param taskList Task list that is not modified.
      * @param ui User interface used to display the farewell.
      * @param storage Storage that is not modified.
-     * @return Always false.
+     * @return Always {@link CommandResult#EXIT}.
      * @throws InvalidCommandFormatException If additional command data is supplied.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws InvalidCommandFormatException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws InvalidCommandFormatException {
         if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
         ui.printBye();
-        return false;
+        return CommandResult.EXIT;
     }
 }

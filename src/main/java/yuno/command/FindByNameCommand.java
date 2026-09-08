@@ -27,13 +27,13 @@ public class FindByNameCommand extends Command {
      * @param taskList Task list to search.
      * @param ui User interface used to display matching tasks.
      * @param storage Storage that is not modified.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If the command cannot be completed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         List<Task> matchingTasks = taskList.findTasksFor(getCommandArguments());
         ui.printTasksForName(matchingTasks);
-        return true;
+        return CommandResult.CONTINUE;
     }
 }

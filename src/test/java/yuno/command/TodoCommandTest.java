@@ -3,7 +3,6 @@ package yuno.command;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,9 +15,9 @@ import yuno.exception.YunoException;
 class TodoCommandTest extends CommandTestSupport {
     @Test
     void execute_validDescription_addsAndSavesTodo() throws YunoException, IOException {
-        boolean shouldContinue = new TodoCommand("read | book").execute(taskList, ui, storage);
+        CommandResult commandResult = new TodoCommand("read | book").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(1, taskList.getCount());
         assertSame(taskList.getTask(1), ui.getAddedTask());
         assertEquals("T |   | read | book", Files.readString(tempDir.resolve("tasks.txt")).strip());

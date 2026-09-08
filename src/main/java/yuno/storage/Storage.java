@@ -111,7 +111,7 @@ public class Storage {
         if (parts.length < 2) {
             throw createInvalidDataException();
         }
-        boolean isDone = parseIsDone(parts[1]);
+        boolean isDone = parseCompletionStatus(parts[1]);
         return switch (parts[0]) {
             case "T" -> parseTodo(parts, isDone);
             case "D" -> parseDeadline(parts, isDone);
@@ -187,7 +187,7 @@ public class Storage {
      * @return True if the status is {@code X}; false if it is a single space.
      * @throws FileStorageException If the status is not recognized.
      */
-    private boolean parseIsDone(String status) throws FileStorageException {
+    private boolean parseCompletionStatus(String status) throws FileStorageException {
         if (status.equals("X")) {
             return true;
         } else if (status.equals(" ")) {

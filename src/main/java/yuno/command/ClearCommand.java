@@ -25,17 +25,17 @@ public class ClearCommand extends Command {
      * @param taskList Task list to clear.
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the empty task list.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If additional command data is supplied or the empty task list cannot be saved.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (!getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
         }
         taskList.clearTasks();
         storage.save(taskList);
         ui.printTasksCleared();
-        return true;
+        return CommandResult.CONTINUE;
     }
 }

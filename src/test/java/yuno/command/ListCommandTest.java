@@ -1,8 +1,8 @@
 package yuno.command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +14,9 @@ class ListCommandTest extends CommandTestSupport {
     void execute_noArguments_displaysTaskList() throws YunoException {
         taskList.addTask("read book");
 
-        boolean shouldContinue = new ListCommand("").execute(taskList, ui, storage);
+        CommandResult commandResult = new ListCommand("").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertSame(taskList, ui.getDisplayedTaskList());
     }
 

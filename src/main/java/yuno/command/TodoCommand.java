@@ -26,17 +26,17 @@ public class TodoCommand extends Command {
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the updated task list.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If the task description is blank or task data cannot be accessed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         }
         Task todoTask = taskList.addTask(getCommandArguments());
         storage.save(taskList);
         ui.printAddTask(todoTask);
-        return true;
+        return CommandResult.CONTINUE;
     }
 }

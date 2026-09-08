@@ -26,18 +26,18 @@ public class DeadlineCommand extends Command {
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the updated task list.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If the task description or deadline is missing, or task data cannot be accessed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String[] deadlineParts = getCommandArguments().split(" /by ", 2);
         validateDeadlineDetails(deadlineParts);
         Task deadlineTask = taskList.addTask(
                 deadlineParts[0], parseInputDateTime(deadlineParts[1]));
         storage.save(taskList);
         ui.printAddTask(deadlineTask);
-        return true;
+        return CommandResult.CONTINUE;
     }
 
     /**

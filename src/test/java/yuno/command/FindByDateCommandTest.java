@@ -2,7 +2,6 @@ package yuno.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,10 +20,10 @@ class FindByDateCommandTest extends CommandTestSupport {
                 "submit report", LocalDateTime.of(2026, 8, 30, 18, 0));
         taskList.addTask("future report", LocalDateTime.of(2026, 8, 31, 18, 0));
 
-        boolean shouldContinue = new FindByDateCommand("2026-08-30")
+        CommandResult commandResult = new FindByDateCommand("2026-08-30")
                 .execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(List.of(todo, deadline), ui.getDisplayedDateTasks());
     }
 

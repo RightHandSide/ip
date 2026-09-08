@@ -3,7 +3,6 @@ package yuno.command;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,9 +18,9 @@ class UnmarkCommandTest extends CommandTestSupport {
     void execute_validTaskNumber_unmarksAndSavesTask() throws YunoException, IOException {
         taskList.addTask(new Todo("read book", true));
 
-        boolean shouldContinue = new UnmarkCommand("1").execute(taskList, ui, storage);
+        CommandResult commandResult = new UnmarkCommand("1").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(' ', taskList.getTask(1).getStatus());
         assertSame(taskList.getTask(1), ui.getUnmarkedTask());
         assertEquals("T |   | read book", Files.readString(tempDir.resolve("tasks.txt")).stripTrailing());

@@ -1,7 +1,6 @@
 package yuno;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import yuno.command.CommandResult;
 import yuno.exception.FileStorageException;
 import yuno.exception.InvalidTaskNumberException;
 import yuno.parser.Parser;
@@ -75,9 +75,9 @@ class YunoTest {
         Storage storage = new Storage(tempDir.resolve("tasks.txt"));
         Yuno yuno = new Yuno(ui, new Parser(), storage, taskList);
 
-        boolean shouldContinue = yuno.handleCommand("todo read book");
+        CommandResult commandResult = yuno.handleCommand("todo read book");
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(1, taskList.getCount());
         assertEquals("read book", taskList.getTask(1).getDescription());
         assertEquals(
@@ -93,9 +93,9 @@ class YunoTest {
         Storage storage = new Storage(tempDir.resolve("tasks.txt"));
         Yuno yuno = new Yuno(ui, new Parser(), storage, taskList);
 
-        boolean shouldContinue = yuno.handleCommand("nonsense");
+        CommandResult commandResult = yuno.handleCommand("nonsense");
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(0, taskList.getCount());
         assertEquals(
                 "Did you look at what you typed? That's just a random command.",
@@ -109,9 +109,9 @@ class YunoTest {
         Storage storage = new Storage(tempDir.resolve("tasks.txt"));
         Yuno yuno = new Yuno(ui, new Parser(), storage, taskList);
 
-        boolean shouldContinue = yuno.handleCommand("bye");
+        CommandResult commandResult = yuno.handleCommand("bye");
 
-        assertFalse(shouldContinue);
+        assertEquals(CommandResult.EXIT, commandResult);
         assertEquals("Finally! Bye. I'm leaving!", ui.getResponse());
     }
 }

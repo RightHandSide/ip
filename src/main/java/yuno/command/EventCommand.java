@@ -26,11 +26,11 @@ public class EventCommand extends Command {
      * @param taskList Task list to modify.
      * @param ui User interface used to display the confirmation.
      * @param storage Storage used to save the updated task list.
-     * @return Always true.
+     * @return Always {@link CommandResult#CONTINUE}.
      * @throws YunoException If the task details are invalid or task data cannot be accessed.
      */
     @Override
-    public boolean execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+    public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String eventDetails = getCommandArguments();
         String[] eventParts = eventDetails.split(" /from | /to ", 3);
         validateEventDetails(eventDetails, eventParts);
@@ -40,7 +40,7 @@ public class EventCommand extends Command {
                 parseInputDateTime(eventParts[2]));
         storage.save(taskList);
         ui.printAddTask(eventTask);
-        return true;
+        return CommandResult.CONTINUE;
     }
 
     /**

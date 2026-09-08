@@ -17,10 +17,10 @@ class FindByNameCommandTest extends CommandTestSupport {
         taskList.addTask("buy groceries");
         Task secondMatch = taskList.addTask("submit project report");
 
-        boolean shouldContinue = new FindByNameCommand("project")
+        CommandResult commandResult = new FindByNameCommand("project")
                 .execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(List.of(firstMatch, secondMatch), ui.getDisplayedNameTasks());
     }
 
@@ -28,10 +28,10 @@ class FindByNameCommandTest extends CommandTestSupport {
     void execute_noMatchingDescription_displaysEmptyList() throws YunoException {
         taskList.addTask("read book");
 
-        boolean shouldContinue = new FindByNameCommand("project")
+        CommandResult commandResult = new FindByNameCommand("project")
                 .execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertTrue(ui.getDisplayedNameTasks().isEmpty());
     }
 }

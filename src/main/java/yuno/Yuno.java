@@ -1,6 +1,7 @@
 package yuno;
 
 import yuno.command.Command;
+import yuno.command.CommandResult;
 import yuno.exception.FileStorageException;
 import yuno.exception.YunoException;
 import yuno.parser.Parser;
@@ -52,29 +53,29 @@ public class Yuno {
      * Processes one command and reports whether the chatbot should continue running.
      *
      * @param commandText Command entered by the user.
-     * @return True if the chatbot should continue accepting commands; otherwise, false.
+     * @return Result indicating whether the chatbot should continue accepting commands.
      */
-    public boolean handleCommand(String commandText) {
-        boolean shouldContinue = true;
+    public CommandResult handleCommand(String commandText) {
+        CommandResult commandResult = CommandResult.CONTINUE;
         try {
             Command command = parser.parse(commandText);
-            shouldContinue = command.execute(taskList, ui, storage);
+            commandResult = command.execute(taskList, ui, storage);
         } catch (YunoException exception) {
             ui.printException(exception.getMessage());
         }
-        return shouldContinue;
+        return commandResult;
     }
 
     /**
      * Runs the command-processing loop until a command ends the session.
      */
     public void run() {
-        boolean shouldContinue = true;
-        while (shouldContinue) {
+        CommandResult commandResult = CommandResult.CONTINUE;
+        while (commandResult == CommandResult.CONTINUE) {
             try {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
-                shouldContinue = command.execute(taskList, ui, storage);
+                commandResult = command.execute(taskList, ui, storage);
             } catch (YunoException exception) {
                 ui.printException(exception.getMessage());
             }

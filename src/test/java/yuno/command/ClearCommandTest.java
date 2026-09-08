@@ -17,9 +17,9 @@ class ClearCommandTest extends CommandTestSupport {
     void execute_noArguments_clearsAndSavesTasks() throws YunoException, IOException {
         taskList.addTask("read book");
 
-        boolean shouldContinue = new ClearCommand("").execute(taskList, ui, storage);
+        CommandResult commandResult = new ClearCommand("").execute(taskList, ui, storage);
 
-        assertTrue(shouldContinue);
+        assertEquals(CommandResult.CONTINUE, commandResult);
         assertEquals(0, taskList.getCount());
         assertTrue(Files.readString(tempDir.resolve("tasks.txt")).isEmpty());
         assertTrue(ui.areTasksClearedPrinted());

@@ -69,8 +69,8 @@ class CommandTest {
         }
 
         @Override
-        public boolean execute(TaskList taskList, Ui ui, Storage storage) {
-            return true;
+        public CommandResult execute(TaskList taskList, Ui ui, Storage storage) {
+            return CommandResult.CONTINUE;
         }
     }
 }

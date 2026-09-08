@@ -1,5 +1,6 @@
 package yuno.command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,9 +12,9 @@ import yuno.exception.InvalidCommandFormatException;
 class ByeCommandTest extends CommandTestSupport {
     @Test
     void execute_noArguments_printsByeAndStops() throws InvalidCommandFormatException {
-        boolean shouldContinue = new ByeCommand("").execute(taskList, ui, storage);
+        CommandResult commandResult = new ByeCommand("").execute(taskList, ui, storage);
 
-        assertFalse(shouldContinue);
+        assertEquals(CommandResult.EXIT, commandResult);
         assertTrue(ui.isByePrinted());
     }
 
