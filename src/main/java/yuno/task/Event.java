@@ -24,6 +24,9 @@ public class Event extends Task {
      */
     public Event(String description, boolean isDone, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         super(description, isDone);
+        assert startDateTime != null : "Event start date-time must not be null";
+        assert endDateTime != null : "Event end date-time must not be null";
+        assert !startDateTime.isAfter(endDateTime) : "Event must not end before it starts";
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }

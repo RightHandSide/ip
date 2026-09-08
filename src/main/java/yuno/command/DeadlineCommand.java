@@ -33,6 +33,7 @@ public class DeadlineCommand extends Command {
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         String[] deadlineParts = getCommandArguments().split(" /by ", 2);
         validateDeadlineDetails(deadlineParts);
+        assert deadlineParts.length == 2 : "Validated deadline must have two parts";
         Task deadlineTask = taskList.addTask(
                 deadlineParts[0], parseInputDateTime(deadlineParts[1]));
         storage.save(taskList);

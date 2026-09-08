@@ -220,6 +220,9 @@ public class Storage {
      * @return Combined field value.
      */
     private String combineParts(String[] parts, int startIndex, int endIndex) {
+        assert parts != null : "Storage fields must not be null";
+        assert startIndex >= 0 && startIndex < endIndex && endIndex <= parts.length
+                : "Storage field range must be valid";
         return String.join(" | ", Arrays.copyOfRange(parts, startIndex, endIndex));
     }
 
