@@ -10,6 +10,7 @@ import yuno.command.FindByDateCommand;
 import yuno.command.FindByNameCommand;
 import yuno.command.ListCommand;
 import yuno.command.MarkCommand;
+import yuno.command.SortCommand;
 import yuno.command.TodoCommand;
 import yuno.command.UnmarkCommand;
 import yuno.exception.UnknownCommandException;
@@ -41,7 +42,9 @@ public class Parser {
         DELETE("delete"),
 
         FIND_BY_NAME("find"),
-        FIND_BY_DATE("date");
+        FIND_BY_DATE("date"),
+
+        SORT("sort");
 
         /** Command keyword entered by the user. */
         private final String keyword;
@@ -92,6 +95,7 @@ public class Parser {
             case DELETE -> new DeleteCommand(commandArguments);
             case FIND_BY_NAME -> new FindByNameCommand(commandArguments);
             case FIND_BY_DATE -> new FindByDateCommand(commandArguments);
+            case SORT -> new SortCommand(commandArguments);
         };
     }
 }

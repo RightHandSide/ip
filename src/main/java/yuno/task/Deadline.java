@@ -48,6 +48,11 @@ public class Deadline extends Task {
                 DateTimeFormats.STORAGE_FORMATTER.format(getDeadlineDateTime()));
     }
 
+    @Override
+    public LocalDateTime getChronologicalTime() {
+        return getDeadlineDateTime();
+    }
+
     /**
      * Returns this deadline task in a display-ready format.
      *

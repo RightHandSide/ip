@@ -1,6 +1,7 @@
 package yuno.task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Represents a task without a date or time.
@@ -24,6 +25,11 @@ public class Todo extends Task {
     @Override
     public String toStorageString() {
         return String.format("T | %c | %s", getStatus(), getDescription());
+    }
+
+    @Override
+    public LocalDateTime getChronologicalTime() {
+        return LocalDateTime.MAX;
     }
 
     /**

@@ -3,6 +3,7 @@ package yuno.task;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import yuno.exception.InvalidTaskNumberException;
@@ -158,5 +159,24 @@ public class TaskList {
         return tasks.stream()
                 .filter(task -> task.containsText(searchText))
                 .toList();
+    }
+
+    /**
+     * Permanently sorts dated tasks by time while retaining undated tasks at the end.
+     * Tasks with equal chronological times retain their relative order.
+     *
+     * @param isAscending Whether dated tasks should be ordered from earliest to latest.
+     */
+    public void sortChronologically(boolean isAscending) {
+        Comparator<Task> dateTimeComparator = Comparator.comparing(Task::getChronologicalTime);
+        if (!isAscending) {
+            dateTimeComparator = dateTimeComparator.reversed();
+        }
+
+        Comparator<Task> chronologicalComparator = Comparator
+                .comparing((Task task) -> task instanceof Todo)
+                .thenComparing(dateTimeComparator);
+
+        tasks.sort(chronologicalComparator);
     }
 }

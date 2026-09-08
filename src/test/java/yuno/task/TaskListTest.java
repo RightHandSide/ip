@@ -233,4 +233,58 @@ class TaskListTest {
 
         assertTrue(matchingTasks.isEmpty());
     }
+
+    @Test
+    void sortChronologically_mixedTasksAscending_sortsDatedTasksAndLeavesTodosLast()
+            throws InvalidTaskNumberException {
+        TaskList tasks = new TaskList();
+        Todo firstTodo = tasks.addTask("first todo");
+        Deadline laterDeadline = tasks.addTask(
+                "later deadline", LocalDateTime.of(2026, 9, 10, 12, 0));
+        Event earlierEvent = tasks.addTask(
+                "earlier event",
+                LocalDateTime.of(2026, 9, 8, 9, 0),
+                LocalDateTime.of(2026, 9, 8, 10, 0));
+        Todo secondTodo = tasks.addTask("second todo");
+
+        tasks.sortChronologically(true);
+
+        assertSame(earlierEvent, tasks.getTask(1));
+        assertSame(laterDeadline, tasks.getTask(2));
+        assertSame(firstTodo, tasks.getTask(3));
+        assertSame(secondTodo, tasks.getTask(4));
+    }
+
+    @Test
+    void sortChronologically_equalTimesDescending_preservesTiesAndLeavesTodosLast()
+            throws InvalidTaskNumberException {
+        TaskList tasks = new TaskList();
+        Event earlierEvent = tasks.addTask(
+                "earlier event",
+                LocalDateTime.of(2026, 9, 8, 9, 0),
+                LocalDateTime.of(2026, 9, 8, 10, 0));
+        Deadline firstTiedTask = tasks.addTask(
+                "first tied task", LocalDateTime.of(2026, 9, 10, 12, 0));
+        Event secondTiedTask = tasks.addTask(
+                "second tied task",
+                LocalDateTime.of(2026, 9, 10, 12, 0),
+                LocalDateTime.of(2026, 9, 10, 13, 0));
+        Todo todo = tasks.addTask("todo");
+
+        tasks.sortChronologically(false);
+
+        assertSame(firstTiedTask, tasks.getTask(1));
+        assertSame(secondTiedTask, tasks.getTask(2));
+        assertSame(earlierEvent, tasks.getTask(3));
+        assertSame(todo, tasks.getTask(4));
+    }
+
+    @Test
+    void sortChronologically_emptyTaskList_remainsEmpty() {
+        TaskList tasks = new TaskList();
+
+        tasks.sortChronologically(true);
+
+        assertEquals(0, tasks.getCount());
+    }
 }
