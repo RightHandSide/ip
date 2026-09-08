@@ -2,6 +2,7 @@ package yuno.ui;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import yuno.exception.InvalidTaskNumberException;
 import yuno.task.Task;
@@ -115,11 +116,9 @@ public class Ui {
      * @return Display-ready bulleted task list.
      */
     private String formatTasks(List<Task> tasks) {
-        StringBuilder output = new StringBuilder();
-        for (Task task : tasks) {
-            output.append("- ").append(task).append("\n");
-        }
-        return output.toString();
+        return tasks.stream()
+                .map(task -> "- " + task)
+                .collect(Collectors.joining("\n", "", "\n"));
     }
 
     /**
