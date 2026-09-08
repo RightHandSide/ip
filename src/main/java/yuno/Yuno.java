@@ -43,6 +43,10 @@ public class Yuno {
      * @param taskList Task list managed during the session.
      */
     Yuno(Ui ui, Parser parser, Storage storage, TaskList taskList) {
+        assert ui != null : "Yuno requires a user interface";
+        assert parser != null : "Yuno requires a parser";
+        assert storage != null : "Yuno requires storage";
+        assert taskList != null : "Yuno requires a task list";
         this.ui = ui;
         this.parser = parser;
         this.storage = storage;
@@ -60,6 +64,7 @@ public class Yuno {
         try {
             Command command = parser.parse(commandText);
             commandResult = command.execute(taskList, ui, storage);
+            assert commandResult != null : "Command execution must return a result";
         } catch (YunoException exception) {
             ui.printException(exception.getMessage());
         }
@@ -76,6 +81,7 @@ public class Yuno {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
                 commandResult = command.execute(taskList, ui, storage);
+                assert commandResult != null : "Command execution must return a result";
             } catch (YunoException exception) {
                 ui.printException(exception.getMessage());
             }

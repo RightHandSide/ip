@@ -2,6 +2,7 @@ package yuno.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -12,6 +13,11 @@ import org.junit.jupiter.api.Test;
 class EventTest {
     private static final LocalDateTime START = LocalDateTime.of(2026, 8, 26, 14, 0);
     private static final LocalDateTime END = LocalDateTime.of(2026, 8, 28, 16, 30);
+
+    @Test
+    void constructor_endBeforeStart_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Event("meeting", false, END, START));
+    }
 
     @Test
     void isRelevantFor_dateBeforeEvent_returnsFalse() {
