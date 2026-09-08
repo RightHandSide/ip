@@ -501,3 +501,111 @@ __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________
 ```
+
+## Test Case: Sort tasks chronologically
+
+### Aim
+
+Verify that sorting defaults to ascending order, supports descending order,
+uses event start times, persists the new numbering, and leaves todos last.
+
+### Inputs
+
+```text
+sort
+list
+sort /order desc
+list
+bye
+```
+
+### Initial Data
+
+```text
+T |   | undated todo
+D |   | late deadline | Sep 10 2026, 12:00 PM
+E |   | early event | Sep 08 2026, 09:00 AM | Sep 08 2026, 10:00 AM
+D |   | middle deadline | Sep 09 2026, 12:00 PM
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [E][ ] early event (from: Sep 08 2026, 09:00 AM to: Sep 08 2026, 10:00 AM)
+2. [D][ ] middle deadline (by: Sep 09 2026, 12:00 PM)
+3. [D][ ] late deadline (by: Sep 10 2026, 12:00 PM)
+4. [T][ ] undated todo
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [E][ ] early event (from: Sep 08 2026, 09:00 AM to: Sep 08 2026, 10:00 AM)
+2. [D][ ] middle deadline (by: Sep 09 2026, 12:00 PM)
+3. [D][ ] late deadline (by: Sep 10 2026, 12:00 PM)
+4. [T][ ] undated todo
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [D][ ] late deadline (by: Sep 10 2026, 12:00 PM)
+2. [D][ ] middle deadline (by: Sep 09 2026, 12:00 PM)
+3. [E][ ] early event (from: Sep 08 2026, 09:00 AM to: Sep 08 2026, 10:00 AM)
+4. [T][ ] undated todo
+__________________________________________________
+Wow. Look at how slow you are at completing these tasks.
+1. [D][ ] late deadline (by: Sep 10 2026, 12:00 PM)
+2. [D][ ] middle deadline (by: Sep 09 2026, 12:00 PM)
+3. [E][ ] early event (from: Sep 08 2026, 09:00 AM to: Sep 08 2026, 10:00 AM)
+4. [T][ ] undated todo
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
+## Test Case: Reject malformed sort commands
+
+### Aim
+
+Verify that malformed sort arguments are rejected without ending the session.
+
+### Inputs
+
+```text
+sort asc
+sort /order
+sort /order sideways
+sort /order asc extra
+bye
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+'asc' or 'desc'? If you are unsure, go back and think before even calling me.
+__________________________________________________
+'asc' or 'desc'? If you are unsure, go back and think before even calling me.
+__________________________________________________
+'asc' or 'desc'? If you are unsure, go back and think before even calling me.
+__________________________________________________
+'asc' or 'desc'? If you are unsure, go back and think before even calling me.
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```

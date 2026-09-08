@@ -65,6 +65,11 @@ public class Event extends Task {
                 DateTimeFormats.STORAGE_FORMATTER.format(getEndDateTime()));
     }
 
+    @Override
+    public LocalDateTime getChronologicalTime() {
+        return getStartDateTime();
+    }
+
     /**
      * Returns this event task in a display-ready format.
      *

@@ -1,6 +1,7 @@
 package yuno.task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Represents a task with a description and completion status.
@@ -80,6 +81,14 @@ public abstract class Task {
      * @return Storage-ready task data.
      */
     public abstract String toStorageString();
+
+    /**
+     * Returns the date and time used to place this task in chronological order.
+     * Undated tasks return the latest representable date-time so they sort after dated tasks.
+     *
+     * @return Date and time used for chronological sorting.
+     */
+    public abstract LocalDateTime getChronologicalTime();
 
     /**
      * Returns this task in a display-ready format with its completion status.

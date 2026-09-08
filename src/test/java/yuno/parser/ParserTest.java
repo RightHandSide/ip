@@ -15,6 +15,7 @@ import yuno.command.FindByDateCommand;
 import yuno.command.FindByNameCommand;
 import yuno.command.ListCommand;
 import yuno.command.MarkCommand;
+import yuno.command.SortCommand;
 import yuno.command.TodoCommand;
 import yuno.command.UnmarkCommand;
 import yuno.exception.UnknownCommandException;
@@ -96,5 +97,11 @@ class ParserTest {
     @Test
     void parse_findByNameCommand_returnsFindByNameCommand() throws UnknownCommandException {
         assertInstanceOf(FindByNameCommand.class, parser.parse("find addedName"));
+    }
+
+    @Test
+    void parse_sortCommand_returnsSortCommand() throws UnknownCommandException {
+        assertInstanceOf(SortCommand.class, parser.parse("sort"));
+        assertInstanceOf(SortCommand.class, parser.parse("sort /order desc"));
     }
 }
