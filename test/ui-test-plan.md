@@ -354,12 +354,12 @@ and events spanning the date, while rejecting malformed dates.
 ### Inputs
 
 ```text
-date 2026-08-30
-date 2026-08-29
-date 2026-08-31
-date 2026-09-01
-date 2026-02-30
-date
+find /date 2026-08-30
+find /date 2026-08-29
+find /date 2026-08-31
+find /date 2026-09-01
+find /date 2026-02-30
+find /date
 bye
 ```
 
@@ -422,6 +422,7 @@ substring in their original order and display a message when no tasks match.
 ```text
 find project
 find missing
+find
 bye
 ```
 
@@ -451,6 +452,8 @@ So many task sharing a word. Could you be repeating task to feel accomplished?
 - [D][ ] submit project report (by: Aug 30 2026, 06:00 PM)
 __________________________________________________
 You have nothing. You must be really happy since you are so lazy.
+__________________________________________________
+Give me something to find instead of wasting my time.
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________

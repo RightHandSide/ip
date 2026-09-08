@@ -2,6 +2,7 @@ package yuno.command;
 
 import java.util.List;
 
+import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.Task;
@@ -32,6 +33,10 @@ public class FindByNameCommand extends Command {
      */
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+        if (getCommandArguments().isBlank()) {
+            throw new InvalidCommandFormatException(
+                    "Give me something to find instead of wasting my time.");
+        }
         List<Task> matchingTasks = taskList.findTasksFor(getCommandArguments());
         ui.printTasksForName(matchingTasks);
         return CommandResult.CONTINUE;

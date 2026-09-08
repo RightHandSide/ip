@@ -33,6 +33,15 @@ change to match the sorted list.
 
 Example: `sort /order desc`
 
+## Finding tasks
+
+Use `find <text>` to display tasks whose descriptions contain the requested
+text. For example, `find project` finds tasks containing `project`.
+
+Use `find /date <yyyy-MM-dd>` to display tasks relevant to a date. For example,
+`find /date 2026-08-30` finds todos, deadlines due by that date, and events
+occurring on that date.
+
 ## Feature ABC
 
 // Feature details

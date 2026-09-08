@@ -1,12 +1,14 @@
 package yuno.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import yuno.exception.InvalidCommandFormatException;
 import yuno.exception.YunoException;
 import yuno.task.Task;
 
@@ -33,5 +35,12 @@ class FindByNameCommandTest extends CommandTestSupport {
 
         assertEquals(CommandResult.CONTINUE, commandResult);
         assertTrue(ui.getDisplayedNameTasks().isEmpty());
+    }
+
+    @Test
+    void execute_blankSearchText_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class,
+                () -> new FindByNameCommand("").execute(taskList, ui, storage));
     }
 }

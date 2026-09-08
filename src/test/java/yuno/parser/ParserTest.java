@@ -31,12 +31,15 @@ class ParserTest {
                 UnknownCommandException.class, () -> parser.parse("CLEAR"));
         UnknownCommandException thirdException = assertThrows(
                 UnknownCommandException.class, () -> parser.parse("randCommand"));
+        UnknownCommandException fourthException = assertThrows(
+                UnknownCommandException.class, () -> parser.parse("date 2026-08-30"));
 
         String expectedMessage =
                 "Did you look at what you typed? That's just a random command.";
         assertEquals(expectedMessage, firstException.getMessage());
         assertEquals(expectedMessage, secondException.getMessage());
         assertEquals(expectedMessage, thirdException.getMessage());
+        assertEquals(expectedMessage, fourthException.getMessage());
     }
 
     @Test
@@ -91,7 +94,8 @@ class ParserTest {
 
     @Test
     void parse_findByDateCommand_returnsFindByDateCommand() throws UnknownCommandException {
-        assertInstanceOf(FindByDateCommand.class, parser.parse("date addedDate"));
+        assertInstanceOf(FindByDateCommand.class, parser.parse("find /date 2026-08-30"));
+        assertInstanceOf(FindByDateCommand.class, parser.parse("find /date"));
     }
 
     @Test

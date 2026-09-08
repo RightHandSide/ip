@@ -41,9 +41,7 @@ public class Parser {
         UNMARK("unmark"),
         DELETE("delete"),
 
-        FIND_BY_NAME("find"),
-        FIND_BY_DATE("date"),
-
+        FIND("find"),
         SORT("sort");
 
         /** Command keyword entered by the user. */
@@ -93,9 +91,25 @@ public class Parser {
             case MARK -> new MarkCommand(commandArguments);
             case UNMARK -> new UnmarkCommand(commandArguments);
             case DELETE -> new DeleteCommand(commandArguments);
-            case FIND_BY_NAME -> new FindByNameCommand(commandArguments);
-            case FIND_BY_DATE -> new FindByDateCommand(commandArguments);
+            case FIND -> parseFindCommand(commandArguments);
             case SORT -> new SortCommand(commandArguments);
         };
+    }
+
+    /**
+     * Returns a name or date search command based on the optional {@code /date} modifier.
+     *
+     * @param commandArguments Search arguments supplied after the {@code find} keyword.
+     * @return Command for the requested type of search.
+     */
+    private Command parseFindCommand(String commandArguments) {
+        String strippedArguments = commandArguments.strip();
+        if (strippedArguments.equals("/date")) {
+            return new FindByDateCommand("");
+        } else if (strippedArguments.startsWith("/date ")) {
+            String dateText = strippedArguments.substring("/date".length()).strip();
+            return new FindByDateCommand(dateText);
+        }
+        return new FindByNameCommand(commandArguments);
     }
 }
