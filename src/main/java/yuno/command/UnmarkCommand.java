@@ -1,6 +1,5 @@
 package yuno.command;
 
-import yuno.exception.InvalidTaskNumberException;
 import yuno.exception.YunoException;
 import yuno.storage.Storage;
 import yuno.task.TaskList;
@@ -30,15 +29,10 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
-        try {
-            int taskNumber = Integer.parseInt(getCommandArguments());
-            taskList.unmarkTask(taskNumber);
-            storage.save(taskList);
-            ui.printUnmarkTask(taskList.getTask(taskNumber));
-            return CommandResult.CONTINUE;
-        } catch (NumberFormatException exception) {
-            throw new InvalidTaskNumberException(
-                    "Did you even give me an integer? Please don't waste my time!");
-        }
+        int taskNumber = parseTaskNumber();
+        taskList.unmarkTask(taskNumber);
+        storage.save(taskList);
+        ui.printUnmarkTask(taskList.getTask(taskNumber));
+        return CommandResult.CONTINUE;
     }
 }
