@@ -31,7 +31,9 @@ public class ClearCommand extends Command {
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (!getCommandArguments().isBlank()) {
-            throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
+            throw new InvalidCommandFormatException(
+                    "If you want everything gone, type only 'clear'. "
+                            + "Don't make me guess what those extra words mean.");
         }
         taskList.clearTasks();
         storage.save(taskList);

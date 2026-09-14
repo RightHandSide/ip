@@ -15,9 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import yuno.command.CommandResult;
 import yuno.Yuno;
+import yuno.command.CommandResult;
 import yuno.exception.FileStorageException;
 
 /**

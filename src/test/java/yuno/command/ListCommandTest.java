@@ -22,8 +22,11 @@ class ListCommandTest extends CommandTestSupport {
 
     @Test
     void execute_additionalArguments_throwsInvalidCommandFormatException() {
-        assertThrows(
+        InvalidCommandFormatException exception = assertThrows(
                 InvalidCommandFormatException.class, () ->
                         new ListCommand("all").execute(taskList, ui, storage));
+        assertEquals(
+                "I only need 'list' to show your tasks. What am I supposed to do with the rest?",
+                exception.getMessage());
     }
 }
