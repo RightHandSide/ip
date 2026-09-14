@@ -31,7 +31,8 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         if (!getCommandArguments().isBlank()) {
-            throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
+            throw new InvalidCommandFormatException(
+                    "I only need 'list' to show your tasks. What am I supposed to do with the rest?");
         }
         ui.printList(taskList);
         return CommandResult.CONTINUE;

@@ -20,9 +20,12 @@ class ByeCommandTest extends CommandTestSupport {
 
     @Test
     void execute_additionalArguments_throwsInvalidCommandFormatException() {
-        assertThrows(
+        InvalidCommandFormatException exception = assertThrows(
                 InvalidCommandFormatException.class, () ->
                         new ByeCommand("now").execute(taskList, ui, storage));
+        assertEquals(
+                "If you're leaving, just say 'bye'. I don't need the unnecessary details.",
+                exception.getMessage());
         assertFalse(ui.isByePrinted());
     }
 }

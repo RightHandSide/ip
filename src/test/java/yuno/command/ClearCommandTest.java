@@ -29,9 +29,13 @@ class ClearCommandTest extends CommandTestSupport {
     void execute_additionalArguments_throwsWithoutClearingTasks() {
         taskList.addTask("read book");
 
-        assertThrows(
+        InvalidCommandFormatException exception = assertThrows(
                 InvalidCommandFormatException.class, () ->
                         new ClearCommand("all").execute(taskList, ui, storage));
+        assertEquals(
+                "If you want everything gone, type only 'clear'. "
+                        + "Don't make me guess what those extra words mean.",
+                exception.getMessage());
         assertEquals(1, taskList.getCount());
     }
 }

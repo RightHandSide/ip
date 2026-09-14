@@ -88,9 +88,9 @@ Did you even give me an integer? Please don't waste my time!
 __________________________________________________
 Are you wasting my time? The integer you gave is out of bounds.
 __________________________________________________
-Why are you entering irrelevant details?
+I only need 'list' to show your tasks. What am I supposed to do with the rest?
 __________________________________________________
-Why are you entering irrelevant details?
+If you're leaving, just say 'bye'. I don't need the unnecessary details.
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________
@@ -499,7 +499,7 @@ Finally. Now that everything is gone, can I go now?
 __________________________________________________
 Wow, not even a single task? You are so lazy.
 __________________________________________________
-Why are you entering irrelevant details?
+If you want everything gone, type only 'clear'. Don't make me guess what those extra words mean.
 __________________________________________________
 Finally! Bye. I'm leaving!
 __________________________________________________

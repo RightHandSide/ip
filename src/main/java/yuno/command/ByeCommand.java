@@ -30,7 +30,8 @@ public class ByeCommand extends Command {
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws InvalidCommandFormatException {
         if (!getCommandArguments().isBlank()) {
-            throw new InvalidCommandFormatException("Why are you entering irrelevant details?");
+            throw new InvalidCommandFormatException(
+                    "If you're leaving, just say 'bye'. I don't need the unnecessary details.");
         }
         ui.printBye();
         return CommandResult.EXIT;
