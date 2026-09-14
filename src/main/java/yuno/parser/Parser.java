@@ -8,6 +8,7 @@ import yuno.command.DeleteCommand;
 import yuno.command.EventCommand;
 import yuno.command.FindByDateCommand;
 import yuno.command.FindByNameCommand;
+import yuno.command.HelpCommand;
 import yuno.command.ListCommand;
 import yuno.command.MarkCommand;
 import yuno.command.SortCommand;
@@ -31,6 +32,7 @@ public class Parser {
     private enum CommandType {
         CLEAR("clear"),
         LIST("list"),
+        HELP("help"),
         BYE("bye"),
 
         TODO("todo"),
@@ -84,6 +86,7 @@ public class Parser {
         return switch (commandType) {
             case CLEAR -> new ClearCommand(commandArguments);
             case LIST -> new ListCommand(commandArguments);
+            case HELP -> new HelpCommand(commandArguments);
             case BYE -> new ByeCommand(commandArguments);
             case TODO -> new TodoCommand(commandArguments);
             case DEADLINE -> new DeadlineCommand(commandArguments);

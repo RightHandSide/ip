@@ -3,6 +3,90 @@
 This file is the source of truth for automated console UI test cases. Each
 test case starts a new Yuno process, and its commands are entered in order.
 
+## Test Case: Display help
+
+### Aim
+
+Verify that `help` displays every supported command with its expected format
+and that additional arguments are rejected.
+
+### Inputs
+
+```text
+help
+help commands
+bye
+```
+
+### Expected Output
+
+```text
+__________________________________________________
+__   __ _   _ _   _  ___
+\ \ / /| | | | \ | |/ _ \
+ \ V / | | | |  \| | | | |
+  | |  | |_| | |\  | |_| |
+  |_|   \___/|_| \_|\___/
+
+I'm Yuno.
+Can we just get this over quickly?
+__________________________________________________
+You forgot the commands already? Fine. Pay attention this time.
+
+Dates accept yyyy-MM-dd or yyyy-MM-dd HHmm.
+
+TASKS
+  todo <description>
+    Adds a task without a date.
+
+  deadline <description> /by <yyyy-MM-dd HHmm>
+    Adds a task that must be completed by a particular time.
+
+  event <description> /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>
+    Adds an event with a start and end time.
+
+MANAGE
+  list
+    Shows all your stored responsibilities.
+
+  mark <task number>
+    Marks a task as complete. Miracles do happen.
+
+  unmark <task number>
+    Marks a task as incomplete again. Of course.
+
+  delete <task number>
+    Removes a task.
+
+  clear
+    Removes every task.
+
+SEARCH AND SORT
+  find <text>
+    Finds tasks containing the given text.
+
+  find /date <yyyy-MM-dd>
+    Finds tasks relevant to the given date.
+
+  sort
+    Sorts dated tasks from earliest to latest.
+
+  sort /order <asc|desc>
+    Sorts dated tasks in the chosen order.
+
+OTHER
+  help
+    Shows this list, since apparently you need it.
+
+  bye
+    Exits Yuno. Finally.
+__________________________________________________
+It is just 'help'. How did you manage to complicate that?
+__________________________________________________
+Finally! Bye. I'm leaving!
+__________________________________________________
+```
+
 ## Test Case: Exit immediately
 
 ### Aim

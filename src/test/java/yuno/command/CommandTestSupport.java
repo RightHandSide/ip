@@ -35,6 +35,7 @@ abstract class CommandTestSupport {
         private Task unmarkedTask;
         private Task deletedTask;
         private boolean isByePrinted;
+        private boolean isHelpPrinted;
         private boolean areTasksClearedPrinted;
 
         Task getAddedTask() {
@@ -69,6 +70,10 @@ abstract class CommandTestSupport {
             return isByePrinted;
         }
 
+        boolean isHelpPrinted() {
+            return isHelpPrinted;
+        }
+
         boolean areTasksClearedPrinted() {
             return areTasksClearedPrinted;
         }
@@ -76,6 +81,11 @@ abstract class CommandTestSupport {
         @Override
         public void printBye() {
             isByePrinted = true;
+        }
+
+        @Override
+        public void printHelp() {
+            isHelpPrinted = true;
         }
 
         @Override

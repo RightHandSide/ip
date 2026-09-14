@@ -13,6 +13,7 @@ import yuno.command.DeleteCommand;
 import yuno.command.EventCommand;
 import yuno.command.FindByDateCommand;
 import yuno.command.FindByNameCommand;
+import yuno.command.HelpCommand;
 import yuno.command.ListCommand;
 import yuno.command.MarkCommand;
 import yuno.command.SortCommand;
@@ -55,6 +56,11 @@ class ParserTest {
     @Test
     void parse_listCommand_returnsListCommand() throws UnknownCommandException {
         assertInstanceOf(ListCommand.class, parser.parse("list"));
+    }
+
+    @Test
+    void parse_helpCommand_returnsHelpCommand() throws UnknownCommandException {
+        assertInstanceOf(HelpCommand.class, parser.parse("help"));
     }
 
     @Test

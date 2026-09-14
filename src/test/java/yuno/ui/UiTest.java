@@ -59,6 +59,65 @@ class UiTest {
     }
 
     @Test
+    void printHelp_printsAvailableCommands() {
+        ui.printHelp();
+
+        assertEquals("""
+                You forgot the commands already? Fine. Pay attention this time.
+
+                Dates accept yyyy-MM-dd or yyyy-MM-dd HHmm.
+
+                TASKS
+                  todo <description>
+                    Adds a task without a date.
+
+                  deadline <description> /by <yyyy-MM-dd HHmm>
+                    Adds a task that must be completed by a particular time.
+
+                  event <description> /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>
+                    Adds an event with a start and end time.
+
+                MANAGE
+                  list
+                    Shows all your stored responsibilities.
+
+                  mark <task number>
+                    Marks a task as complete. Miracles do happen.
+
+                  unmark <task number>
+                    Marks a task as incomplete again. Of course.
+
+                  delete <task number>
+                    Removes a task.
+
+                  clear
+                    Removes every task.
+
+                SEARCH AND SORT
+                  find <text>
+                    Finds tasks containing the given text.
+
+                  find /date <yyyy-MM-dd>
+                    Finds tasks relevant to the given date.
+
+                  sort
+                    Sorts dated tasks from earliest to latest.
+
+                  sort /order <asc|desc>
+                    Sorts dated tasks in the chosen order.
+
+                OTHER
+                  help
+                    Shows this list, since apparently you need it.
+
+                  bye
+                    Exits Yuno. Finally.
+
+                __________________________________________________
+                """, normalizedOutput());
+    }
+
+    @Test
     void printList_emptyAndPopulatedLists_printsCorrectBranches()
             throws InvalidTaskNumberException {
         ui.printList(new TaskList());
