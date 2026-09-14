@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
 <AnchorPane prefHeight="680.0"
             prefWidth="430.0"
@@ -35,7 +36,10 @@
                    styleClass="header-avatar"/>
         <VBox alignment="CENTER_LEFT" spacing="2.0">
             <Label styleClass="header-title" text="Yuno"/>
-            <Label styleClass="header-status" text="online"/>
+            <HBox alignment="CENTER_LEFT" spacing="5.0" styleClass="header-status-row">
+                <Circle radius="4.0" styleClass="header-status-dot"/>
+                <Label styleClass="header-status" text="Online"/>
+            </HBox>
         </VBox>
     </HBox>
 
