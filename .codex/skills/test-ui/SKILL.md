@@ -63,7 +63,8 @@ python .codex/skills/test-ui/scripts/run_ui_tests.py
 The runner:
 
 - requires a Java 25 compiler and runtime;
-- compiles all files under `src/main/java` into a temporary directory;
+- compiles the console application files under `src/main/java` into a temporary directory,
+  excluding JavaFX-only classes that the console entry point does not use;
 - starts each test case in a fresh temporary working directory so saved task
   data cannot leak between cases or affect the repository;
 - sends that case's commands to standard input in their listed order;

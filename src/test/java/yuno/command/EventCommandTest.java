@@ -57,4 +57,12 @@ class EventCommandTest extends CommandTestSupport {
                         new EventCommand("meeting /from 2026-08-31 /to 2026-08-30")
                         .execute(taskList, ui, storage));
     }
+
+    @Test
+    void execute_endEqualsStart_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /from 2026-08-31 1000 /to 2026-08-31 1000")
+                        .execute(taskList, ui, storage));
+    }
 }

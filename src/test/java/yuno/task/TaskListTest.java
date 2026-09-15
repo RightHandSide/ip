@@ -70,6 +70,34 @@ class TaskListTest {
     }
 
     @Test
+    void deepCopy_mutatingCopy_doesNotChangeOriginal() throws InvalidTaskNumberException {
+        TaskList originalTasks = new TaskList();
+        originalTasks.addTask(new Todo("read book", false));
+        TaskList copiedTasks = originalTasks.deepCopy();
+
+        copiedTasks.markTask(1);
+        copiedTasks.addTask("buy groceries");
+
+        assertEquals(1, originalTasks.getCount());
+        assertEquals(' ', originalTasks.getTask(1).getStatus());
+        assertEquals(2, copiedTasks.getCount());
+        assertEquals('X', copiedTasks.getTask(1).getStatus());
+    }
+
+    @Test
+    void replaceWith_replacementList_adoptsReplacementContents() throws InvalidTaskNumberException {
+        TaskList originalTasks = new TaskList();
+        originalTasks.addTask("old task");
+        TaskList replacementTasks = new TaskList();
+        replacementTasks.addTask("new task");
+
+        originalTasks.replaceWith(replacementTasks);
+
+        assertEquals(1, originalTasks.getCount());
+        assertEquals("new task", originalTasks.getTask(1).getDescription());
+    }
+
+    @Test
     void getTask_validTaskNumber_returnsCorrectTask() throws InvalidTaskNumberException {
         TaskList tasks = new TaskList();
         tasks.addTask("addedTask");

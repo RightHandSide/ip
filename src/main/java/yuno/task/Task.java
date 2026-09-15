@@ -91,6 +91,13 @@ public abstract class Task {
     public abstract LocalDateTime getChronologicalTime();
 
     /**
+     * Returns an independent copy of this task.
+     *
+     * @return Copy containing the same task data.
+     */
+    abstract Task copy();
+
+    /**
      * Returns this task in a display-ready format with its completion status.
      *
      * @return Formatted task description and status.

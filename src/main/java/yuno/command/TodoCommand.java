@@ -34,8 +34,10 @@ public class TodoCommand extends Command {
         if (getCommandArguments().isBlank()) {
             throw new InvalidCommandFormatException("If you have no task, please don't bother me.");
         }
-        Task todoTask = taskList.addTask(getCommandArguments());
-        storage.save(taskList);
+        TaskList updatedTaskList = taskList.copy();
+        Task todoTask = updatedTaskList.addTask(getCommandArguments());
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printAddTask(todoTask);
         return CommandResult.CONTINUE;
     }

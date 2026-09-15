@@ -26,7 +26,7 @@ public class Event extends Task {
         super(description, isDone);
         assert startDateTime != null : "Event start date-time must not be null";
         assert endDateTime != null : "Event end date-time must not be null";
-        assert !startDateTime.isAfter(endDateTime) : "Event must not end before it starts";
+        assert startDateTime.isBefore(endDateTime) : "Event must end after it starts";
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
@@ -68,6 +68,12 @@ public class Event extends Task {
     @Override
     public LocalDateTime getChronologicalTime() {
         return getStartDateTime();
+    }
+
+    @Override
+    Task copy() {
+        return new Event(
+                getDescription(), getStatus() == 'X', getStartDateTime(), getEndDateTime());
     }
 
     /**

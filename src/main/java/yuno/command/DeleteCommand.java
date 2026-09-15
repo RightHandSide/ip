@@ -31,8 +31,10 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         int taskNumber = parseTaskNumber();
-        Task deletedTask = taskList.deleteTask(taskNumber);
-        storage.save(taskList);
+        TaskList updatedTaskList = taskList.copy();
+        Task deletedTask = updatedTaskList.deleteTask(taskNumber);
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printDeleteTask(deletedTask);
         return CommandResult.CONTINUE;
     }

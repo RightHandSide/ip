@@ -30,13 +30,15 @@ public class SortCommand extends Command {
      */
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
+        TaskList updatedTaskList = taskList.copy();
         if (getCommandArguments().isBlank()) {
-            taskList.sortChronologically(true);
+            updatedTaskList.sortChronologically(true);
         } else {
             boolean isAscending = parseIsAscending();
-            taskList.sortChronologically(isAscending);
+            updatedTaskList.sortChronologically(isAscending);
         }
-        storage.save(taskList);
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printList(taskList);
         return CommandResult.CONTINUE;
     }

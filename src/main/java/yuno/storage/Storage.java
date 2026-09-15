@@ -2,8 +2,10 @@ package yuno.storage;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -43,16 +45,18 @@ public class Storage {
      * @throws FileStorageException If the task data file cannot be initialized.
      */
     public Storage(Path filePath) throws FileStorageException {
-        this.filePath = filePath;
+        this.filePath = filePath.toAbsolutePath();
         try {
-            Path parent = filePath.getParent();
+            Path parent = this.filePath.getParent();
             if (parent != null) {
                 Files.createDirectories(parent);
             }
-            if (Files.notExists(filePath)) {
-                Files.createFile(filePath);
+            if (Files.notExists(this.filePath)) {
+                Files.createFile(this.filePath);
+            } else if (!Files.isRegularFile(this.filePath)) {
+                throw new IOException("Storage path is not a regular file");
             }
-        } catch (IOException exception) {
+        } catch (IOException | SecurityException exception) {
             throw new FileStorageException(
                     "I can't initialize your task file. Check the data folder before bothering me again.",
                     exception);
@@ -66,16 +70,22 @@ public class Storage {
      * @throws FileStorageException If the task data file cannot be read or contains malformed task data.
      */
     public void load(TaskList taskList) throws FileStorageException {
+        TaskList loadedTaskList = new TaskList();
         try {
             List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                taskList.addTask(parseTask(line));
+            for (int i = 0; i < lines.size(); i++) {
+                try {
+                    loadedTaskList.addTask(parseTask(lines.get(i)));
+                } catch (FileStorageException exception) {
+                    throw createInvalidDataException(i + 1, exception);
+                }
             }
-        } catch (IOException exception) {
+        } catch (IOException | SecurityException exception) {
             throw new FileStorageException(
                     "I can't read your task file. Did you move it while I wasn't looking?",
                     exception);
         }
+        taskList.replaceWith(loadedTaskList);
     }
 
     /**
@@ -86,15 +96,56 @@ public class Storage {
      * @throws InvalidTaskNumberException If a task cannot be retrieved from the task list.
      */
     public void save(TaskList taskList) throws FileStorageException, InvalidTaskNumberException {
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-            for (int i = 0; i < taskList.getCount(); i++) {
-                writer.write(taskList.getTask(i + 1).toStorageString());
-                writer.newLine();
+        Path temporaryFilePath = null;
+        try {
+            temporaryFilePath = Files.createTempFile(filePath.getParent(), "yuno-", ".tmp");
+            try (BufferedWriter writer = Files.newBufferedWriter(temporaryFilePath)) {
+                for (int i = 0; i < taskList.getCount(); i++) {
+                    writer.write(taskList.getTask(i + 1).toStorageString());
+                    writer.newLine();
+                }
             }
-        } catch (IOException exception) {
+            replaceStorageFile(temporaryFilePath);
+        } catch (IOException | SecurityException exception) {
             throw new FileStorageException(
                     "I can't save your tasks. Check the task file before bothering me again.",
                     exception);
+        } finally {
+            deleteTemporaryFile(temporaryFilePath);
+        }
+    }
+
+    /**
+     * Replaces the storage file with a fully written temporary file.
+     *
+     * @param temporaryFilePath Temporary file containing all task data.
+     * @throws IOException If the temporary file cannot replace the storage file.
+     */
+    private void replaceStorageFile(Path temporaryFilePath) throws IOException {
+        try {
+            Files.move(
+                    temporaryFilePath,
+                    filePath,
+                    StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException exception) {
+            Files.move(temporaryFilePath, filePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    /**
+     * Deletes a temporary storage file left behind by an unsuccessful save.
+     *
+     * @param temporaryFilePath Temporary file to delete, or {@code null} if none was created.
+     */
+    private void deleteTemporaryFile(Path temporaryFilePath) {
+        if (temporaryFilePath == null) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(temporaryFilePath);
+        } catch (IOException | SecurityException exception) {
+            // A cleanup failure should not hide the save failure already being reported.
         }
     }
 
@@ -174,7 +225,7 @@ public class Storage {
         String description = combineParts(parts, 2, parts.length - 2);
         LocalDateTime startDateTime = parseStoredDateTime(parts[parts.length - 2]);
         LocalDateTime endDateTime = parseStoredDateTime(parts[parts.length - 1]);
-        if (description.isBlank() || startDateTime.isAfter(endDateTime)) {
+        if (description.isBlank() || !startDateTime.isBefore(endDateTime)) {
             throw createInvalidDataException();
         }
         return new Event(description, isDone, startDateTime, endDateTime);
@@ -233,5 +284,18 @@ public class Storage {
      */
     private FileStorageException createInvalidDataException() {
         return new FileStorageException("Why did you change the task file? I can't load your tasks now.");
+    }
+
+    /**
+     * Returns an exception that identifies the malformed line in the storage file.
+     *
+     * @param lineNumber One-based number of the malformed line.
+     * @param cause Parsing failure caused by the malformed line.
+     * @return Exception containing a user-facing error message and the parsing failure.
+     */
+    private FileStorageException createInvalidDataException(int lineNumber, FileStorageException cause) {
+        return new FileStorageException(
+                "Why did you change the task file? I can't load line " + lineNumber + ".",
+                cause);
     }
 }

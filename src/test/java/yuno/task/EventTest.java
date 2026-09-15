@@ -20,6 +20,11 @@ class EventTest {
     }
 
     @Test
+    void constructor_endEqualsStart_throwsAssertionError() {
+        assertThrows(AssertionError.class, () -> new Event("meeting", false, START, START));
+    }
+
+    @Test
     void isRelevantFor_dateBeforeEvent_returnsFalse() {
         Event event = new Event("project meeting", false, START, END);
 

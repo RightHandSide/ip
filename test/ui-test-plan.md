@@ -134,6 +134,7 @@ event meeting /from Monday
 event meeting /to Tuesday /from Monday
 deadline submit report /by 2026-02-30 1200
 event meeting /from 2026-08-31 1100 /to 2026-08-31 1000
+event meeting /from 2026-08-31 1000 /to 2026-08-31 1000
 mark abc
 mark 0
 list extra
@@ -166,7 +167,9 @@ Any normal human would remember it as '/from' then '/to'. Check it before wastin
 __________________________________________________
 Memorize the date format before you even type. It's either yyyy-MM-dd HHmm or yyyy-MM-dd.
 __________________________________________________
-I don't think you have the ability to go back in time. Check the dates first before even submitting.
+An event must end after it starts. Check the dates first before even submitting.
+__________________________________________________
+An event must end after it starts. Check the dates first before even submitting.
 __________________________________________________
 Did you even give me an integer? Please don't waste my time!
 __________________________________________________
@@ -388,7 +391,7 @@ __   __ _   _ _   _  ___
 I'm Yuno.
 Can we just get this over quickly?
 __________________________________________________
-Why did you change the task file? I can't load your tasks now.
+Why did you change the task file? I can't load line 1.
 __________________________________________________
 ```
 
@@ -424,7 +427,7 @@ __   __ _   _ _   _  ___
 I'm Yuno.
 Can we just get this over quickly?
 __________________________________________________
-Why did you change the task file? I can't load your tasks now.
+Why did you change the task file? I can't load line 1.
 __________________________________________________
 ```
 

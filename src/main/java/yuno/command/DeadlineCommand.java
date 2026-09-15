@@ -34,9 +34,11 @@ public class DeadlineCommand extends Command {
         String[] deadlineParts = getCommandArguments().split(" /by ", 2);
         validateDeadlineDetails(deadlineParts);
         assert deadlineParts.length == 2 : "Validated deadline must have two parts";
-        Task deadlineTask = taskList.addTask(
+        TaskList updatedTaskList = taskList.copy();
+        Task deadlineTask = updatedTaskList.addTask(
                 deadlineParts[0], parseInputDateTime(deadlineParts[1]));
-        storage.save(taskList);
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printAddTask(deadlineTask);
         return CommandResult.CONTINUE;
     }
