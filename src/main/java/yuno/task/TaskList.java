@@ -23,6 +23,41 @@ public class TaskList {
     }
 
     /**
+     * Returns a separate task list containing the same task objects in the same order.
+     * Structural changes to the copy do not affect this list.
+     *
+     * @return Copy containing the same tasks and ordering.
+     */
+    public TaskList copy() {
+        TaskList copiedTaskList = new TaskList();
+        copiedTaskList.tasks.addAll(tasks);
+        return copiedTaskList;
+    }
+
+    /**
+     * Returns an independent copy of this task list and every task it contains.
+     *
+     * @return Copy containing independent tasks with the same data and ordering.
+     */
+    public TaskList deepCopy() {
+        TaskList copiedTaskList = new TaskList();
+        tasks.stream().map(Task::copy).forEach(copiedTaskList::addTask);
+        return copiedTaskList;
+    }
+
+    /**
+     * Replaces this task list's contents with the contents of another task list.
+     *
+     * @param replacementTaskList Task list whose contents should be adopted.
+     */
+    public void replaceWith(TaskList replacementTaskList) {
+        assert replacementTaskList != null : "Replacement task list must not be null";
+        assert replacementTaskList != this : "Task list cannot replace itself";
+        tasks.clear();
+        tasks.addAll(replacementTaskList.tasks);
+    }
+
+    /**
      * Returns the number of tasks in this task list.
      *
      * @return Number of stored tasks.

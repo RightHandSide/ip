@@ -30,8 +30,11 @@ public class UnmarkCommand extends Command {
     @Override
     public CommandResult execute(TaskList taskList, Ui ui, Storage storage) throws YunoException {
         int taskNumber = parseTaskNumber();
+        taskList.getTask(taskNumber);
+        TaskList updatedTaskList = taskList.deepCopy();
+        updatedTaskList.unmarkTask(taskNumber);
+        storage.save(updatedTaskList);
         taskList.unmarkTask(taskNumber);
-        storage.save(taskList);
         ui.printUnmarkTask(taskList.getTask(taskNumber));
         return CommandResult.CONTINUE;
     }

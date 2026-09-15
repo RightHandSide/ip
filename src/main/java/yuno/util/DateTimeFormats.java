@@ -24,7 +24,8 @@ public final class DateTimeFormats {
 
     /** Parses and formats date-time values stored in the task data file. */
     public static final DateTimeFormatter STORAGE_FORMATTER = DateTimeFormatter
-            .ofPattern("MMM dd yyyy, hh:mm a", Locale.ENGLISH);
+            .ofPattern("MMM dd uuuu, hh:mm a", Locale.ENGLISH)
+            .withResolverStyle(ResolverStyle.STRICT);
 
     /**
      * Prevents the utility class from being instantiated.

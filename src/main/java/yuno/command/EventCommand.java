@@ -35,11 +35,13 @@ public class EventCommand extends Command {
         String[] eventParts = eventDetails.split(" /from | /to ", 3);
         validateEventDetails(eventDetails, eventParts);
         assert eventParts.length == 3 : "Validated event must have three parts";
-        Task eventTask = taskList.addTask(
+        TaskList updatedTaskList = taskList.copy();
+        Task eventTask = updatedTaskList.addTask(
                 eventParts[0],
                 parseInputDateTime(eventParts[1]),
                 parseInputDateTime(eventParts[2]));
-        storage.save(taskList);
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printAddTask(eventTask);
         return CommandResult.CONTINUE;
     }
@@ -63,9 +65,9 @@ public class EventCommand extends Command {
             throw new InvalidCommandFormatException(
                     "Any normal human would remember it as '/from' then '/to'. "
                             + "Check it before wasting my time.");
-        } else if (parseInputDateTime(eventParts[1]).isAfter(parseInputDateTime(eventParts[2]))) {
+        } else if (!parseInputDateTime(eventParts[1]).isBefore(parseInputDateTime(eventParts[2]))) {
             throw new InvalidCommandFormatException(
-                    "I don't think you have the ability to go back in time. "
+                    "An event must end after it starts. "
                             + "Check the dates first before even submitting.");
         }
     }

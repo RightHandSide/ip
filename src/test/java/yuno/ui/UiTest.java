@@ -112,7 +112,6 @@ class UiTest {
 
                   bye
                     Exits Yuno. Finally.
-
                 __________________________________________________
                 """, normalizedOutput());
     }

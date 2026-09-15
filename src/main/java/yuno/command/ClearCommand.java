@@ -35,8 +35,10 @@ public class ClearCommand extends Command {
                     "If you want everything gone, type only 'clear'. "
                             + "Don't make me guess what those extra words mean.");
         }
-        taskList.clearTasks();
-        storage.save(taskList);
+        TaskList updatedTaskList = taskList.copy();
+        updatedTaskList.clearTasks();
+        storage.save(updatedTaskList);
+        taskList.replaceWith(updatedTaskList);
         ui.printTasksCleared();
         return CommandResult.CONTINUE;
     }

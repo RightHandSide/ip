@@ -53,6 +53,11 @@ public class Deadline extends Task {
         return getDeadlineDateTime();
     }
 
+    @Override
+    Task copy() {
+        return new Deadline(getDescription(), getStatus() == 'X', getDeadlineDateTime());
+    }
+
     /**
      * Returns this deadline task in a display-ready format.
      *

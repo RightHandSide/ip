@@ -139,9 +139,15 @@ def require_java_25() -> None:
 
 
 def compile_program(repo: Path, output_dir: Path) -> None:
-    """Compiles all main Java sources into the specified directory."""
+    """Compiles the Java sources needed by the console application."""
     source_root = repo / "src" / "main" / "java"
-    sources = sorted(source_root.rglob("*.java"))
+    javafx_sources = {
+        source_root / "yuno" / "ui" / "DialogBox.java",
+        source_root / "yuno" / "ui" / "Launcher.java",
+        source_root / "yuno" / "ui" / "Main.java",
+        source_root / "yuno" / "ui" / "MainWindow.java",
+    }
+    sources = sorted(path for path in source_root.rglob("*.java") if path not in javafx_sources)
     if not sources:
         raise RuntimeError(f"no Java sources found under {source_root}")
     result = subprocess.run(

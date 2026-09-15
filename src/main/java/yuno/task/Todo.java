@@ -32,6 +32,11 @@ public class Todo extends Task {
         return LocalDateTime.MAX;
     }
 
+    @Override
+    Task copy() {
+        return new Todo(getDescription(), getStatus() == 'X');
+    }
+
     /**
      * Returns this to-do task in a display-ready format.
      *

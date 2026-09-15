@@ -103,16 +103,35 @@ class StorageTest {
                 "Z |   | task",
                 "T |   | ",
                 "D |   | task | invalid date",
-                "E |   | event | Aug 31 2026, 10:30 AM | Aug 31 2026, 09:00 AM");
+                "D |   | task | Feb 30 2026, 10:30 AM",
+                "E |   | event | Aug 31 2026, 10:30 AM | Aug 31 2026, 09:00 AM",
+                "E |   | event | Aug 31 2026, 10:30 AM | Aug 31 2026, 10:30 AM");
 
         for (String malformedLine : malformedLines) {
             Files.writeString(filePath, malformedLine);
             FileStorageException exception = assertThrows(
                     FileStorageException.class, () -> storage.load(new TaskList()));
             assertEquals(
-                    "Why did you change the task file? I can't load your tasks now.",
+                    "Why did you change the task file? I can't load line 1.",
                     exception.getMessage());
         }
+    }
+
+    @Test
+    void load_validLineBeforeMalformedLine_doesNotPartiallyChangeTaskList()
+            throws IOException, FileStorageException, InvalidTaskNumberException {
+        Path filePath = tempDir.resolve("tasks.txt");
+        Files.writeString(filePath, "T |   | valid task\nT | ? | corrupted task\n");
+        Storage storage = new Storage(filePath);
+        TaskList tasks = new TaskList();
+        tasks.addTask("existing task");
+
+        FileStorageException exception = assertThrows(
+                FileStorageException.class, () -> storage.load(tasks));
+
+        assertEquals("Why did you change the task file? I can't load line 2.", exception.getMessage());
+        assertEquals(1, tasks.getCount());
+        assertEquals("existing task", tasks.getTask(1).getDescription());
     }
 
     @Test
