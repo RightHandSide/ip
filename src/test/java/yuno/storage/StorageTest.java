@@ -1,6 +1,7 @@
 package yuno.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,6 +33,23 @@ class StorageTest {
         new Storage(filePath);
 
         assertTrue(Files.isRegularFile(filePath));
+    }
+
+    @Test
+    void constructor_existingFile_preservesContents() throws IOException, FileStorageException {
+        Path filePath = tempDir.resolve("tasks.txt");
+        Files.writeString(filePath, "existing data");
+
+        new Storage(filePath);
+
+        assertEquals("existing data", Files.readString(filePath));
+    }
+
+    @Test
+    void constructor_filePathIsDirectory_throwsFileStorageException() throws IOException {
+        Path directoryPath = Files.createDirectory(tempDir.resolve("tasks.txt"));
+
+        assertThrows(FileStorageException.class, () -> new Storage(directoryPath));
     }
 
     @Test
@@ -94,6 +112,35 @@ class StorageTest {
     }
 
     @Test
+    void save_success_leavesNoTemporaryFiles()
+            throws FileStorageException, InvalidTaskNumberException, IOException {
+        Storage storage = new Storage(tempDir.resolve("tasks.txt"));
+        TaskList tasks = new TaskList();
+        tasks.addTask("read book");
+
+        storage.save(tasks);
+
+        try (var files = Files.list(tempDir)) {
+            assertFalse(files.anyMatch(path -> path.getFileName().toString().startsWith("yuno-")));
+        }
+    }
+
+    @Test
+    void saveAndLoad_unicodeAndLongDescription_preservesText()
+            throws FileStorageException, InvalidTaskNumberException {
+        Storage storage = new Storage(tempDir.resolve("tasks.txt"));
+        String description = "完成报告 🚀 " + "long ".repeat(200);
+        TaskList originalTasks = new TaskList();
+        originalTasks.addTask(description);
+
+        storage.save(originalTasks);
+        TaskList loadedTasks = new TaskList();
+        storage.load(loadedTasks);
+
+        assertEquals(description, loadedTasks.getTask(1).getDescription());
+    }
+
+    @Test
     void load_malformedLines_throwsFileStorageException() throws IOException, FileStorageException {
         Path filePath = tempDir.resolve("tasks.txt");
         Storage storage = new Storage(filePath);
@@ -104,6 +151,7 @@ class StorageTest {
                 "T |   | ",
                 "D |   | task | invalid date",
                 "D |   | task | Feb 30 2026, 10:30 AM",
+                "D |   | task | Aug 31 2026, 13:60 PM",
                 "E |   | event | Aug 31 2026, 10:30 AM | Aug 31 2026, 09:00 AM",
                 "E |   | event | Aug 31 2026, 10:30 AM | Aug 31 2026, 10:30 AM");
 
@@ -135,6 +183,52 @@ class StorageTest {
     }
 
     @Test
+    void load_malformedThirdLine_reportsLineThreeAndPreservesExistingTasks()
+            throws IOException, FileStorageException, InvalidTaskNumberException {
+        Path filePath = tempDir.resolve("tasks.txt");
+        Files.writeString(
+                filePath,
+                "T |   | first task\nT | X | second task\nD |   | broken | invalid date\n");
+        Storage storage = new Storage(filePath);
+        TaskList tasks = new TaskList();
+        tasks.addTask("existing task");
+
+        FileStorageException exception = assertThrows(
+                FileStorageException.class, () -> storage.load(tasks));
+
+        assertEquals("Why did you change the task file? I can't load line 3.", exception.getMessage());
+        assertEquals(1, tasks.getCount());
+        assertEquals("existing task", tasks.getTask(1).getDescription());
+    }
+
+    @Test
+    void load_emptyFile_replacesExistingTasksWithEmptyList()
+            throws FileStorageException {
+        Storage storage = new Storage(tempDir.resolve("tasks.txt"));
+        TaskList tasks = new TaskList();
+        tasks.addTask("existing task");
+
+        storage.load(tasks);
+
+        assertEquals(0, tasks.getCount());
+    }
+
+    @Test
+    void load_validFile_replacesExistingTasksInsteadOfAppending()
+            throws IOException, FileStorageException, InvalidTaskNumberException {
+        Path filePath = tempDir.resolve("tasks.txt");
+        Files.writeString(filePath, "T |   | loaded task\n");
+        Storage storage = new Storage(filePath);
+        TaskList tasks = new TaskList();
+        tasks.addTask("existing task");
+
+        storage.load(tasks);
+
+        assertEquals(1, tasks.getCount());
+        assertEquals("loaded task", tasks.getTask(1).getDescription());
+    }
+
+    @Test
     void load_missingFile_throwsFileStorageException() throws IOException, FileStorageException {
         Path filePath = tempDir.resolve("tasks.txt");
         Storage storage = new Storage(filePath);
@@ -162,5 +256,8 @@ class StorageTest {
         assertEquals(
                 "I can't save your tasks. Check the task file before bothering me again.",
                 exception.getMessage());
+        try (var files = Files.list(tempDir)) {
+            assertFalse(files.anyMatch(path -> path.getFileName().toString().startsWith("yuno-")));
+        }
     }
 }

@@ -2,6 +2,7 @@ package yuno.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -85,6 +86,46 @@ class TaskListTest {
     }
 
     @Test
+    void copy_structuralChangesDoNotChangeOriginalAndPreserveTaskIdentity()
+            throws InvalidTaskNumberException {
+        TaskList originalTasks = new TaskList();
+        Task originalTask = originalTasks.addTask("read book");
+        TaskList copiedTasks = originalTasks.copy();
+
+        copiedTasks.addTask("buy groceries");
+        copiedTasks.deleteTask(1);
+
+        assertEquals(1, originalTasks.getCount());
+        assertSame(originalTask, originalTasks.getTask(1));
+        assertEquals(1, copiedTasks.getCount());
+        assertEquals("buy groceries", copiedTasks.getTask(1).getDescription());
+    }
+
+    @Test
+    void deepCopy_allTaskTypesPreservesDataWithoutSharingTaskObjects()
+            throws InvalidTaskNumberException {
+        TaskList originalTasks = new TaskList();
+        originalTasks.addTask(new Todo("todo", true));
+        originalTasks.addTask(new Deadline(
+                "deadline", false, LocalDateTime.of(2026, 9, 16, 18, 0)));
+        originalTasks.addTask(new Event(
+                "event",
+                true,
+                LocalDateTime.of(2026, 9, 17, 9, 0),
+                LocalDateTime.of(2026, 9, 17, 10, 0)));
+
+        TaskList copiedTasks = originalTasks.deepCopy();
+
+        assertEquals(originalTasks.getCount(), copiedTasks.getCount());
+        for (int taskNumber = 1; taskNumber <= originalTasks.getCount(); taskNumber++) {
+            assertNotSame(originalTasks.getTask(taskNumber), copiedTasks.getTask(taskNumber));
+            assertEquals(
+                    originalTasks.getTask(taskNumber).toStorageString(),
+                    copiedTasks.getTask(taskNumber).toStorageString());
+        }
+    }
+
+    @Test
     void replaceWith_replacementList_adoptsReplacementContents() throws InvalidTaskNumberException {
         TaskList originalTasks = new TaskList();
         originalTasks.addTask("old task");
@@ -95,6 +136,14 @@ class TaskListTest {
 
         assertEquals(1, originalTasks.getCount());
         assertEquals("new task", originalTasks.getTask(1).getDescription());
+    }
+
+    @Test
+    void replaceWith_invalidReplacement_throwsAssertionError() {
+        TaskList tasks = new TaskList();
+
+        assertThrows(AssertionError.class, () -> tasks.replaceWith(null));
+        assertThrows(AssertionError.class, () -> tasks.replaceWith(tasks));
     }
 
     @Test

@@ -38,6 +38,15 @@ class FindByNameCommandTest extends CommandTestSupport {
     }
 
     @Test
+    void execute_lowercaseUnicodeSubstring_matchesMixedCaseDescription() throws YunoException {
+        Task matchingTask = taskList.addTask("完成 PROJECT 报告");
+
+        new FindByNameCommand("project").execute(taskList, ui, storage);
+
+        assertEquals(List.of(matchingTask), ui.getDisplayedNameTasks());
+    }
+
+    @Test
     void execute_blankSearchText_throwsInvalidCommandFormatException() {
         assertThrows(
                 InvalidCommandFormatException.class,

@@ -149,6 +149,23 @@ class UiTest {
     }
 
     @Test
+    void printTasksForName_emptyAndPopulatedLists_printsCorrectBranches() {
+        ui.printTasksForName(List.of());
+        ui.printTasksForName(List.of(
+                new Todo("first task", false),
+                new Todo("second task", true)));
+
+        assertEquals("""
+                You have nothing. You must be really happy since you are so lazy.
+                __________________________________________________
+                So many task sharing a word. Could you be repeating task to feel accomplished?
+                - [T][ ] first task
+                - [T][X] second task
+                __________________________________________________
+                """, normalizedOutput());
+    }
+
+    @Test
     void printAddTask_printsAddedTask() {
         ui.printAddTask(new Deadline(
                 "submit report", false, LocalDateTime.of(2026, 8, 30, 18, 0)));

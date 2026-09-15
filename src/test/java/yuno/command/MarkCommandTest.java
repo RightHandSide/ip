@@ -38,4 +38,13 @@ class MarkCommandTest extends CommandTestSupport {
                 InvalidTaskNumberException.class, () ->
                         new MarkCommand("1").execute(taskList, ui, storage));
     }
+
+    @Test
+    void execute_negativeTaskNumber_throwsInvalidTaskNumberException() {
+        taskList.addTask("read book");
+
+        assertThrows(
+                InvalidTaskNumberException.class, () ->
+                        new MarkCommand("-1").execute(taskList, ui, storage));
+    }
 }
