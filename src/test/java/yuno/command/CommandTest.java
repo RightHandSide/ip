@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import yuno.exception.InvalidCommandFormatException;
+import yuno.exception.InvalidTaskNumberException;
 import yuno.storage.Storage;
 import yuno.task.TaskList;
 import yuno.ui.Ui;
@@ -55,9 +56,46 @@ class CommandTest {
                 exception.getMessage());
     }
 
+    @Test
+    void parseInputDateTime_midnight_returnsMidnight() throws InvalidCommandFormatException {
+        assertEquals(
+                LocalDateTime.of(2026, 8, 26, 0, 0),
+                command.parseDateTime("2026-08-26 0000"));
+    }
+
+    @Test
+    void parseInputDateTime_invalidTime_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class,
+                () -> command.parseDateTime("2026-08-26 2400"));
+        assertThrows(
+                InvalidCommandFormatException.class,
+                () -> command.parseDateTime("2026-08-26 1260"));
+        assertThrows(
+                InvalidCommandFormatException.class,
+                () -> command.parseDateTime("2026-08-26 1200 extra"));
+    }
+
+    @Test
+    void parseTaskNumber_validInteger_returnsInteger() throws InvalidTaskNumberException {
+        assertEquals(42, new TestCommand("42").parseNumber());
+    }
+
+    @Test
+    void parseTaskNumber_blankOrOverflow_throwsInvalidTaskNumberException() {
+        assertThrows(InvalidTaskNumberException.class, () -> new TestCommand("").parseNumber());
+        assertThrows(
+                InvalidTaskNumberException.class,
+                () -> new TestCommand("2147483648").parseNumber());
+    }
+
     private static class TestCommand extends Command {
         TestCommand() {
-            super("");
+            this("");
+        }
+
+        TestCommand(String commandArguments) {
+            super(commandArguments);
         }
 
         LocalDate parseDate(String dateText) throws InvalidCommandFormatException {
@@ -66,6 +104,10 @@ class CommandTest {
 
         LocalDateTime parseDateTime(String dateTimeText) throws InvalidCommandFormatException {
             return parseInputDateTime(dateTimeText);
+        }
+
+        int parseNumber() throws InvalidTaskNumberException {
+            return parseTaskNumber();
         }
 
         @Override

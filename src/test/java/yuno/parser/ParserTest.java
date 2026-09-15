@@ -49,6 +49,22 @@ class ParserTest {
     }
 
     @Test
+    void parse_commandWithRepeatedSpaces_returnsCorrectCommand() throws UnknownCommandException {
+        assertInstanceOf(TodoCommand.class, parser.parse("todo    read book"));
+        assertInstanceOf(FindByDateCommand.class, parser.parse("find   /date    2026-08-30"));
+    }
+
+    @Test
+    void parse_commandSeparatedByTab_throwsUnknownCommandException() {
+        assertThrows(UnknownCommandException.class, () -> parser.parse("todo\tread book"));
+    }
+
+    @Test
+    void parse_whitespaceOnlyInput_throwsUnknownCommandException() {
+        assertThrows(UnknownCommandException.class, () -> parser.parse("   \t   "));
+    }
+
+    @Test
     void parse_clearCommand_returnsClearCommand() throws UnknownCommandException {
         assertInstanceOf(ClearCommand.class, parser.parse("clear"));
     }
@@ -107,6 +123,7 @@ class ParserTest {
     @Test
     void parse_findByNameCommand_returnsFindByNameCommand() throws UnknownCommandException {
         assertInstanceOf(FindByNameCommand.class, parser.parse("find addedName"));
+        assertInstanceOf(FindByNameCommand.class, parser.parse("find /datefoo"));
     }
 
     @Test

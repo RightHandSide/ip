@@ -43,6 +43,50 @@ class EventCommandTest extends CommandTestSupport {
     }
 
     @Test
+    void execute_missingStart_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /to 2026-08-31")
+                        .execute(taskList, ui, storage));
+    }
+
+    @Test
+    void execute_invalidStartOrEnd_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /from invalid /to 2026-08-31")
+                        .execute(taskList, ui, storage));
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand("meeting /from 2026-08-30 /to invalid")
+                        .execute(taskList, ui, storage));
+    }
+
+    @Test
+    void execute_repeatedDateParameter_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand(
+                                "meeting /from 2026-08-30 /from 2026-08-31 /to 2026-09-01")
+                        .execute(taskList, ui, storage));
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new EventCommand(
+                                "meeting /from 2026-08-30 /to 2026-08-31 /to 2026-09-01")
+                        .execute(taskList, ui, storage));
+    }
+
+    @Test
+    void execute_dateOnlyEvent_addsEventAtMidnight() throws YunoException {
+        new EventCommand("meeting /from 2026-08-30 /to 2026-08-31")
+                .execute(taskList, ui, storage);
+
+        Event event = (Event) taskList.getTask(1);
+        assertEquals(LocalDateTime.of(2026, 8, 30, 0, 0), event.getStartDateTime());
+        assertEquals(LocalDateTime.of(2026, 8, 31, 0, 0), event.getEndDateTime());
+    }
+
+    @Test
     void execute_toBeforeFrom_throwsInvalidCommandFormatException() {
         assertThrows(
                 InvalidCommandFormatException.class, () ->

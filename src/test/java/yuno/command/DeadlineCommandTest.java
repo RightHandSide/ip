@@ -48,6 +48,26 @@ class DeadlineCommandTest extends CommandTestSupport {
     }
 
     @Test
+    void execute_blankOrRepeatedDeadline_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand("submit report /by ")
+                        .execute(taskList, ui, storage));
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand("submit report /by 2026-08-30 /by 2026-08-31")
+                        .execute(taskList, ui, storage));
+    }
+
+    @Test
+    void execute_invalidDeadlineTime_throwsInvalidCommandFormatException() {
+        assertThrows(
+                InvalidCommandFormatException.class, () ->
+                        new DeadlineCommand("submit report /by 2026-08-30 2400")
+                        .execute(taskList, ui, storage));
+    }
+
+    @Test
     void execute_invalidDeadline_throwsInvalidCommandFormatException() {
         assertThrows(
                 InvalidCommandFormatException.class, () ->
